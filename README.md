@@ -1,3 +1,7 @@
-# client
+### Getting Started
 
-Repository client application code
+To start the development server, run:
+
+```
+npm i && npx expo start
+```
