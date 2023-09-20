@@ -1,20 +1,17 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, SafeAreaView } from "react-native";
+import { PaperProvider } from "react-native-paper";
 
+import Main from "./src/Main";
+
+/**
+ * Renders the main component of the application.
+ *
+ * @return {JSX.Element} The rendered main component.
+ */
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Lingucidity</Text>
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    // Use Material 3 theme.
+    <PaperProvider theme={{ version: 3 }}>
+      <Main />
+    </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
