@@ -1,7 +1,7 @@
 import { PaperProvider } from "react-native-paper";
-
 import Main from "./src/Main";
-
+import React from "react";
+import MyFirstScreen from "./LoginRegister"; // Import your first screen component
 /**
  * Renders the main component of the application.
  *
@@ -9,9 +9,8 @@ import Main from "./src/Main";
  */
 export default function App() {
   return (
-    // Use Material 3 theme.
     <PaperProvider theme={{ version: 3 }}>
-      <Main />
+      <MyFirstScreen /> {/* Render MyFirstScreen as the initial screen */}
     </PaperProvider>
   );
 }
