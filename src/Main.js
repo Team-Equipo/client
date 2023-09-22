@@ -25,3 +25,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+/*
+export default function App() {
+  return (
+    <PaperProvider theme={{ version: 3 }}>
+      <MyFirstScreen /> {
+      </PaperProvider>
+      );
+    }
+    
+*/

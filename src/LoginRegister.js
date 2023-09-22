@@ -7,7 +7,7 @@ const LoginRegister = () => {
   return (
     <PaperProvider>
       <View style={styles.container}>
-        <Text style={styles.title}>Linguisity</Text>
+        <Text style={styles.title}>Lingucidity</Text>
         <Button mode="contained" style={styles.button} onPress={() => {}}>
           Login
         </Button>
@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    marginBottom: 20,
+    marginBottom: 19,
   },
   button: {
-    width: 200,
+    width: 210,
     marginVertical: 10,
   },
 });
