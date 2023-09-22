@@ -1,4 +1,7 @@
 import { PaperProvider } from "react-native-paper";
+import React from "react";
+import { View } from "react-native";
+import SignIn from "./SignIn"; // Import the SignIn component
 
 import Main from "./src/Main";
 
@@ -12,6 +15,7 @@ export default function App() {
     // Use Material 3 theme.
     <PaperProvider theme={{ version: 3 }}>
       <Main />
+      <SignIn /> {/* Render the SignIn component */}
     </PaperProvider>
   );
 }
