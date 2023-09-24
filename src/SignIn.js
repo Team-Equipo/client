@@ -48,7 +48,7 @@ const SignIn = () => {
         </Appbar.Header>
         <View style={{ padding: 16 }}>
           <Image
-            source={require("./assets/airplane.png")}
+            source={require("../assets/airplane.png")}
             style={styles.image}
           />
 
