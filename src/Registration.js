@@ -21,86 +21,48 @@ import {
 
 const Registration = () => {
   const [name, setName] = React.useState("");
+  const [ageInput, setAgeInput] = React.useState("");
   const [age, setAge] = React.useState(-1);
 
-  const handleSignIn = () => {};
-
-  const createAccount = () => {};
-
-  const findPassword = () => {};
+  const handleAgeInput = (text) => {
+    const numericRegex = /^[0-9]*$/;
+    if (numericRegex.test(text)) {
+      setAgeInput(text);
+      setAge(parseInt(text, 10));
+    }
+  };
 
   return (
     <View>
-      <Text>Hello World!</Text>
+      <Appbar.Header>
+        <Appbar.Content
+          mode="center-aligned"
+          style={styles.topbar}
+          title="Personal Information"
+        />
+      </Appbar.Header>
+      <TextInput
+        label="Name"
+        value={name}
+        onChangeText={(text) => setName(text)}
+      />
+      <TextInput
+        label="Age"
+        value={ageInput}
+        onChangeText={(text) => handleAgeInput(text)}
+      />
     </View>
-    /* <DismissKeyboard>
-      <View>
-        <Appbar.Header>
-          <Appbar.Content
-            mode="center-aligned"
-            style={styles.topbar}
-            title="Lingucidity"
-          />
-        </Appbar.Header>
-        <View style={{ padding: 16 }}>
-          <Image
-            source={require("../assets/airplane.png")}
-            style={styles.image}
-          />
-
-          <Title style={styles.title}>Welcome Back!</Title>
-          <TextInput
-            mode="outlined"
-            label="Username/Email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            autoCapitalize="none"
-            autoCompleteType="email"
-            textContentType="emailAddress"
-            keyboardType="email-address"
-          />
-          <TextInput
-            mode="outlined"
-            label="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry
-          />
-
-          <View style={styles.forgotPassword}>
-            <TouchableOpacity onPress={findPassword}>
-              <Text style={styles.label}>Forgot your password?</Text>
-            </TouchableOpacity>
-          </View>
-
-          <Button
-            style={styles.signInButton}
-            theme={{ fontWeight: "bold", colors: { primary: "white" } }}
-            mode="elevated"
-            onPress={handleSignIn}
-          >
-            Sign In
-          </Button>
-
-          <View style={styles.row}>
-            <Text style={styles.label}>Don’t have an account? </Text>
-            <TouchableOpacity onPress={createAccount}>
-              <Text style={styles.link}>Sign up</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Snackbar
-          visible={snackbarVisible}
-          onDismiss={() => setSnackbarVisible(false)}
-        >
-          Sign In Successful!
-        </Snackbar>
-      </View>
-    </DismissKeyboard> */
   );
 };
 
 const styles = StyleSheet.create({
+  input: {},
+  topbar: {
+    color: "black",
+    fontWeight: "bold",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
   /*image: {
     width: 256,
     height: 256,
@@ -142,4 +104,4 @@ const styles = StyleSheet.create({
   },*/
 });
 
-export default withTheme(SignIn);
+export default withTheme(Registration);

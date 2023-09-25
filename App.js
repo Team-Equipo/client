@@ -4,6 +4,7 @@ import React from "react";
 import { PaperProvider } from "react-native-paper";
 import React from "react";
 import { View } from "react-native";
+import Main from "./src/Main";
 import Registration from "./src/Registration";
 
 /**
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <PaperProvider theme={{ version: 3 }}>
       <Main />
+      <Registration />
     </PaperProvider>
   );
 }
