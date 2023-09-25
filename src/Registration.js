@@ -34,33 +34,56 @@ const Registration = () => {
 
   return (
     <View>
-      <Appbar.Header>
+      <Appbar.Header style={styles.appbar}>
         <Appbar.Content
-          mode="center-aligned"
-          style={styles.topbar}
-          title="Personal Information"
+          title="Your Profile"
+          color="white"
+          titleStyle={styles.title}
         />
       </Appbar.Header>
-      <TextInput
-        label="Name"
-        value={name}
-        onChangeText={(text) => setName(text)}
-      />
-      <TextInput
-        label="Age"
-        value={ageInput}
-        onChangeText={(text) => handleAgeInput(text)}
-      />
+      <View style={{ alignItems: "center" }}>
+        <View style={styles.input}>
+          <TextInput
+            mode="outlined"
+            label="Name"
+            dense={true}
+            value={name}
+            outlineColor="lightgray"
+            onChangeText={(text) => setName(text)}
+          />
+          <TextInput
+            mode="outlined"
+            label="Age"
+            dense={true}
+            value={ageInput}
+            outlineColor="lightgray"
+            onChangeText={(text) => handleAgeInput(text)}
+          />
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {},
-  topbar: {
-    color: "black",
-    fontWeight: "bold",
+  input: {
+    width: "98%",
+  },
+  appbar: {
+    backgroundColor: "cornflowerblue",
+    marginTop: "-2%",
+  },
+  title: {
+    color: "white",
+    //fontWeight: "bold",
+    fontSize: 20,
     justifyContent: "space-around",
+    textAlign: "center",
+  },
+  row: {
+    flexDirection: "row",
+    marginTop: 5,
+    marginBottom: 5,
     alignItems: "center",
   },
   /*image: {
