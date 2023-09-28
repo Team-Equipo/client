@@ -1,12 +1,9 @@
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { PaperProvider } from "react-native-paper";
 
-import { AuthContext } from "./contexts/AuthContext";
-import HomeScreen from "./screens/HomeScreen";
-import SignInScreen from "./screens/SignInScreen";
-import SplashScreen from "./screens/SplashScreen";
+import App_bar from "./src/App_bar";
+import Search from "./src/Search";
 
 const Stack = createNativeStackNavigator();
 
@@ -88,30 +85,8 @@ export default function App({ navigation }) {
 
   return (
     <PaperProvider theme={{ version: 3 }}>
-      <AuthContext.Provider value={authContext}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            {state.isLoading ? (
-              // We haven't finished checking for the token yet
-              <Stack.Screen name="Splash" component={SplashScreen} />
-            ) : state.userToken == null ? (
-              // No token found, user isn't signed in
-              <Stack.Screen
-                name="SignIn"
-                component={SignInScreen}
-                options={{
-                  title: "Sign in",
-                  // When logging out, a pop animation feels intuitive
-                  animationTypeForReplace: state.isSignout ? "pop" : "push",
-                }}
-              />
-            ) : (
-              // User is signed in
-              <Stack.Screen name="Home" component={HomeScreen} />
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </AuthContext.Provider>
+      <App_bar />
+      <Search />
     </PaperProvider>
   );
 }
