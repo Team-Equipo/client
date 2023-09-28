@@ -22,7 +22,6 @@ import {
 import DropDown from "react-native-paper-dropdown";
 import { DatePickerInput } from "react-native-paper-dates";
 import { ScrollView } from "react-native";
-import { Appbar } from "react-native-paper";
 
 function updateinfo() {
   /*This is just a placeholder for now*/
@@ -249,9 +248,8 @@ const UserInfo = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   appbar: {
-    flex: 0,
+    height: "15%",
     backgroundColor: "cornflowerblue",
-    marginTop: "-2%",
   },
   title: {
     color: "white",
