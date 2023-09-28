@@ -7,6 +7,7 @@ import Main from "./src/Main";
 import UserInfo from "./src/UserInfo";
 import TripInfo from "./src/TripInfo";
 import RegistrationBar from "./src/AppHeaderBar";
+import Settings from "./src/Settings";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +22,7 @@ export default function App() {
     <PaperProvider theme={{ version: 3 }}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="UserInfo"
+          initialRouteName="Settings"
           screenOptions={{
             header: (props) => <RegistrationBar {...props} />,
           }}
@@ -35,6 +36,11 @@ export default function App() {
             name="TripInfo"
             component={TripInfo}
             options={{ title: "Your Trip" }}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
+            options={{ title: "Settings" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

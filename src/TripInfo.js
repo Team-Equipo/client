@@ -111,7 +111,7 @@ const TripInfo = ({ navigation }) => {
           outlineColor="lightgray"
           onChangeText={(text) => setDest(text)}
         />
-        <View style={{ height: "6%" }}>
+        <View style={{ margintop: 5 }}>
           <DatePickerInput
             locale="en"
             label="Select Start Date"

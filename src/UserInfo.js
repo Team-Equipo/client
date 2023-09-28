@@ -40,7 +40,6 @@ const UserInfo = ({ navigation }) => {
     }
   };
 
-  // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
     if (
       name != "" &&
