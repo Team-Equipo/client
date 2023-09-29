@@ -6,7 +6,7 @@ import { View } from "react-native";
 import Main from "./src/Main";
 import UserInfo from "./src/UserInfo";
 import TripInfo from "./src/TripInfo";
-import RegistrationBar from "./src/RegistrationBar";
+import RegistrationBar from "./src/AppHeaderBar";
 
 const Stack = createNativeStackNavigator();
 
