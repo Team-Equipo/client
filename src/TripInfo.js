@@ -19,21 +19,72 @@ import {
   withTheme,
   Text,
 } from "react-native-paper";
+import DropDown from "react-native-paper-dropdown";
+import { DatePickerInput } from "react-native-paper-dates";
 
 const TripInfo = ({ navigation }) => {
   const [country, setCountry] = React.useState("");
   const [region, setRegion] = React.useState("");
   const [dest, setDest] = React.useState("");
   const [dates, setDates] = React.useState("");
-  const [plans, setPlans] = React.useState("");
+  const [plan, setPlan] = React.useState("");
+  const [dropVisible, setDropVisibility] = React.useState(false); // open/close dropdown
+  const [planPromptVisible, setPlanPromptVisible] = React.useState(false); // open/close travel plan input box
+  const [planPrompt, setPlanPrompt] = React.useState("");
+  const [startDate, setStartDate] = React.useState();
+  const [endDate, setEndDate] = React.useState();
+
+  // list of choices for travel plan dropdown
+  const planList = [
+    {
+      label: "School",
+      value: "school",
+    },
+    {
+      label: "Work",
+      value: "work",
+    },
+    {
+      label: "Family",
+      value: "family",
+    },
+    {
+      label: "Recreational",
+      value: "recreational",
+    },
+    {
+      label: "Other",
+      value: "other",
+    },
+  ];
+
+  // list of prompts in response to dropdown selection
+  const planPrompts = {
+    school: "Describe your school's program.",
+    work: "Describe your work.",
+    family: "What will you be doing with your family?",
+    recreational: "What do you see yourself doing?",
+    other: "Please describe your plans.",
+  };
+
+  // display the right text prompt in response to dropdown
+  const handleSetPlan = (text) => {
+    setPlan(text);
+    if (text != null) {
+      setPlanPromptVisible(true);
+      setPlanPrompt(planPrompts[text]);
+    } else {
+      setPlanPromptVisible(false);
+    }
+  };
 
   return (
-    <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
+    <SafeAreaView>
       <View
+        style={{ height: "100%" }}
         rowGap="0.5%"
         paddingRight="0.5%"
         paddingLeft="0.5%"
-        style={{ flex: 0 }}
       >
         <TextInput
           mode="outlined"
@@ -59,28 +110,54 @@ const TripInfo = ({ navigation }) => {
           outlineColor="lightgray"
           onChangeText={(text) => setDest(text)}
         />
-        <TextInput
+        <View style={{ height: "6%" }}>
+          <DatePickerInput
+            locale="en"
+            label="Select Start Date"
+            mode="outlined"
+            presentationStyle="formsheet"
+            value={startDate}
+            onChange={setStartDate}
+          />
+        </View>
+        <View style={{ height: "6%" }}>
+          <DatePickerInput
+            locale="en"
+            label="Select End Date"
+            mode="outlined"
+            presentationStyle="formsheet"
+            value={endDate}
+            onChange={setEndDate}
+          />
+        </View>
+        <DropDown
+          label="Purpose of Trip"
+          list={planList}
           mode="outlined"
-          label="Filler"
-          dense={true}
-          //value={firstLanguage}
-          outlineColor="lightgray"
-          //onChangeText={(text) => setFirstLanguage(text)}
+          value={plan}
+          setValue={handleSetPlan}
+          visible={dropVisible}
+          multiSelect={false}
+          showDropDown={() => setDropVisibility(true)}
+          onDismiss={() => setDropVisibility(false)}
+          dropDownStyle={{ paddingLeft: "1%", paddingRight: "60%" }}
         />
-      </View>
+        <View>
+          {planPromptVisible ? (
+            <View paddingTop="1%" paddingLeft="1%" paddingRight="1%">
+              <TextInput
+                label={planPrompt}
+                mode="flat"
+                dense={true}
+                underlineColor="lightgray"
+              />
+            </View>
+          ) : null}
+        </View>
 
-      <View
-        paddingTop="1%"
-        paddingRight="1%"
-        paddingLeft="1%"
-        style={{ flex: 0 }}
-      >
-        <Button
-          mode="contained"
-          //onPress={() => }//navigation.navigate('TripInfo')}
-        >
-          Submit
-        </Button>
+        <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
+          <Button mode="contained">Submit</Button>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -93,46 +170,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     textAlign: "center",
   },
-
-  /*image: {
-    width: 256,
-    height: 256,
-    marginTop: 12,
-    marginBottom: 12,
-    alignSelf: "center", // Center the image horizontally
-  },
-  topbar: {
-    color: "black",
-    fontWeight: "bold",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  title: {
-    color: "cornflowerblue",
-    fontWeight: "bold",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  row: {
-    flexDirection: "row",
-    marginTop: 5,
-    marginBottom: 5,
-    alignItems: "center",
-  },
-  label: {
-    color: "gray",
-    justifyContent: "space-around",
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  link: {
-    fontWeight: "bold",
-    color: "blue",
-  },
-  signInButton: {
-    justifyContent: "space-around",
-    backgroundColor: "blue", 
-  },*/
 });
 
 export default withTheme(TripInfo);

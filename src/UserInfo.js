@@ -19,7 +19,6 @@ import {
   withTheme,
   Text,
 } from "react-native-paper";
-import TripInfo from "./TripInfo";
 
 const UserInfo = ({ navigation }) => {
   const [name, setName] = React.useState("");
@@ -31,11 +30,25 @@ const UserInfo = ({ navigation }) => {
   const [interests, setInterests] = React.useState("");
   const [foods, setFoods] = React.useState("");
 
+  // only allow numerical input
   const handleAgeInput = (text) => {
     const numericRegex = /^[0-9]*$/;
     if (numericRegex.test(text)) {
       setAgeInput(text);
       setAge(parseInt(text, 10));
+    }
+  };
+
+  // ensure key info is entered before going to next screen
+  const handleUserSubmit = () => {
+    if (
+      name != "" &&
+      age != -1 &&
+      nationality != "" &&
+      firstLanguage != "" &&
+      education != ""
+    ) {
+      navigation.navigate("TripInfo");
     }
   };
 
@@ -105,20 +118,17 @@ const UserInfo = ({ navigation }) => {
           outlineColor="lightgray"
           onChangeText={(text) => setFoods(text)}
         />
-      </View>
 
-      <View
-        paddingTop="1%"
-        paddingRight="1%"
-        paddingLeft="1%"
-        style={{ flex: 0 }}
-      >
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate("TripInfo")}
+        <View
+          paddingTop="1%"
+          paddingRight="0.5%"
+          paddingLeft="0.5%"
+          style={{ flex: 0 }}
         >
-          Submit
-        </Button>
+          <Button mode="contained" onPress={handleUserSubmit}>
+            Submit
+          </Button>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -136,46 +146,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     textAlign: "center",
   },
-
-  /*image: {
-    width: 256,
-    height: 256,
-    marginTop: 12,
-    marginBottom: 12,
-    alignSelf: "center", // Center the image horizontally
-  },
-  topbar: {
-    color: "black",
-    fontWeight: "bold",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  title: {
-    color: "cornflowerblue",
-    fontWeight: "bold",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  row: {
-    flexDirection: "row",
-    marginTop: 5,
-    marginBottom: 5,
-    alignItems: "center",
-  },
-  label: {
-    color: "gray",
-    justifyContent: "space-around",
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  link: {
-    fontWeight: "bold",
-    color: "blue",
-  },
-  signInButton: {
-    justifyContent: "space-around",
-    backgroundColor: "blue", 
-  },*/
 });
 
 export default withTheme(UserInfo);
