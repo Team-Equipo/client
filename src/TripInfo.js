@@ -31,8 +31,8 @@ const TripInfo = ({ navigation }) => {
   const [dropVisible, setDropVisibility] = React.useState(false); // open/close dropdown
   const [planPromptVisible, setPlanPromptVisible] = React.useState(false); // open/close travel plan input box
   const [planPrompt, setPlanPrompt] = React.useState("");
-  const [startDate, setStartDate] = React.useState();
-  const [endDate, setEndDate] = React.useState();
+  const [startDate, setStartDate] = React.useState(null);
+  const [endDate, setEndDate] = React.useState(null);
 
   // list of choices for travel plan dropdown
   const planList = [
