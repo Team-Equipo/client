@@ -28,6 +28,7 @@ const TripInfo = ({ navigation }) => {
   const [dest, setDest] = React.useState("");
   const [dates, setDates] = React.useState("");
   const [plan, setPlan] = React.useState("");
+  const [planDetails, setPlanDetails] = React.useState("");
   const [dropVisible, setDropVisibility] = React.useState(false); // open/close dropdown
   const [planPromptVisible, setPlanPromptVisible] = React.useState(false); // open/close travel plan input box
   const [planPrompt, setPlanPrompt] = React.useState("");
@@ -150,6 +151,7 @@ const TripInfo = ({ navigation }) => {
                 mode="flat"
                 dense={true}
                 underlineColor="lightgray"
+                onChangeText={(text) => setPlanDetails(text)}
               />
             </View>
           ) : null}
