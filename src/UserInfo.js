@@ -22,8 +22,8 @@ import {
 
 const UserInfo = ({ navigation }) => {
   const [name, setName] = React.useState("");
-  const [ageInput, setAgeInput] = React.useState("");
-  const [age, setAge] = React.useState(-1);
+  const [ageInput, setAgeInput] = React.useState(""); // text that appears in input box
+  const [age, setAge] = React.useState(-1); // actual age value saved
   const [nationality, setNationality] = React.useState("");
   const [firstLanguage, setFirstLanguage] = React.useState("");
   const [education, setEducation] = React.useState("");
