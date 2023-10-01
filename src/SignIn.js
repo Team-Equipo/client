@@ -1,13 +1,16 @@
 // SignIn.js
-import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as AppleAuthentication from "expo-apple-authentication";
+import * as Facebook from "expo-auth-session/providers/facebook";
+import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
+import * as React from "react";
 import {
   Image,
   TouchableOpacity,
-  StyleSheet,
   View,
   Keyboard,
   TouchableWithoutFeedback,
-  Linking,
 } from "react-native";
 import {
   Appbar,
@@ -21,6 +24,11 @@ import {
   PaperProvider,
 } from "react-native-paper";
 
+import { signinStyles } from "../styles/signinStyles";
+import { clientId } from "../config/.oauthid.json";
+
+WebBrowser.maybeCompleteAuthSession();
+
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -32,21 +40,106 @@ const theme = {
 };
 
 const SignIn = () => {
+  // Set User (non OAuth signin)
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
   const [snackbarVisible, setSnackbarVisible] = React.useState(false);
-
-  const DismissKeyboard = ({ children }) => (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      {children}
-    </TouchableWithoutFeedback>
-  );
 
   const handleSignIn = () => {};
 
   const createAccount = () => {};
 
   const findPassword = () => {};
+
+  // Set User (OAuth signin)
+  const [userInfo, setUserInfo] = React.useState(null);
+
+  // Facebook OAuth
+  const [f_request, f_response, promptAsyncFacebook] = Facebook.useAuthRequest({
+    clientId: clientId.googleClientId,
+  });
+
+  // Google OAuth
+  const [g_request, g_response, promptAsyncGoogle] = Google.useAuthRequest({
+    androidClientId: clientId.androidClientId,
+    iosClientId: clientId.iosClientId,
+    webClientId: clientId.webClientId,
+  });
+
+  React.useEffect(() => {
+    handleFacebookSignin();
+  }, [f_response]);
+
+  React.useEffect(() => {
+    handleGoogleSignin();
+  }, [g_response]);
+
+  // Facebook OAuth Signin function
+  async function handleFacebookSignin() {
+    const user = await AsyncStorage.getItem("@user");
+    if (!user) {
+      // make a request when user does not exist (yet)
+      if (f_response?.type === "success") {
+        await getFacebookUserInfo(f_response.authentication.accessToken);
+      }
+    } else {
+      setUserInfo(JSON.parse(user));
+    }
+  }
+
+  // Google OAuth Signin function
+  async function handleGoogleSignin() {
+    const user = await AsyncStorage.getItem("@user");
+    if (!user) {
+      // make a request when user does not exist (yet)
+      if (g_response?.type === "success") {
+        await getGoogleUserInfo(g_response.authentication.accessToken);
+      }
+    } else {
+      setUserInfo(JSON.parse(user));
+    }
+  }
+
+  // Get Facebook User Information
+  const getFacebookUserInfo = async (token) => {
+    if (!token) return;
+    try {
+      const f_response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}&fields=id,name,picture.type(large)`,
+      );
+      const user = await f_response.json();
+      // save user locally
+      await AsyncStorage.setItem("@user", JSON.stringify(user));
+      setUserInfo(user);
+    } catch (error) {
+      alert("Facebook OAuth error: ", error);
+    }
+  };
+
+  // Get Google User Information
+  const getGoogleUserInfo = async (token) => {
+    if (!token) return;
+    try {
+      const g_response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      const user = await g_response.json();
+      // save user locally
+      await AsyncStorage.setItem("@user", JSON.stringify(user));
+      setUserInfo(user);
+    } catch (error) {
+      alert("Google OAuth error: ", error);
+    }
+  };
+
+  const DismissKeyboard = ({ children }) => (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      {children}
+    </TouchableWithoutFeedback>
+  );
 
   return (
     <PaperProvider theme={theme}>
@@ -57,19 +150,18 @@ const SignIn = () => {
               mode="center-aligned"
               type="large"
               theme={{ fontWeight: "bold", colors: { primary: "black" } }}
-              style={styles.topbar}
+              style={signinStyles.topbar}
               title="Lingucidity"
             />
           </Appbar.Header>
           <View style={{ padding: 16 }}>
-            <View style={styles.backArea}>
+            <View style={signinStyles.backArea}>
               <Image
-                /*source={require("../assets/airplane.png")}*/
                 source={require("../assets/paperPlane.png")}
-                style={styles.image}
+                style={signinStyles.image}
               />
 
-              <Title style={styles.title}>Welcome Back!</Title>
+              <Title style={signinStyles.title}>Welcome Back!</Title>
 
               <TextInput
                 mode="outlined"
@@ -89,73 +181,81 @@ const SignIn = () => {
                 secureTextEntry
               />
 
-              <View style={styles.forgotPassword}>
+              <View style={signinStyles.forgotPassword}>
                 <TouchableOpacity onPress={findPassword}>
-                  <Text style={styles.label}>Forgot your password?</Text>
+                  <Text style={signinStyles.label}>Forgot your password?</Text>
                 </TouchableOpacity>
               </View>
-
+              {/* Sign-in Button */}
               <Button
-                style={styles.signInButton}
+                style={signinStyles.signInButton}
                 theme={{ fontWeight: "bold", colors: { primary: "white" } }}
                 mode="elevated"
                 onPress={handleSignIn}
               >
                 Sign In
               </Button>
-
-              <View style={styles.row}>
-                <Text style={styles.label}>Don’t have an account? </Text>
+              {/* Create Account Page */}
+              <View style={signinStyles.row}>
+                <Text style={signinStyles.label}>Don’t have an account? </Text>
                 <TouchableOpacity onPress={createAccount}>
-                  <Text style={styles.link}>Sign up</Text>
+                  <Text style={signinStyles.link}>Sign up</Text>
                 </TouchableOpacity>
               </View>
-
-              <View style={styles.oauthContainer}>
-                <View style={styles.oauthImageContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      Linking.openURL(
-                        "https://www.google.com/",
-                      ); /* Replate the link by Google OAuth link */
-                    }}
-                  >
+              {/* OAuth Icons */}
+              <View style={signinStyles.oauthContainer}>
+                {/* Google OAuth */}
+                <View style={signinStyles.oauthImageContainer}>
+                  <TouchableOpacity onPress={() => promptAsyncGoogle()}>
                     <Image
                       source={require("../assets/google.png")}
                       resizeMode="contain"
-                      style={styles.oauthImage}
+                      style={signinStyles.oauthImage}
                     />
                   </TouchableOpacity>
                 </View>
-                <View style={styles.oauthImageContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      Linking.openURL(
-                        "https://www.facebook.com/",
-                      ); /* Replate the link by Facebook OAuth link */
-                    }}
-                  >
+                {/* Facebook */}
+                <View style={signinStyles.oauthImageContainer}>
+                  <TouchableOpacity onPress={() => promptAsyncFacebook()}>
                     <Image
                       source={require("../assets/facebook.png")}
                       resizeMode="contain"
-                      style={styles.oauthImage}
+                      style={signinStyles.oauthImage}
                     />
                   </TouchableOpacity>
                 </View>
-                <View style={styles.oauthImageContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      Linking.openURL(
-                        "https://www.microsoft.com/",
-                      ); /* Replate the link by Microsoft OAuth link */
+                {/* Apple */}
+                <View style={signinStyles.oauthImageContainer}>
+                  <AppleAuthentication.AppleAuthenticationButton
+                    buttonType={
+                      AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
+                    }
+                    buttonStyle={
+                      AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
+                    }
+                    cornerRadius={10}
+                    style={signinStyles.oauthImage}
+                    onPress={async () => {
+                      try {
+                        const credential =
+                          await AppleAuthentication.signInAsync({
+                            requestedScopes: [
+                              AppleAuthentication.AppleAuthenticationScope
+                                .FULL_NAME,
+                              AppleAuthentication.AppleAuthenticationScope
+                                .EMAIL,
+                            ],
+                          });
+                        // signed in
+                      } catch (error) {
+                        if (e.code === "ERR_REQUEST_CANCELED") {
+                          alert("Request cancelled: ", error);
+                        } else {
+                          alert("Apple OAuth error: ", error);
+                        }
+                      }
                     }}
-                  >
-                    <Image
-                      source={require("../assets/microsoft.png")}
-                      resizeMode="contain"
-                      style={styles.oauthImage}
-                    />
-                  </TouchableOpacity>
+                  />
                 </View>
               </View>
             </View>
@@ -172,76 +272,5 @@ const SignIn = () => {
     </PaperProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    width: 128,
-    height: 128,
-    marginTop: 12,
-    marginBottom: 32,
-    alignSelf: "center", // Center the image horizontally
-  },
-  backArea: {
-    backgroundColor: "#dbf4ff",
-    borderRadius: 16,
-    padding: 24,
-    marginTop: 24,
-  },
-  topbar: {
-    color: "black",
-    fontWeight: "bold",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  title: {
-    color: "cornflowerblue",
-    fontWeight: "bold",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  row: {
-    flexDirection: "row",
-    marginTop: 5,
-    marginBottom: 5,
-    alignItems: "center",
-  },
-  label: {
-    color: "gray",
-    justifyContent: "space-around",
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  link: {
-    fontWeight: "bold",
-    color: "blue",
-  },
-  signInButton: {
-    justifyContent: "space-around",
-    backgroundColor: "blue",
-    marginVertical: 5,
-  },
-  oauthContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  oauthImageContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    alignSelf: "flex-start",
-    marginHorizontal: 15,
-    marginTop: 10,
-    padding: 8,
-    borderRadius: 32,
-  },
-  oauthImage: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-  },
-});
 
 export default withTheme(SignIn);
