@@ -1,5 +1,6 @@
 // UserInfo.js
 import React from "react";
+import { AsyncStorage } from "react-native";
 import {
   Image,
   TouchableOpacity,
