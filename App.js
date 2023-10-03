@@ -1,6 +1,6 @@
 import { PaperProvider } from "react-native-paper";
 
-import Main from "./src/Main";
+import Translation from "./src/Translation";
 
 /**
  * Renders the main component of the application.
@@ -11,7 +11,7 @@ export default function App() {
   return (
     // Use Material 3 theme.
     <PaperProvider theme={{ version: 3 }}>
-      <Main />
+      <Translation />
     </PaperProvider>
   );
 }
