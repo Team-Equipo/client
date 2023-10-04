@@ -1,24 +1,7 @@
 // UserInfo.js
 import React from "react";
-import {
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
-import { Provider as PaperProvider } from "react-native-paper";
-import {
-  Appbar,
-  Title,
-  Snackbar,
-  TextInput,
-  Button,
-  withTheme,
-  Text,
-} from "react-native-paper";
+import { StyleSheet, View, SafeAreaView } from "react-native";
+import { TextInput, Button, withTheme } from "react-native-paper";
 
 const UserInfo = ({ navigation }) => {
   const [name, setName] = React.useState("");
