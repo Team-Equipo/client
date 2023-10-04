@@ -52,6 +52,7 @@ const UserInfo = ({ navigation }) => {
           onChangeText={(text) => setName(text)}
         />
         <TextInput
+          keyboardType="numeric"
           mode="outlined"
           label="Age"
           dense={true}
