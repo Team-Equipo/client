@@ -1,24 +1,7 @@
 // TripInfo.js
 import React from "react";
-import {
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
-import { Provider as PaperProvider } from "react-native-paper";
-import {
-  Appbar,
-  Title,
-  Snackbar,
-  TextInput,
-  Button,
-  withTheme,
-  Text,
-} from "react-native-paper";
+import { StyleSheet, View, SafeAreaView } from "react-native";
+import { TextInput, Button, withTheme } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import { DatePickerInput } from "react-native-paper-dates";
 
