@@ -6,7 +6,7 @@ import { View } from "react-native";
 import Main from "./src/Main";
 import UserInfo from "./src/UserInfo";
 import TripInfo from "./src/TripInfo";
-import RegistrationBar from "./src/AppHeaderBar";
+import AppHeaderBar from "./src/AppHeaderBar";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +23,7 @@ export default function App() {
         <Stack.Navigator
           initialRouteName="UserInfo"
           screenOptions={{
-            header: (props) => <RegistrationBar {...props} />,
+            header: (props) => <AppHeaderBar {...props} />,
           }}
         >
           <Stack.Screen
