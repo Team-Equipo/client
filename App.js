@@ -6,7 +6,7 @@ import { View } from "react-native";
 import Main from "./src/Main";
 import UserInfo from "./src/UserInfo";
 import TripInfo from "./src/TripInfo";
-import RegistrationBar from "./src/AppHeaderBar";
+import AppHeaderBar from "./src/AppHeaderBar";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +18,25 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <PaperProvider theme={{ version: 3 }}>
-      <Registration />
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="UserInfo"
+          screenOptions={{
+            header: (props) => <RegistrationBar {...props} />,
+          }}
+        >
+          <Stack.Screen
+            name="UserInfo"
+            component={UserInfo}
+            options={{ title: "Your Profile" }}
+          />
+          <Stack.Screen
+            name="TripInfo"
+            component={TripInfo}
+            options={{ title: "Your Trip" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </PaperProvider>
   );
 }
