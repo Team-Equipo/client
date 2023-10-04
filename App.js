@@ -1,6 +1,6 @@
 import { PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
-import Translation from "./src/Translation";
+import Translation from "./screens/Translation";
 import AppHeaderBar from "./screens/AppHeaderBar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
