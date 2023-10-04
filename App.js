@@ -1,6 +1,10 @@
 import { PaperProvider } from "react-native-paper";
-
+import { NavigationContainer } from "@react-navigation/native";
 import Translation from "./src/Translation";
+import AppHeaderBar from "./src/AppHeaderBar";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const Stack = createNativeStackNavigator();
 
 /**
  * Renders the main component of the application.
@@ -11,7 +15,20 @@ export default function App() {
   return (
     // Use Material 3 theme.
     <PaperProvider theme={{ version: 3 }}>
-      <Translation />
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Translation"
+          screenOptions={{
+            header: (props) => <AppHeaderBar {...props} />,
+          }}
+        >
+          <Stack.Screen
+            name="Translation"
+            component={Translation}
+            options={{ title: "Translation" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </PaperProvider>
   );
 }
