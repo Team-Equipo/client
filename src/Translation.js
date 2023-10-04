@@ -52,16 +52,7 @@ const Translation = ({ navigation }) => {
         paddingLeft="0.5%"
       >
         <View style={{ flexDirection: "row" }}>
-          <Text
-            style={{
-              paddingTop: "1%",
-              paddingLeft: "2%",
-              fontSize: 20,
-              color: "gray",
-            }}
-          >
-            {inputLang}
-          </Text>
+          <Text style={styles.languageLabel}>{inputLang}</Text>
           <View
             style={{ flex: 1, flexDirection: "row" }}
             justifyContent="flex-end"
@@ -72,43 +63,14 @@ const Translation = ({ navigation }) => {
           </View>
         </View>
         <TextInput
-          style={{
-            flex: 1,
-            borderWidth: 2,
-            borderColor: "lightgray",
-            borderRadius: 10,
-            padding: "1%",
-            marginLeft: "1%",
-            marginRight: "1%",
-            marginBottom: "1%",
-            fontSize: 16,
-          }}
+          style={styles.textBox}
           multiline
           value={textToTranslate}
           onChangeText={(text) => handleTranslationText(text, inputLang)}
         />
+        <Text style={styles.languageLabel}>{outputLang}</Text>
         <Text
-          style={{
-            paddingTop: "1%",
-            paddingLeft: "2%",
-            fontSize: 20,
-            color: "gray",
-          }}
-        >
-          {outputLang}
-        </Text>
-        <Text
-          style={{
-            flex: 1,
-            borderWidth: 2,
-            borderColor: "lightgray",
-            borderRadius: 10,
-            padding: "1%",
-            marginLeft: "1%",
-            marginRight: "1%",
-            marginBottom: "1%",
-            fontSize: 16,
-          }}
+          style={styles.textBox}
           multiline
           maxFontSizeMultiplier={100}
           //value={translatedText}
@@ -122,11 +84,22 @@ const Translation = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  title: {
-    color: "white",
+  textBox: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: "lightgray",
+    borderRadius: 10,
+    padding: "1%",
+    marginLeft: "1%",
+    marginRight: "1%",
+    marginBottom: "1%",
+    fontSize: 16,
+  },
+  languageLabel: {
+    paddingTop: "1%",
+    paddingLeft: "2%",
     fontSize: 20,
-    justifyContent: "space-around",
-    textAlign: "center",
+    color: "gray",
   },
 });
 
