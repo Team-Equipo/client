@@ -3,10 +3,10 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View } from "react-native";
-import Main from "./src/Main";
-import UserInfo from "./src/UserInfo";
-import TripInfo from "./src/TripInfo";
-import AppHeaderBar from "./src/AppHeaderBar";
+import Main from "./screens/Main";
+import UserInfo from "./screens/UserInfo";
+import TripInfo from "./screens/TripInfo";
+import AppHeaderBar from "./screens/AppHeaderBar";
 
 const Stack = createNativeStackNavigator();
 
