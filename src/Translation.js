@@ -8,7 +8,6 @@ const Translation = ({ navigation }) => {
   const [translation, setTranslation] = React.useState("");
   const [inputLang, setInputLang] = React.useState("English");
   const [outputLang, setOutputLang] = React.useState("Spanish");
-  const [input, setInput] = React.useState("");
 
   useEffect(() => {
     handleTranslationText(textToTranslate, inputLang);
