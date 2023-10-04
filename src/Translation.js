@@ -1,56 +1,48 @@
 // Translation.js
-import React from "react";
-import {
-  TextInput,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
-import { Provider as PaperProvider } from "react-native-paper";
-import {
-  Appbar,
-  Title,
-  Snackbar,
-  // TextInput,
-  Button,
-  withTheme,
-  Text,
-} from "react-native-paper";
-// import DropDown from "react-native-paper-dropdown";
+import React, { useEffect } from "react";
+import { TextInput, StyleSheet, View, SafeAreaView } from "react-native";
+import { Button, withTheme, Text } from "react-native-paper";
 
 const Translation = ({ navigation }) => {
   const [textToTranslate, setTextToTranslate] = React.useState("");
   const [translation, setTranslation] = React.useState("");
-  const [inputLabel, setInputLabel] = React.useState(null);
+  const [inputLang, setInputLang] = React.useState("English");
+  const [outputLang, setOutputLang] = React.useState("Spanish");
+  const [input, setInput] = React.useState("");
+
+  useEffect(() => {
+    handleTranslationText(textToTranslate, inputLang);
+  }, [inputLang, textToTranslate]);
 
   const handleTranslationText = (text) => {
     setTextToTranslate(text);
-    if (text != "") {
-      setInputLabel("English");
-      if (text == "Hello world, what's up?") {
-        setTranslation("Hola mundo, ¿Qué tal?");
+    if (text == "") {
+      setTranslation("");
+    } else if (inputLang == "English") {
+      if (text == "Hello world") {
+        setTranslation("Hola mundo");
       } else {
         setTranslation("Sorry, I don't have a translation for that yet.");
       }
-    } else {
-      setInputLabel(null);
+    } else if (inputLang == "Spanish") {
+      if (text == "Hola mundo") {
+        setTranslation("Hello world");
+      } else {
+        setTranslation("Sorry, I don't have a translation for that yet.");
+      }
     }
   };
-  /*
-  // display the right text prompt in response to dropdown
-  const handleSetPlan = (text) => {
-    setPlan(text);
-    if (text != null) {
-      setPlanPromptVisible(true);
-      setPlanPrompt(planPrompts[text]);
-    } else {
-      setPlanPromptVisible(false);
+
+  const toggleLang = () => {
+    if (inputLang == "English") {
+      setInputLang("Spanish");
+      setOutputLang("English");
+    } else if (inputLang == "Spanish") {
+      setInputLang("English");
+      setOutputLang("Spanish");
     }
-  }; */
+    handleTranslationText(textToTranslate);
+  };
 
   return (
     <SafeAreaView>
@@ -60,32 +52,56 @@ const Translation = ({ navigation }) => {
         paddingRight="0.5%"
         paddingLeft="0.5%"
       >
-        <Text style={{ paddingTop: "1%", textAlign: "center", fontSize: 20 }}>
-          English
-        </Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text
+            style={{
+              paddingTop: "1%",
+              paddingLeft: "2%",
+              fontSize: 20,
+              color: "gray",
+            }}
+          >
+            {inputLang}
+          </Text>
+          <View
+            style={{ flex: 1, flexDirection: "row" }}
+            justifyContent="flex-end"
+          >
+            <Button mode="text" onPress={toggleLang}>
+              Swap Languages
+            </Button>
+          </View>
+        </View>
         <TextInput
           style={{
             flex: 1,
-            borderWidth: 1,
+            borderWidth: 2,
             borderColor: "lightgray",
             borderRadius: 10,
             padding: "1%",
             marginLeft: "1%",
             marginRight: "1%",
+            marginBottom: "1%",
             fontSize: 16,
           }}
-          label={inputLabel}
           multiline
           value={textToTranslate}
-          onChangeText={(text) => handleTranslationText(text)}
+          onChangeText={(text) => handleTranslationText(text, inputLang)}
         />
-        <Text style={{ paddingTop: "1%", textAlign: "center", fontSize: 20 }}>
-          Spanish
+        <Text
+          style={{
+            paddingTop: "1%",
+            paddingLeft: "2%",
+            fontSize: 20,
+            color: "gray",
+          }}
+        >
+          {outputLang}
         </Text>
         <Text
           style={{
             flex: 1,
-            borderWidth: 1,
+            borderWidth: 2,
             borderColor: "lightgray",
             borderRadius: 10,
             padding: "1%",
