@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { PaperProvider } from "react-native-paper";
 
-import MyComponent from "./components/App_bar";
+import AppBar from "./components/AppBar";
 import { AuthContext } from "./contexts/AuthContext";
 import HomeScreen from "./screens/HomeScreen";
 import SignInScreen from "./screens/SignInScreen";
@@ -93,7 +93,7 @@ export default function App({ navigation }) {
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
-              header: (props) => <MyComponent {...props} />,
+              header: (props) => <AppBar {...props} />,
             }}
           >
             {state.isLoading ? (
