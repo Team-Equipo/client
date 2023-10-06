@@ -5,6 +5,8 @@ import { TextInput, Button, withTheme } from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import { DatePickerInput } from "react-native-paper-dates";
 
+import { AuthContext } from "../contexts/AuthContext";
+
 const TripInfo = ({ navigation }) => {
   const [country, setCountry] = React.useState("");
   const [region, setRegion] = React.useState("");
@@ -17,6 +19,10 @@ const TripInfo = ({ navigation }) => {
   const [planPrompt, setPlanPrompt] = React.useState("");
   const [startDate, setStartDate] = React.useState(null);
   const [endDate, setEndDate] = React.useState(null);
+
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const { signIn } = React.useContext(AuthContext);
 
   // list of choices for travel plan dropdown
   const planList = [
@@ -141,7 +147,12 @@ const TripInfo = ({ navigation }) => {
         </View>
 
         <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
-          <Button mode="contained">Submit</Button>
+          <Button
+            mode="contained"
+            onPress={() => signIn({ username, password })}
+          >
+            Submit
+          </Button>
         </View>
       </View>
     </SafeAreaView>
