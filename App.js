@@ -9,6 +9,9 @@ import HomeScreen from "./screens/HomeScreen";
 import SignInScreen from "./screens/SignInScreen";
 import SplashScreen from "./screens/SplashScreen";
 
+import UserInfo from "./screens/UserInfo";
+import TripInfo from "./screens/TripInfo";
+
 const Stack = createNativeStackNavigator();
 
 export default function App({ navigation }) {
@@ -22,6 +25,12 @@ export default function App({ navigation }) {
             isLoading: false,
           };
         case "SIGN_IN":
+          return {
+            ...prevState,
+            isSignout: false,
+            userToken: action.token,
+          };
+        case "SIGN_UP":
           return {
             ...prevState,
             isSignout: false,
@@ -81,7 +90,7 @@ export default function App({ navigation }) {
         // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
         // In the example, we'll use a dummy token
 
-        dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
+        dispatch({ type: "SIGN_UP", token: "signup" });
       },
     }),
     [],
@@ -110,6 +119,27 @@ export default function App({ navigation }) {
                   animationTypeForReplace: state.isSignout ? "pop" : "push",
                 }}
               />
+            ) : state.userToken === "signup" ? (
+              <>
+                <Stack.Screen
+                  name="SignUp"
+                  component={UserInfo}
+                  options={{
+                    title: "Sign up",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+                <Stack.Screen
+                  name="TripInfo"
+                  component={TripInfo}
+                  options={{
+                    title: "Trip Info",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+              </>
             ) : (
               // User is signed in
               <Stack.Screen name="Home" component={HomeScreen} />

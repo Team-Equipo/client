@@ -9,6 +9,7 @@ export default function SignInScreen() {
   const [password, setPassword] = React.useState("");
 
   const { signIn } = React.useContext(AuthContext);
+  const { signUp } = React.useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -31,6 +32,9 @@ export default function SignInScreen() {
         <Button mode="contained" onPress={() => signIn({ username, password })}>
           Sign in
         </Button>
+        <Button mode="contained" onPress={() => signUp()}>
+          Register
+        </Button>
       </View>
     </View>
   );
@@ -50,5 +54,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     width: "80%",
+    display: "flex",
+    gap: 10,
   },
 });
