@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { PaperProvider } from "react-native-paper";
 
+import MyComponent from "./components/App_bar";
 import { AuthContext } from "./contexts/AuthContext";
 import HomeScreen from "./screens/HomeScreen";
 import SignInScreen from "./screens/SignInScreen";
@@ -90,7 +91,11 @@ export default function App({ navigation }) {
     <PaperProvider theme={{ version: 3 }}>
       <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator
+            screenOptions={{
+              header: (props) => <MyComponent {...props} />,
+            }}
+          >
             {state.isLoading ? (
               // We haven't finished checking for the token yet
               <Stack.Screen name="Splash" component={SplashScreen} />
