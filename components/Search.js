@@ -1,4 +1,11 @@
-import { StyleSheet, Text, Button, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  Button,
+  View,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import * as React from "react";
 import { useState } from "react";
 import TextInputExample from "./Text";
@@ -17,31 +24,43 @@ export default function Search_Content() {
     setSelectedOption(option);
   };
 
+  // Hide keyboard when not in use
+  const DismissKeyboard = ({ children }) => (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      {children}
+    </TouchableWithoutFeedback>
+  );
+
   return (
-    <View style={styles.Container}>
-      <Text style={styles.GreetingContainer}>Hello, Username!</Text>
-      <View style={styles.SearchContainer}>
-        <Text style={styles.ProposeContainer}> Would you like to learn...</Text>
-        <View style={styles.TextInputContainer}>
-          <TextInputExample />
-        </View>
-        <View style={styles.SelectLangContainer}>
-          <Text style={styles.InContainer}> in</Text>
-          <DropDown
-            options={options}
-            selectedOption={selectedOption}
-            onSelect={handleSelect}
+    <DismissKeyboard>
+      <View style={styles.Container}>
+        <Text style={styles.GreetingContainer}>Hello, Username!</Text>
+        <View style={styles.SearchContainer}>
+          <Text style={styles.ProposeContainer}>
+            {" "}
+            Would you like to learn...
+          </Text>
+          <View style={styles.TextInputContainer}>
+            <TextInputExample />
+          </View>
+          <View style={styles.SelectLangContainer}>
+            <Text style={styles.InContainer}> in</Text>
+            <DropDown
+              options={options}
+              selectedOption={selectedOption}
+              onSelect={handleSelect}
+            />
+            <Text style={styles.InContainer}>? </Text>
+          </View>
+          <Button
+            onPress={() => alert("Learn More!")}
+            title="Learn More"
+            color="#841584"
           />
-          <Text style={styles.InContainer}>? </Text>
         </View>
-        <Button
-          onPress={() => alert("Learn More!")}
-          title="Learn More"
-          color="#841584"
-        />
+        <Translator_Content />
       </View>
-      <Translator_Content />
-    </View>
+    </DismissKeyboard>
   );
 }
 
