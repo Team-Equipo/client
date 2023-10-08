@@ -12,6 +12,8 @@ import SplashScreen from "./screens/SplashScreen";
 import UserInfo from "./screens/UserInfo";
 import TripInfo from "./screens/TripInfo";
 
+import Translation from "./screens/Translation";
+
 const Stack = createNativeStackNavigator();
 
 export default function App({ navigation }) {
@@ -98,7 +100,58 @@ export default function App({ navigation }) {
 
   return (
     <PaperProvider theme={{ version: 3 }}>
-      <Main />
+      <AuthContext.Provider value={authContext}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              header: (props) => <AppBar {...props} />,
+            }}
+          >
+            {state.isLoading ? (
+              // We haven't finished checking for the token yet
+              <Stack.Screen name="Splash" component={SplashScreen} />
+            ) : state.userToken == null ? (
+              // No token found, user isn't signed in
+              <Stack.Screen
+                name="SignIn"
+                component={SignInScreen}
+                options={{
+                  title: "Sign in",
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? "pop" : "push",
+                }}
+              />
+            ) : state.userToken === "signup" ? (
+              <>
+                <Stack.Screen
+                  name="SignUp"
+                  component={UserInfo}
+                  options={{
+                    title: "Sign up",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+                <Stack.Screen
+                  name="TripInfo"
+                  component={TripInfo}
+                  options={{
+                    title: "Trip Info",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+              </>
+            ) : (
+              // User is signed in
+              <>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Translate" component={Translation} />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AuthContext.Provider>
     </PaperProvider>
   );
 }
