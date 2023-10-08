@@ -2,6 +2,7 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 
+import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
 
 export default function SignInScreen() {
@@ -12,31 +13,36 @@ export default function SignInScreen() {
   const { signUp } = React.useContext(AuthContext);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.textInput}>
-        <TextInput
-          mode="outlined"
-          label="Username"
-          value={username}
-          onChangeText={setUsername}
-        />
-        <TextInput
-          mode="outlined"
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
+    <HideKeyboard>
+      <View style={styles.container}>
+        <View style={styles.textInput}>
+          <TextInput
+            mode="outlined"
+            label="Username"
+            value={username}
+            onChangeText={setUsername}
+          />
+          <TextInput
+            mode="outlined"
+            label="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            mode="contained"
+            onPress={() => signIn({ username, password })}
+          >
+            Sign in
+          </Button>
+          <Button mode="contained" onPress={() => signUp()}>
+            Register
+          </Button>
+        </View>
       </View>
-      <View style={styles.button}>
-        <Button mode="contained" onPress={() => signIn({ username, password })}>
-          Sign in
-        </Button>
-        <Button mode="contained" onPress={() => signUp()}>
-          Register
-        </Button>
-      </View>
-    </View>
+    </HideKeyboard>
   );
 }
 

@@ -1,16 +1,11 @@
-import {
-  StyleSheet,
-  Text,
-  Button,
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
 import * as React from "react";
 import { useState } from "react";
+import { StyleSheet, Text, Button, View } from "react-native";
+
+import DropDown from "./DropDown";
+import HideKeyboard from "./HideKeyboard";
 import TextInputExample from "./Text";
 import Translator_Content from "./Trans";
-import DropDown from "./DropDown";
 
 // General Search Components - Would you... + Input word/phrase to search
 // + Select language(Spanish/Chinese/Korean) + Learn More Button which navigates to details page
@@ -24,15 +19,8 @@ export default function Search_Content() {
     setSelectedOption(option);
   };
 
-  // Hide keyboard when not in use
-  const DismissKeyboard = ({ children }) => (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      {children}
-    </TouchableWithoutFeedback>
-  );
-
   return (
-    <DismissKeyboard>
+    <HideKeyboard>
       <View style={styles.Container}>
         <Text style={styles.GreetingContainer}>Hello, Username!</Text>
         <View style={styles.SearchContainer}>
@@ -60,7 +48,7 @@ export default function Search_Content() {
         </View>
         <Translator_Content />
       </View>
-    </DismissKeyboard>
+    </HideKeyboard>
   );
 }
 
