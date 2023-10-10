@@ -2,7 +2,6 @@
 import React from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { TextInput, Button, withTheme, HelperText } from "react-native-paper";
-import { DatePickerInput } from "react-native-paper-dates";
 import { PaperSelect } from "react-native-paper-select";
 import InfoBox from "../components/InfoBox";
 
@@ -33,10 +32,12 @@ const TripInfo = ({ navigation }) => {
     { _id: "5", value: "Other" },
   ];
 
+  // return whether the text follows the MM/DD/YYYY format
   const validDate = (dateText) => {
     return /^\d{2}\/\d{2}\/\d{4}$/.test(dateText);
   };
 
+  // ensure key info is entered before going to next screen
   const validateInfo = () => {
     if (
       country != "" &&
@@ -112,29 +113,6 @@ const TripInfo = ({ navigation }) => {
           {!validDate(endDate) && endDate != "" ? (
             <HelperText type="error">Invalid date format</HelperText>
           ) : null}
-          {/* <HelperText type="error" visible={!validDate(endDate)}>
-            Invalid date format
-          </HelperText> */}
-          {/* <View style={{ height: "6%" }}>
-            <DatePickerInput
-              locale="en"
-              label="Select Start Date"
-              mode="outlined"
-              presentationStyle="formsheet"
-              value={startDate}
-              onChange={setStartDate}
-            />
-          </View>
-          <View style={{ height: "6%" }}>
-            <DatePickerInput
-              locale="en"
-              label="Select End Date"
-              mode="outlined"
-              presentationStyle="formsheet"
-              value={endDate}
-              onChange={setEndDate}
-            />
-          </View> */}
           <PaperSelect
             label="Purpose of Trip"
             arrayList={planList}
