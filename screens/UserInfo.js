@@ -2,6 +2,7 @@
 import React from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { TextInput, Button, withTheme } from "react-native-paper";
+import InfoBox from "../components/InfoBox";
 
 import HideKeyboard from "../components/HideKeyboard";
 
@@ -46,63 +47,42 @@ const UserInfo = ({ navigation }) => {
           paddingLeft="0.5%"
           style={{ flex: 0 }}
         >
-          <TextInput
-            mode="outlined"
+          <InfoBox
             label="Name"
-            dense={true}
             value={name}
-            outlineColor="lightgray"
             onChangeText={(text) => setName(text)}
           />
-          <TextInput
-            keyboardType="numeric"
-            mode="outlined"
+          <InfoBox
+            inputMode="numeric"
             label="Age"
-            dense={true}
             value={ageInput}
-            outlineColor="lightgray"
             onChangeText={(text) => handleAgeInput(text)}
           />
-          <TextInput
-            mode="outlined"
+          <InfoBox
             label="Nationality"
-            dense={true}
             value={nationality}
-            outlineColor="lightgray"
             onChangeText={(text) => setNationality(text)}
           />
-          <TextInput
-            mode="outlined"
+          <InfoBox
             label="First Language(s)"
-            dense={true}
             value={firstLanguage}
-            outlineColor="lightgray"
             onChangeText={(text) => setFirstLanguage(text)}
           />
-          <TextInput
-            mode="outlined"
+          <InfoBox
             label="Educational Background"
-            dense={true}
             value={education}
-            outlineColor="lightgray"
             onChangeText={(text) => setEducation(text)}
           />
-          <TextInput
-            mode="outlined"
+          <InfoBox
             label="Interests/Hobbies"
-            dense={true}
             multiline={true}
             value={interests}
-            outlineColor="lightgray"
             onChangeText={(text) => setInterests(text)}
           />
-          <TextInput
-            mode="outlined"
+          <InfoBox
             label="Favorite Food(s)"
-            dense={true}
             multiline={true}
             value={foods}
-            outlineColor="lightgray"
             onChangeText={(text) => setFoods(text)}
           />
 

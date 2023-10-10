@@ -4,6 +4,7 @@ import { StyleSheet, View, SafeAreaView } from "react-native";
 import { TextInput, Button, withTheme } from "react-native-paper";
 import { DatePickerInput } from "react-native-paper-dates";
 import DropDown from "react-native-paper-dropdown";
+import InfoBox from "../components/InfoBox";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
@@ -78,28 +79,19 @@ const TripInfo = ({ navigation }) => {
           paddingRight="0.5%"
           paddingLeft="0.5%"
         >
-          <TextInput
-            mode="outlined"
+          <InfoBox
             label="Country of Destination"
-            dense={true}
             value={country}
-            outlineColor="lightgray"
             onChangeText={(text) => setCountry(text)}
           />
-          <TextInput
-            mode="outlined"
+          <InfoBox
             label="Region of Destination"
-            dense={true}
             value={region}
-            outlineColor="lightgray"
             onChangeText={(text) => setRegion(text)}
           />
-          <TextInput
-            mode="outlined"
+          <InfoBox
             label="City/Municipality"
-            dense={true}
             value={dest}
-            outlineColor="lightgray"
             onChangeText={(text) => setDest(text)}
           />
           <View style={{ height: "6%" }}>
