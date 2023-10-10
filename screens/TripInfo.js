@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { TextInput, Button, withTheme } from "react-native-paper";
 import { DatePickerInput } from "react-native-paper-dates";
-import DropDown from "react-native-paper-dropdown";
+import { PaperSelect } from "react-native-paper-select";
 import InfoBox from "../components/InfoBox";
 
 import HideKeyboard from "../components/HideKeyboard";
@@ -28,35 +28,20 @@ const TripInfo = ({ navigation }) => {
 
   // list of choices for travel plan dropdown
   const planList = [
-    {
-      label: "School",
-      value: "school",
-    },
-    {
-      label: "Work",
-      value: "work",
-    },
-    {
-      label: "Family",
-      value: "family",
-    },
-    {
-      label: "Recreational",
-      value: "recreational",
-    },
-    {
-      label: "Other",
-      value: "other",
-    },
+    { _id: "1", value: "School" },
+    { _id: "2", value: "Work" },
+    { _id: "3", value: "Family" },
+    { _id: "4", value: "Recreational" },
+    { _id: "5", value: "Other" },
   ];
 
   // list of prompts in response to dropdown selection
   const planPrompts = {
-    school: "Describe your school's program.",
-    work: "Describe your work.",
-    family: "What will you be doing with your family?",
-    recreational: "What do you see yourself doing?",
-    other: "Please describe your plans.",
+    School: "Describe your school's program.",
+    Work: "Describe your work.",
+    Family: "What will you be doing with your family?",
+    Recreational: "What do you see yourself doing?",
+    Other: "Please describe your plans.",
   };
 
   // display the right text prompt in response to dropdown
@@ -114,21 +99,23 @@ const TripInfo = ({ navigation }) => {
               onChange={setEndDate}
             />
           </View>
-          <DropDown
+          <PaperSelect
             label="Purpose of Trip"
-            list={planList}
-            mode="outlined"
+            arrayList={planList}
+            textInputMode="outlined"
             value={plan}
-            setValue={handleSetPlan}
-            visible={dropVisible}
-            multiSelect={false}
-            showDropDown={() => setDropVisibility(true)}
-            onDismiss={() => setDropVisibility(false)}
-            dropDownStyle={{ paddingLeft: "1%", paddingRight: "60%" }}
+            multiEnable={false}
+            onSelection={(value) => {
+              handleSetPlan(value.text);
+            }}
+            selectedArrayList={[]}
+            errorText=""
+            hideSearchBox={true}
+            textInputProps={{ outlineColor: "lightgray" }}
           />
           <View>
             {planPromptVisible ? (
-              <View paddingTop="1%" paddingLeft="1%" paddingRight="1%">
+              <View paddingLeft="1%" paddingRight="1%">
                 <TextInput
                   label={planPrompt}
                   mode="flat"
