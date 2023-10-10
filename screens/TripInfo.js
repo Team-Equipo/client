@@ -1,7 +1,7 @@
 // TripInfo.js
 import React from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
-import { TextInput, Button, withTheme } from "react-native-paper";
+import { TextInput, Button, withTheme, HelperText } from "react-native-paper";
 import { DatePickerInput } from "react-native-paper-dates";
 import { PaperSelect } from "react-native-paper-select";
 import InfoBox from "../components/InfoBox";
@@ -13,14 +13,12 @@ const TripInfo = ({ navigation }) => {
   const [country, setCountry] = React.useState("");
   const [region, setRegion] = React.useState("");
   const [dest, setDest] = React.useState("");
-  const [dates, setDates] = React.useState("");
   const [plan, setPlan] = React.useState("");
   const [planDetails, setPlanDetails] = React.useState("");
-  const [dropVisible, setDropVisibility] = React.useState(false); // open/close dropdown
   const [planPromptVisible, setPlanPromptVisible] = React.useState(false); // open/close travel plan input box
   const [planPrompt, setPlanPrompt] = React.useState("");
-  const [startDate, setStartDate] = React.useState(null);
-  const [endDate, setEndDate] = React.useState(null);
+  const [startDate, setStartDate] = React.useState("");
+  const [endDate, setEndDate] = React.useState("");
 
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -34,6 +32,23 @@ const TripInfo = ({ navigation }) => {
     { _id: "4", value: "Recreational" },
     { _id: "5", value: "Other" },
   ];
+
+  const validDate = (dateText) => {
+    return /^\d{2}\/\d{2}\/\d{4}$/.test(dateText);
+  };
+
+  const validateInfo = () => {
+    if (
+      country != "" &&
+      region != "" &&
+      dest != "" &&
+      validDate(startDate) &&
+      validDate(endDate) &&
+      plan != ""
+    ) {
+      signIn({ username, password });
+    }
+  };
 
   // list of prompts in response to dropdown selection
   const planPrompts = {
@@ -79,7 +94,28 @@ const TripInfo = ({ navigation }) => {
             value={dest}
             onChangeText={(text) => setDest(text)}
           />
-          <View style={{ height: "6%" }}>
+          <InfoBox
+            inputMode="numeric"
+            label="Start Date (MM/DD/YYYY)"
+            value={startDate}
+            onChangeText={(text) => setStartDate(text)}
+          />
+          {!validDate(startDate) && startDate != "" ? (
+            <HelperText type="error">Invalid date format</HelperText>
+          ) : null}
+          <InfoBox
+            inputMode="numeric"
+            label="End Date (MM/DD/YYYY)"
+            value={endDate}
+            onChangeText={(text) => setEndDate(text)}
+          />
+          {!validDate(endDate) && endDate != "" ? (
+            <HelperText type="error">Invalid date format</HelperText>
+          ) : null}
+          {/* <HelperText type="error" visible={!validDate(endDate)}>
+            Invalid date format
+          </HelperText> */}
+          {/* <View style={{ height: "6%" }}>
             <DatePickerInput
               locale="en"
               label="Select Start Date"
@@ -98,7 +134,7 @@ const TripInfo = ({ navigation }) => {
               value={endDate}
               onChange={setEndDate}
             />
-          </View>
+          </View> */}
           <PaperSelect
             label="Purpose of Trip"
             arrayList={planList}
@@ -113,25 +149,20 @@ const TripInfo = ({ navigation }) => {
             hideSearchBox={true}
             textInputProps={{ outlineColor: "lightgray" }}
           />
-          <View>
-            {planPromptVisible ? (
-              <View paddingLeft="1%" paddingRight="1%">
-                <TextInput
-                  label={planPrompt}
-                  mode="flat"
-                  dense={true}
-                  underlineColor="lightgray"
-                  onChangeText={(text) => setPlanDetails(text)}
-                />
-              </View>
-            ) : null}
-          </View>
+          {planPromptVisible ? (
+            <View paddingLeft="1%" paddingRight="1%">
+              <TextInput
+                label={planPrompt}
+                mode="flat"
+                dense={true}
+                underlineColor="lightgray"
+                onChangeText={(text) => setPlanDetails(text)}
+              />
+            </View>
+          ) : null}
 
           <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
-            <Button
-              mode="contained"
-              onPress={() => signIn({ username, password })}
-            >
+            <Button mode="contained" onPress={validateInfo}>
               Submit
             </Button>
           </View>

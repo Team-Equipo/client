@@ -26,7 +26,7 @@ const UserInfo = ({ navigation }) => {
   };
 
   // ensure key info is entered before going to next screen
-  const handleUserSubmit = () => {
+  const validateInfo = () => {
     if (
       name != "" &&
       age != -1 &&
@@ -88,7 +88,7 @@ const UserInfo = ({ navigation }) => {
             paddingLeft="0.5%"
             style={{ flex: 0 }}
           >
-            <Button mode="contained" onPress={handleUserSubmit}>
+            <Button mode="contained" onPress={validateInfo}>
               Submit
             </Button>
           </View>
