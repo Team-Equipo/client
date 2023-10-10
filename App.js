@@ -12,6 +12,8 @@ import SplashScreen from "./screens/SplashScreen";
 import UserInfo from "./screens/UserInfo";
 import TripInfo from "./screens/TripInfo";
 
+import Translation from "./screens/Translation";
+
 const Stack = createNativeStackNavigator();
 
 export default function App({ navigation }) {
@@ -142,7 +144,10 @@ export default function App({ navigation }) {
               </>
             ) : (
               // User is signed in
-              <Stack.Screen name="Home" component={HomeScreen} />
+              <>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Translate" component={Translation} />
+              </>
             )}
           </Stack.Navigator>
         </NavigationContainer>
