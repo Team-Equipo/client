@@ -2,9 +2,10 @@
 import React from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { TextInput, Button, withTheme } from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
 import { DatePickerInput } from "react-native-paper-dates";
+import DropDown from "react-native-paper-dropdown";
 
+import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
 
 const TripInfo = ({ navigation }) => {
@@ -69,93 +70,95 @@ const TripInfo = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
-      <View
-        style={{ height: "100%" }}
-        rowGap="0.5%"
-        paddingRight="0.5%"
-        paddingLeft="0.5%"
-      >
-        <TextInput
-          mode="outlined"
-          label="Country of Destination"
-          dense={true}
-          value={country}
-          outlineColor="lightgray"
-          onChangeText={(text) => setCountry(text)}
-        />
-        <TextInput
-          mode="outlined"
-          label="Region of Destination"
-          dense={true}
-          value={region}
-          outlineColor="lightgray"
-          onChangeText={(text) => setRegion(text)}
-        />
-        <TextInput
-          mode="outlined"
-          label="City/Municipality"
-          dense={true}
-          value={dest}
-          outlineColor="lightgray"
-          onChangeText={(text) => setDest(text)}
-        />
-        <View style={{ height: "6%" }}>
-          <DatePickerInput
-            locale="en"
-            label="Select Start Date"
+    <HideKeyboard>
+      <SafeAreaView>
+        <View
+          style={{ height: "100%" }}
+          rowGap="0.5%"
+          paddingRight="0.5%"
+          paddingLeft="0.5%"
+        >
+          <TextInput
             mode="outlined"
-            presentationStyle="formsheet"
-            value={startDate}
-            onChange={setStartDate}
+            label="Country of Destination"
+            dense={true}
+            value={country}
+            outlineColor="lightgray"
+            onChangeText={(text) => setCountry(text)}
           />
-        </View>
-        <View style={{ height: "6%" }}>
-          <DatePickerInput
-            locale="en"
-            label="Select End Date"
+          <TextInput
             mode="outlined"
-            presentationStyle="formsheet"
-            value={endDate}
-            onChange={setEndDate}
+            label="Region of Destination"
+            dense={true}
+            value={region}
+            outlineColor="lightgray"
+            onChangeText={(text) => setRegion(text)}
           />
-        </View>
-        <DropDown
-          label="Purpose of Trip"
-          list={planList}
-          mode="outlined"
-          value={plan}
-          setValue={handleSetPlan}
-          visible={dropVisible}
-          multiSelect={false}
-          showDropDown={() => setDropVisibility(true)}
-          onDismiss={() => setDropVisibility(false)}
-          dropDownStyle={{ paddingLeft: "1%", paddingRight: "60%" }}
-        />
-        <View>
-          {planPromptVisible ? (
-            <View paddingTop="1%" paddingLeft="1%" paddingRight="1%">
-              <TextInput
-                label={planPrompt}
-                mode="flat"
-                dense={true}
-                underlineColor="lightgray"
-                onChangeText={(text) => setPlanDetails(text)}
-              />
-            </View>
-          ) : null}
-        </View>
+          <TextInput
+            mode="outlined"
+            label="City/Municipality"
+            dense={true}
+            value={dest}
+            outlineColor="lightgray"
+            onChangeText={(text) => setDest(text)}
+          />
+          <View style={{ height: "6%" }}>
+            <DatePickerInput
+              locale="en"
+              label="Select Start Date"
+              mode="outlined"
+              presentationStyle="formsheet"
+              value={startDate}
+              onChange={setStartDate}
+            />
+          </View>
+          <View style={{ height: "6%" }}>
+            <DatePickerInput
+              locale="en"
+              label="Select End Date"
+              mode="outlined"
+              presentationStyle="formsheet"
+              value={endDate}
+              onChange={setEndDate}
+            />
+          </View>
+          <DropDown
+            label="Purpose of Trip"
+            list={planList}
+            mode="outlined"
+            value={plan}
+            setValue={handleSetPlan}
+            visible={dropVisible}
+            multiSelect={false}
+            showDropDown={() => setDropVisibility(true)}
+            onDismiss={() => setDropVisibility(false)}
+            dropDownStyle={{ paddingLeft: "1%", paddingRight: "60%" }}
+          />
+          <View>
+            {planPromptVisible ? (
+              <View paddingTop="1%" paddingLeft="1%" paddingRight="1%">
+                <TextInput
+                  label={planPrompt}
+                  mode="flat"
+                  dense={true}
+                  underlineColor="lightgray"
+                  onChangeText={(text) => setPlanDetails(text)}
+                />
+              </View>
+            ) : null}
+          </View>
 
-        <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
-          <Button
-            mode="contained"
-            onPress={() => signIn({ username, password })}
-          >
-            Submit
-          </Button>
+          <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
+            <Button
+              mode="contained"
+              onPress={() => signIn({ username, password })}
+            >
+              Submit
+            </Button>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </HideKeyboard>
   );
 };
 

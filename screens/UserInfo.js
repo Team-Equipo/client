@@ -3,6 +3,8 @@ import React from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { TextInput, Button, withTheme } from "react-native-paper";
 
+import HideKeyboard from "../components/HideKeyboard";
+
 const UserInfo = ({ navigation }) => {
   const [name, setName] = React.useState("");
   const [ageInput, setAgeInput] = React.useState(""); // text that appears in input box
@@ -36,85 +38,87 @@ const UserInfo = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
-      <View
-        rowGap="0.5%"
-        paddingRight="0.5%"
-        paddingLeft="0.5%"
-        style={{ flex: 0 }}
-      >
-        <TextInput
-          mode="outlined"
-          label="Name"
-          dense={true}
-          value={name}
-          outlineColor="lightgray"
-          onChangeText={(text) => setName(text)}
-        />
-        <TextInput
-          keyboardType="numeric"
-          mode="outlined"
-          label="Age"
-          dense={true}
-          value={ageInput}
-          outlineColor="lightgray"
-          onChangeText={(text) => handleAgeInput(text)}
-        />
-        <TextInput
-          mode="outlined"
-          label="Nationality"
-          dense={true}
-          value={nationality}
-          outlineColor="lightgray"
-          onChangeText={(text) => setNationality(text)}
-        />
-        <TextInput
-          mode="outlined"
-          label="First Language(s)"
-          dense={true}
-          value={firstLanguage}
-          outlineColor="lightgray"
-          onChangeText={(text) => setFirstLanguage(text)}
-        />
-        <TextInput
-          mode="outlined"
-          label="Educational Background"
-          dense={true}
-          value={education}
-          outlineColor="lightgray"
-          onChangeText={(text) => setEducation(text)}
-        />
-        <TextInput
-          mode="outlined"
-          label="Interests/Hobbies"
-          dense={true}
-          multiline={true}
-          value={interests}
-          outlineColor="lightgray"
-          onChangeText={(text) => setInterests(text)}
-        />
-        <TextInput
-          mode="outlined"
-          label="Favorite Food(s)"
-          dense={true}
-          multiline={true}
-          value={foods}
-          outlineColor="lightgray"
-          onChangeText={(text) => setFoods(text)}
-        />
-
+    <HideKeyboard>
+      <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
         <View
-          paddingTop="1%"
+          rowGap="0.5%"
           paddingRight="0.5%"
           paddingLeft="0.5%"
           style={{ flex: 0 }}
         >
-          <Button mode="contained" onPress={handleUserSubmit}>
-            Submit
-          </Button>
+          <TextInput
+            mode="outlined"
+            label="Name"
+            dense={true}
+            value={name}
+            outlineColor="lightgray"
+            onChangeText={(text) => setName(text)}
+          />
+          <TextInput
+            keyboardType="numeric"
+            mode="outlined"
+            label="Age"
+            dense={true}
+            value={ageInput}
+            outlineColor="lightgray"
+            onChangeText={(text) => handleAgeInput(text)}
+          />
+          <TextInput
+            mode="outlined"
+            label="Nationality"
+            dense={true}
+            value={nationality}
+            outlineColor="lightgray"
+            onChangeText={(text) => setNationality(text)}
+          />
+          <TextInput
+            mode="outlined"
+            label="First Language(s)"
+            dense={true}
+            value={firstLanguage}
+            outlineColor="lightgray"
+            onChangeText={(text) => setFirstLanguage(text)}
+          />
+          <TextInput
+            mode="outlined"
+            label="Educational Background"
+            dense={true}
+            value={education}
+            outlineColor="lightgray"
+            onChangeText={(text) => setEducation(text)}
+          />
+          <TextInput
+            mode="outlined"
+            label="Interests/Hobbies"
+            dense={true}
+            multiline={true}
+            value={interests}
+            outlineColor="lightgray"
+            onChangeText={(text) => setInterests(text)}
+          />
+          <TextInput
+            mode="outlined"
+            label="Favorite Food(s)"
+            dense={true}
+            multiline={true}
+            value={foods}
+            outlineColor="lightgray"
+            onChangeText={(text) => setFoods(text)}
+          />
+
+          <View
+            paddingTop="1%"
+            paddingRight="0.5%"
+            paddingLeft="0.5%"
+            style={{ flex: 0 }}
+          >
+            <Button mode="contained" onPress={handleUserSubmit}>
+              Submit
+            </Button>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </HideKeyboard>
   );
 };
 
