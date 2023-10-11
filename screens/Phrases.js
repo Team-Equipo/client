@@ -2,13 +2,14 @@
 import React from "react";
 import {
   Text,
+  TextInput,
   StyleSheet,
   View,
   SafeAreaView,
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { TextInput, Button, withTheme } from "react-native-paper";
+import { Button, withTheme } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 
@@ -26,7 +27,12 @@ const UserInfo = ({ navigation }) => {
     <HideKeyboard>
       <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
         <View style={{ flex: 1, padding: 20 }}>
+          <TextInput
+            placeholder="Enter topic..."
+            style={styles.textBox}
+          ></TextInput>
           <FlatList
+            style={styles.textBox}
             data={phrases}
             renderItem={({ item }) => (
               <TouchableOpacity>
@@ -41,16 +47,15 @@ const UserInfo = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  appbar: {
-    flex: 0,
-    backgroundColor: "cornflowerblue",
-    marginTop: "-2%",
-  },
-  title: {
-    color: "white",
-    fontSize: 20,
-    justifyContent: "space-around",
-    textAlign: "center",
+  textBox: {
+    borderWidth: 2,
+    borderColor: "lightgray",
+    borderRadius: 10,
+    padding: "1%",
+    marginLeft: "1%",
+    marginRight: "1%",
+    marginBottom: "1%",
+    fontSize: 16,
   },
 });
 
