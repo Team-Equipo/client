@@ -13,6 +13,7 @@ import UserInfo from "./screens/UserInfo";
 import TripInfo from "./screens/TripInfo";
 
 import Translation from "./screens/Translation";
+import Phrases from "./screens/Phrases";
 
 const Stack = createNativeStackNavigator();
 
@@ -100,7 +101,8 @@ export default function App({ navigation }) {
 
   return (
     <PaperProvider theme={{ version: 3 }}>
-      <AuthContext.Provider value={authContext}>
+      <Phrases />
+      {/* <AuthContext.Provider value={authContext}>
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
@@ -151,7 +153,7 @@ export default function App({ navigation }) {
             )}
           </Stack.Navigator>
         </NavigationContainer>
-      </AuthContext.Provider>
+      </AuthContext.Provider> */}
     </PaperProvider>
   );
 }
