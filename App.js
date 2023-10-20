@@ -101,7 +101,15 @@ export default function App({ navigation }) {
 
   return (
     <PaperProvider theme={{ version: 3 }}>
-      <Phrases />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            header: (props) => <AppBar {...props} />,
+          }}
+        >
+          <Stack.Screen name="Find Phrases" component={Phrases} />
+        </Stack.Navigator>
+      </NavigationContainer>
       {/* <AuthContext.Provider value={authContext}>
         <NavigationContainer>
           <Stack.Navigator

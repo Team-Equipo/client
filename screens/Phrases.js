@@ -8,13 +8,21 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  useWindowDimensions,
 } from "react-native";
-import { Button, withTheme } from "react-native-paper";
+import { Modal, Portal, Button, withTheme } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 
 const UserInfo = ({ navigation }) => {
-  const [name, setName] = React.useState("");
+  const [response, setResponse] = React.useState("");
+
+  const [modalVisible, setModalVisible] = React.useState(false);
+
+  function showModal(item) {
+    setModalVisible(true);
+    setResponse("Here is a sample response to " + item.text);
+  }
 
   /* Hardcode a list of test phrases. */
   const phrases = [
@@ -26,20 +34,60 @@ const UserInfo = ({ navigation }) => {
   return (
     <HideKeyboard>
       <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
-        <View style={{ flex: 1, padding: 20 }}>
-          <TextInput
-            placeholder="Enter topic..."
-            style={styles.textBox}
-          ></TextInput>
-          <FlatList
-            style={styles.textBox}
-            data={phrases}
-            renderItem={({ item }) => (
-              <TouchableOpacity>
-                <Text>{item.text}</Text>
-              </TouchableOpacity>
-            )}
-          />
+        <Portal style={{}}>
+          <Modal
+            visible={modalVisible}
+            onDismiss={() => setModalVisible(false)}
+            contentContainerStyle={{
+              backgroundColor: "white",
+              borderRadius: 10,
+              padding: 20,
+              marginTop: "10%",
+              marginBottom: "10%",
+              marginLeft: "10%",
+              marginRight: "10%",
+              flex: 1,
+              alignSelf: "center",
+            }}
+          >
+            <View style={{ width: useWindowDimensions().width * 0.8, flex: 1 }}>
+              <Text>{response}</Text>
+            </View>
+          </Modal>
+        </Portal>
+        <View
+          style={{
+            flex: 1,
+            paddingTop: "1%",
+            paddingLeft: "0.5%",
+            paddingRight: "0.5%",
+          }}
+        >
+          <View
+            style={[
+              styles.textBox,
+              {
+                flex: 0,
+                flexDirection: "row",
+                padding: 0,
+                paddingLeft: "1%",
+                borderColor: "lightgray",
+              },
+            ]}
+          >
+            <TextInput placeholder="Enter topic..." style={{ flex: 1 }} />
+            <Button>Submit</Button>
+          </View>
+          <View style={[styles.textBox, { flex: 1 }]}>
+            <FlatList
+              data={phrases}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => showModal(item)}>
+                  <Text>{item.text}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
         </View>
       </SafeAreaView>
     </HideKeyboard>
