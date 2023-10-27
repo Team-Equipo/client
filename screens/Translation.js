@@ -47,9 +47,9 @@ const Translation = ({ navigation }) => {
     <SafeAreaView>
       <View
         style={{ height: "100%" }}
-        rowGap="4%"
-        paddingRight="0.5%"
-        paddingLeft="0.5%"
+        rowGap={4}
+        paddingRight={2}
+        paddingLeft={2}
       >
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.languageLabel}>{inputLang}</Text>
