@@ -58,15 +58,14 @@ const Translation = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
-      <View
-        style={{ height: "100%" }}
-        rowGap={4}
-        paddingRight={2}
-        paddingLeft={2}
-      >
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.languageLabel}>{inputLang}</Text>
+    <HideKeyboard>
+      <SafeAreaView>
+        <View
+          style={{ height: "100%" }}
+          rowGap={4}
+          paddingRight={2}
+          paddingLeft={2}
+        >
           <View
             style={{
               marginBottom: -30,
