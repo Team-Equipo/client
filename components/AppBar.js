@@ -2,7 +2,7 @@ import { getHeaderTitle } from "@react-navigation/elements";
 import * as React from "react";
 import { Appbar, useTheme } from "react-native-paper";
 
-export default function AppBar({ route, options }) {
+export default function AppBar({ navigation, route, options, back }) {
   const title = getHeaderTitle(options, route.name);
   const theme = useTheme();
 
@@ -16,7 +16,7 @@ export default function AppBar({ route, options }) {
           onPress={() => alert("Drawer Menu should show up")}
         />
         <Appbar.Content
-          title="Linguicidity"
+          title="Lingucidity"
           style={{ alignItems: "center" }}
           color="white"
         />
@@ -31,7 +31,8 @@ export default function AppBar({ route, options }) {
   } else {
     return (
       <Appbar.Header style={{ backgroundColor: theme.colors.primary }}>
-        <Appbar.Content title={title} />
+        {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+        <Appbar.Content title={title} color="white" />
       </Appbar.Header>
     );
   }

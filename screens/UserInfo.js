@@ -41,13 +41,9 @@ const UserInfo = ({ navigation }) => {
   return (
     <HideKeyboard>
       <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
-        <View
-          rowGap="0.5%"
-          paddingRight="0.5%"
-          paddingLeft="0.5%"
-          style={{ flex: 0 }}
-        >
-          <InfoBox
+        <View rowGap={2} paddingRight={2} paddingLeft={2} style={{ flex: 0 }}>
+          <TextInput
+            mode="outlined"
             label="Name"
             value={name}
             onChangeText={(text) => setName(text)}

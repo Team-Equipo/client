@@ -14,7 +14,10 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "@expo/ngrok": "^4.1.1",
     "@expo/webpack-config": "^19.0.0",
+    "@react-navigation/native": "^6.1.8",
+    "@react-navigation/native-stack": "^6.9.14",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.14",
     "expo": "~49.0.10",
