@@ -61,13 +61,18 @@ const Translation = ({ navigation }) => {
     <HideKeyboard>
       <SafeAreaView>
         <View
-          style={{ height: "100%" }}
+          style={{
+            height: "100%",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+          }}
           rowGap={4}
           paddingRight={2}
           paddingLeft={2}
         >
           <View
             style={{
+              paddingTop: 5,
               marginBottom: -30,
               zIndex: 3,
               alignItems: "center",
@@ -80,7 +85,8 @@ const Translation = ({ navigation }) => {
               onPress={toggleLang}
               icon="sync"
               compact={true}
-              style={{ width: 160, marginLeft: -11 }}
+              style={{ width: 160, paddingTop: 3 }}
+              contentStyle={{ marginBottom: -5, marginTop: -5 }}
             >
               Swap Languages
             </Button>
@@ -88,37 +94,11 @@ const Translation = ({ navigation }) => {
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "center",
               zIndex: 2,
             }}
           >
             <Text style={styles.languageLabel}>{inputLang}</Text>
-            <View style={{ marginBottom: -20, marginRight: -10 }}>
-              <DropDownPicker
-                arrowIconStyle={{ marginLeft: -20 }}
-                tickIconStyle={{ marginLeft: -16, marginRight: -20 }}
-                style={{
-                  width: 100,
-                  borderColor: "transparent",
-                  backgroundColor: "transparent",
-                  marginTop: -5,
-                }}
-                dropDownContainerStyle={{
-                  width: 150,
-                  alignContent: "center",
-                  borderRadius: 0,
-                  borderColor: "lightgray",
-                  marginTop: -10,
-                }}
-                open={open}
-                value={mode}
-                items={modes}
-                setOpen={setOpen}
-                setValue={setMode}
-                setItems={setModes}
-                onChange={(option) => handleSelection(option.label)}
-              />
-            </View>
           </View>
           <TextInput
             style={styles.textBox}
@@ -160,6 +140,8 @@ const styles = StyleSheet.create({
     paddingLeft: "2%",
     fontSize: 20,
     color: "gray",
+    width: "100%",
+    textAlign: "left",
   },
 });
 

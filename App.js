@@ -108,8 +108,7 @@ export default function App({ navigation }) {
               header: (props) => <AppBar {...props} />,
             }}
           >
-            <Stack.Screen name="Home" component={HomeScreen} />
-            {/* {state.isLoading ? (
+            {state.isLoading ? (
               // We haven't finished checking for the token yet
               <Stack.Screen name="Splash" component={SplashScreen} />
             ) : state.userToken == null ? (
@@ -147,9 +146,9 @@ export default function App({ navigation }) {
             ) : (
               // User is signed in
               <>
-                <Stack.Screen name="Home" component={HomeScreen}/>
+                <Stack.Screen name="Home" component={HomeScreen} />
               </>
-            )} */}
+            )}
           </Stack.Navigator>
         </NavigationContainer>
       </AuthContext.Provider>

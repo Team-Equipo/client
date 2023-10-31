@@ -1,8 +1,8 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React, { useState } from "react";
 import Translation from "./Translation";
+import Phrases from "./Phrases";
 import SavedPhrases from "./SavedPhrases";
-import Activities from "./Activities";
 import { Button, withTheme, useTheme, Text } from "react-native-paper";
 
 const Tab = createMaterialTopTabNavigator();
@@ -11,7 +11,7 @@ const HomeScreen = ({ navigation, route, options, back }) => {
   const theme = useTheme();
   return (
     <Tab.Navigator
-      initialRouteName="Phraseology"
+      initialRouteName="Find Phrases"
       screenOptions={{
         tabBarIndicatorContainerStyle: {
           padding: 0,
@@ -30,14 +30,14 @@ const HomeScreen = ({ navigation, route, options, back }) => {
       }}
     >
       <Tab.Screen
-        name="Phraseology"
-        component={Translation}
-        options={{ tabBarLabel: "Phraseology" }}
+        name="Find Phrases"
+        component={Phrases}
+        options={{ tabBarLabel: "Find Phrases" }}
       />
       <Tab.Screen
-        name="Activities"
-        component={Activities}
-        options={{ tabBarLabel: "Activities" }}
+        name="Translation"
+        component={Translation}
+        options={{ tabBarLabel: "Translation" }}
       />
       <Tab.Screen
         name={"SavedPhrases"}

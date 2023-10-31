@@ -1,4 +1,4 @@
-import * as React from "react";
+/*import * as React from "react";
 import { useState } from "react";
 import { StyleSheet, Text, Button, View } from "react-native";
 
@@ -99,3 +99,4 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
 });
+*/
