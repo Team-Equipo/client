@@ -1,7 +1,6 @@
 // Phrases.js
-import React from "react";
+import React, { useState } from "react";
 import {
-  Text,
   TextInput,
   StyleSheet,
   View,
@@ -10,19 +9,38 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { Modal, Portal, Button, withTheme } from "react-native-paper";
+import { Text, Modal, Portal, Button, withTheme } from "react-native-paper";
+import DropDownPicker from "react-native-dropdown-picker";
+import Translation from "./Translation";
+import CollapsibleView from "@eliav2/react-native-collapsible-view";
 
 import HideKeyboard from "../components/HideKeyboard";
 
-const UserInfo = ({ navigation }) => {
-  const [response, setResponse] = React.useState("");
+const Phrases = ({ navigation }) => {
+  const [response, setResponse] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState("topical");
+  const [modes, setModes] = useState([
+    { label: "Topical", value: "topical" },
+    { label: "Translate", value: "translate" },
+  ]);
 
   function showModal(item) {
     setModalVisible(true);
     setResponse("Here is a sample response to " + item.text);
   }
+
+  /* Hardcode a list of topics. */
+  const topics = [
+    { text: "Ordering food", id: 1 },
+    { text: "Asking for directions", id: 2 },
+    { text: "Shopping", id: 3 },
+    { text: "Greetings", id: 4 },
+    { text: "Goodbyes", id: 5 },
+    { text: "Pleasantries", id: 6 },
+  ];
 
   /* Hardcode a list of test phrases. */
   const phrases = [
@@ -30,6 +48,9 @@ const UserInfo = ({ navigation }) => {
     { text: "Hola universo", id: 2 },
     { text: "El universo dice hola", id: 3 },
   ];
+
+  const topTopics = topics.slice(0, 3);
+  const expandedTopics = topics.slice(3, topics.length);
 
   return (
     <HideKeyboard>
@@ -63,21 +84,44 @@ const UserInfo = ({ navigation }) => {
             paddingRight: "0.5%",
           }}
         >
-          <View
-            style={[
-              styles.textBox,
-              {
-                flex: 0,
-                flexDirection: "row",
-                padding: 0,
-                paddingLeft: "1%",
-                borderColor: "lightgray",
-              },
-            ]}
+          <CollapsibleView
+            style={[styles.textBox]}
+            title={
+              <View
+                style={{
+                  width: "95%",
+                  height: "100%",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                }}
+              >
+                <FlatList
+                  style={{ marginLeft: 7, marginRight: 7 }}
+                  // centerContent={true}
+                  horizontal={true}
+                  data={topTopics}
+                  renderItem={({ item }) => (
+                    <Button
+                      style={{ marginLeft: 3, marginRight: 1 }}
+                      mode={"contained-tonal"}
+                      onPress={() => showModal(item)}
+                      contentStyle={{
+                        marginBottom: -5,
+                        marginTop: -5,
+                        marginLeft: -15,
+                        marginRight: -15,
+                      }}
+                    >
+                      {item.text}
+                    </Button>
+                  )}
+                />
+              </View>
+            }
           >
-            <TextInput placeholder="Enter topic..." style={{ flex: 1 }} />
-            <Button>Submit</Button>
-          </View>
+            <Text>Hi</Text>
+          </CollapsibleView>
           <View style={[styles.textBox, { flex: 1 }]}>
             <FlatList
               data={phrases}
@@ -107,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withTheme(UserInfo);
+export default withTheme(Phrases);
