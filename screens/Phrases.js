@@ -86,31 +86,43 @@ const Phrases = ({ navigation }) => {
         >
           <CollapsibleView
             style={[styles.textBox]}
+            isRTL={true}
             title={
               <View
                 style={{
                   width: "95%",
                   height: "100%",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  alignItems: "center",
+                  flexDirection: "column",
                 }}
               >
+                <Text
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    marginBottom: 3,
+                    color: "gray",
+                  }}
+                >
+                  Recommended Topics:
+                </Text>
                 <FlatList
-                  style={{ marginLeft: 7, marginRight: 7 }}
-                  // centerContent={true}
+                  style={{ marginLeft: 0 }}
+                  centerContent={true}
                   horizontal={true}
                   data={topTopics}
                   renderItem={({ item }) => (
                     <Button
-                      style={{ marginLeft: 3, marginRight: 1 }}
+                      style={{ marginLeft: 2, marginRight: 2 }}
                       mode={"contained-tonal"}
                       onPress={() => showModal(item)}
                       contentStyle={{
-                        marginBottom: -5,
-                        marginTop: -5,
+                        marginBottom: -7,
+                        marginTop: -7,
                         marginLeft: -15,
                         marginRight: -15,
+                      }}
+                      labelStyle={{
+                        fontSize: 14,
                       }}
                     >
                       {item.text}
