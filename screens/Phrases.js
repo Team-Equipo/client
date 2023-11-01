@@ -9,7 +9,14 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { Text, Modal, Portal, Button, withTheme } from "react-native-paper";
+import {
+  Text,
+  Modal,
+  Portal,
+  Button,
+  withTheme,
+  useTheme,
+} from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import Translation from "./Translation";
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
@@ -17,6 +24,8 @@ import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import HideKeyboard from "../components/HideKeyboard";
 
 const Phrases = ({ navigation }) => {
+  const [searchedTopic, setSearchedTopic] = useState("Select a topic...");
+  const [phrases, setPhrases] = useState([]);
   const [response, setResponse] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -27,9 +36,29 @@ const Phrases = ({ navigation }) => {
     { label: "Translate", value: "translate" },
   ]);
 
+  function handleTopicSelect(item) {
+    setSearchedTopic("Topic: " + item.text);
+    setPhrases([
+      { text: 'Spanish phrase 1 for topic "' + item.text + '"', id: 1 },
+      { text: 'Spanish phrase 2 for topic "' + item.text + '"', id: 2 },
+      { text: 'Spanish phrase 3 for topic "' + item.text + '"', id: 3 },
+    ]);
+  }
+
   function showModal(item) {
     setModalVisible(true);
-    setResponse("Here is a sample response to " + item.text);
+    setResponse(
+      "Your Phrase:\n" +
+        item.text +
+        "\n\n" +
+        "English Translation:\n[Translation of " +
+        item.text +
+        "]",
+    );
+  }
+
+  function savePhrase() {
+    setModalVisible(false);
   }
 
   /* Hardcode a list of topics. */
@@ -42,15 +71,7 @@ const Phrases = ({ navigation }) => {
     { text: "Pleasantries", id: 6 },
   ];
 
-  /* Hardcode a list of test phrases. */
-  const phrases = [
-    { text: "Hola mundo", id: 1 },
-    { text: "Hola universo", id: 2 },
-    { text: "El universo dice hola", id: 3 },
-  ];
-
-  const topTopics = topics.slice(0, 3);
-  const expandedTopics = topics.slice(3, topics.length);
+  const theme = useTheme();
 
   return (
     <HideKeyboard>
@@ -63,6 +84,7 @@ const Phrases = ({ navigation }) => {
               backgroundColor: "white",
               borderRadius: 10,
               padding: 20,
+              paddingBottom: 15,
               marginTop: "10%",
               marginBottom: "10%",
               marginLeft: "10%",
@@ -72,8 +94,11 @@ const Phrases = ({ navigation }) => {
             }}
           >
             <View style={{ width: useWindowDimensions().width * 0.8, flex: 1 }}>
-              <Text>{response}</Text>
+              <Text style={{ fontSize: 25 }}>{response}</Text>
             </View>
+            <Button mode="contained" onPress={savePhrase}>
+              Save Phrase
+            </Button>
           </Modal>
         </Portal>
         <View
@@ -85,56 +110,49 @@ const Phrases = ({ navigation }) => {
           }}
         >
           <CollapsibleView
-            style={[styles.textBox]}
-            isRTL={true}
-            title={
-              <View
-                style={{
-                  width: "95%",
-                  height: "100%",
-                  flexDirection: "column",
-                }}
-              >
-                <Text
-                  style={{
-                    width: "100%",
-                    textAlign: "center",
-                    marginBottom: 3,
-                    color: "gray",
-                  }}
-                >
-                  Recommended Topics:
-                </Text>
-                <FlatList
-                  style={{ marginLeft: 0 }}
-                  centerContent={true}
-                  horizontal={true}
-                  data={topTopics}
-                  renderItem={({ item }) => (
-                    <Button
-                      style={{ marginLeft: 2, marginRight: 2 }}
-                      mode={"contained-tonal"}
-                      onPress={() => showModal(item)}
-                      contentStyle={{
-                        marginBottom: -7,
-                        marginTop: -7,
-                        marginLeft: -15,
-                        marginRight: -15,
-                      }}
-                      labelStyle={{
-                        fontSize: 14,
-                      }}
-                    >
-                      {item.text}
-                    </Button>
-                  )}
-                />
-              </View>
-            }
+            style={[styles.textBox, { backgroundColor: "white" }]}
+            title={searchedTopic}
+            titleStyle={{ alignItems: "flex-start" }}
+            noArrow={true}
           >
-            <Text>Hi</Text>
+            <View
+              style={{
+                paddingTop: 5,
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <FlatList
+                numColumns={10}
+                columnWrapperStyle={{
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }}
+                //horizontal={true}
+                data={topics}
+                renderItem={({ item }) => (
+                  <Button
+                    style={{ marginLeft: 2, marginRight: 2, marginBottom: 4 }}
+                    onPress={() => handleTopicSelect(item)}
+                    mode="outlined"
+                    textColor="black"
+                    contentStyle={{
+                      marginBottom: -7,
+                      marginTop: -7,
+                      marginLeft: -3,
+                      marginRight: -3,
+                    }}
+                    labelStyle={{
+                      fontSize: 14,
+                    }}
+                  >
+                    {item.text}
+                  </Button>
+                )}
+              />
+            </View>
           </CollapsibleView>
-          <View style={[styles.textBox, { flex: 1 }]}>
+          <View style={[styles.textBox, { flex: 1, backgroundColor: "white" }]}>
             <FlatList
               data={phrases}
               renderItem={({ item }) => (
@@ -152,7 +170,7 @@ const Phrases = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   textBox: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "lightgray",
     borderRadius: 10,
     padding: "1%",
