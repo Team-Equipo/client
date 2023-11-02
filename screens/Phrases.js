@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   useWindowDimensions,
 } from "react-native";
 import {
@@ -154,42 +155,44 @@ const Phrases = ({ navigation }) => {
             titleStyle={{ alignItems: "flex-start" }}
             noArrow={true}
           >
-            <View
+            <TouchableWithoutFeedback
               style={{
                 paddingTop: 5,
                 flexDirection: "column",
                 justifyContent: "center",
+                zIndex: 10,
               }}
             >
-              <FlatList
-                numColumns={10}
-                columnWrapperStyle={{
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                }}
-                //horizontal={true}
-                data={topics}
-                renderItem={({ item }) => (
-                  <Button
-                    style={{ marginLeft: 2, marginRight: 2, marginBottom: 4 }}
-                    onPress={() => handleTopicSelect(item)}
-                    mode="outlined"
-                    textColor="black"
-                    contentStyle={{
-                      marginBottom: -7,
-                      marginTop: -7,
-                      marginLeft: -3,
-                      marginRight: -3,
-                    }}
-                    labelStyle={{
-                      fontSize: 14,
-                    }}
-                  >
-                    {item.text}
-                  </Button>
-                )}
-              />
-            </View>
+              <View>
+                <FlatList
+                  numColumns={10}
+                  columnWrapperStyle={{
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                  }}
+                  data={topics}
+                  renderItem={({ item }) => (
+                    <Button
+                      style={{ marginLeft: 2, marginRight: 2, marginBottom: 4 }}
+                      onPress={() => handleTopicSelect(item)}
+                      mode="outlined"
+                      textColor="black"
+                      contentStyle={{
+                        marginBottom: -7,
+                        marginTop: -7,
+                        marginLeft: -3,
+                        marginRight: -3,
+                      }}
+                      labelStyle={{
+                        fontSize: 14,
+                      }}
+                    >
+                      {item.text}
+                    </Button>
+                  )}
+                />
+              </View>
+            </TouchableWithoutFeedback>
           </CollapsibleView>
           <View style={[styles.textBox, { flex: 1, backgroundColor: "white" }]}>
             <FlatList
