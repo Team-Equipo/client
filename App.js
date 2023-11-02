@@ -101,16 +101,8 @@ export default function App({ navigation }) {
 
   return (
     <PaperProvider theme={{ version: 3 }}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            header: (props) => <AppBar {...props} />,
-          }}
-        >
-          <Stack.Screen name="Find Phrases" component={Phrases} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      {/* <AuthContext.Provider value={authContext}>
+      <AuthContext.Provider value={authContext}>
+        <Stack.Screen name="Home" component={HomeScreen} />
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
@@ -156,12 +148,11 @@ export default function App({ navigation }) {
               // User is signed in
               <>
                 <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="Translate" component={Translation} />
               </>
             )}
           </Stack.Navigator>
         </NavigationContainer>
-      </AuthContext.Provider> */}
+      </AuthContext.Provider>
     </PaperProvider>
   );
 }

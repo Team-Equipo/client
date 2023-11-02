@@ -74,9 +74,9 @@ const TripInfo = ({ navigation }) => {
       <SafeAreaView>
         <View
           style={{ height: "100%" }}
-          rowGap="0.5%"
-          paddingRight="0.5%"
-          paddingLeft="0.5%"
+          rowGap={2}
+          paddingRight={2}
+          paddingLeft={2}
         >
           <TextInput
             mode="outlined"

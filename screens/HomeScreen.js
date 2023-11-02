@@ -1,31 +1,51 @@
-import * as React from "react";
-import { StyleSheet, View, Button } from "react-native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import React, { useState } from "react";
+import Translation from "./Translation";
+import Phrases from "./Phrases";
+import SavedPhrases from "./SavedPhrases";
+import { Button, withTheme, useTheme, Text } from "react-native-paper";
 
-import Search from "../components/Search";
-import { AuthContext } from "../contexts/AuthContext";
+const Tab = createMaterialTopTabNavigator();
 
-export default function HomeScreen({ navigation }) {
-  const { signOut } = React.useContext(AuthContext);
-
+const HomeScreen = ({ navigation, route, options, back }) => {
+  const theme = useTheme();
   return (
-    <View style={styles.container}>
-      <Search />
-      <Button
-        title="Expand Translate"
-        onPress={() => navigation.navigate("Translate")}
+    <Tab.Navigator
+      initialRouteName="Find Phrases"
+      screenOptions={{
+        tabBarIndicatorContainerStyle: {
+          padding: 0,
+          marginTop: 0,
+        },
+        tabBarStyle: {
+          marginTop: -10,
+          backgroundColor: theme.colors.primary,
+        },
+        tabBarIndicatorStyle: {
+          backgroundColor: "darkblue",
+          height: 3,
+        },
+        tabBarActiveTintColor: "white",
+        swipeEnabled: false,
+      }}
+    >
+      <Tab.Screen
+        name="Find Phrases"
+        component={Phrases}
+        options={{ tabBarLabel: "Find Phrases" }}
       />
-    </View>
+      <Tab.Screen
+        name="Translation"
+        component={Translation}
+        options={{ tabBarLabel: "Translation" }}
+      />
+      <Tab.Screen
+        name={"SavedPhrases"}
+        component={SavedPhrases}
+        options={{ tabBarLabel: "Saved" }}
+      />
+    </Tab.Navigator>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 10,
-    flex: 1,
-    alignItems: "center",
-  },
-  button: {
-    marginTop: 10,
-    width: "70%",
-  },
-});
+export default withTheme(HomeScreen);
