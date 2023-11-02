@@ -56,11 +56,12 @@ const Phrases = ({ navigation }) => {
   }
 
   const savePhrase = async (item) => {
-    try {
-      await AsyncStorage.removeItem("saved-phrases");
-    } catch (e) {
-      // remove error
-    }
+    // empty async storage, "resetting" for new one
+    // try {
+    //   await AsyncStorage.removeItem("saved-phrases");
+    // } catch (e) {
+    //   // remove error
+    // }
     try {
       var currentPhrases = JSON.parse(
         await AsyncStorage.getItem("saved-phrases"),
@@ -68,7 +69,11 @@ const Phrases = ({ navigation }) => {
       if (currentPhrases == null) {
         currentPhrases = [];
       }
-      currentPhrases.push(item);
+      // conditional to check for duplicate phrases taken from:
+      // https://stackoverflow.com/a/8217584
+      if (!currentPhrases.some((existing) => existing.text === item.text)) {
+        currentPhrases.push(item);
+      }
     } catch (e) {
       console.log("Error", e);
     }
