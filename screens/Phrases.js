@@ -26,16 +26,10 @@ import HideKeyboard from "../components/HideKeyboard";
 const Phrases = ({ navigation }) => {
   const [searchedTopic, setSearchedTopic] = useState("Select a topic...");
   const [phrases, setPhrases] = useState([]);
-  const [selectedPhrase, setSelectedPhrase] = useState("");
+  const [selectedPhrase, setSelectedPhrase] = useState();
+  const [selectedPhraseText, setSelectedPhraseText] = useState("");
   const [translation, setTranslation] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState("topical");
-  const [modes, setModes] = useState([
-    { label: "Topical", value: "topical" },
-    { label: "Translate", value: "translate" },
-  ]);
 
   function handleTopicSelect(item) {
     setSearchedTopic("Topic: " + item.text);
@@ -55,24 +49,40 @@ const Phrases = ({ navigation }) => {
   }
 
   function selectPhrase(item) {
-    setSelectedPhrase(item.text);
+    setSelectedPhrase(item);
+    setSelectedPhraseText(item);
     setTranslation("[Translation of " + item.text + "]");
     showModal();
   }
 
-  function savePhrase(item) {}
-
-  const storeData = async (value) => {
+  const savePhrase = async (item) => {
     try {
-      await AsyncStorage.setItem("my-key", value);
+      await AsyncStorage.removeItem("saved-phrases");
+    } catch (e) {
+      // remove error
+    }
+    try {
+      var currentPhrases = JSON.parse(
+        await AsyncStorage.getItem("saved-phrases"),
+      );
+      if (currentPhrases == null) {
+        currentPhrases = [];
+      }
+      currentPhrases.push(item);
     } catch (e) {
       console.log("Error", e);
     }
-  };
-
-  function savePhrase() {
+    try {
+      await AsyncStorage.setItem(
+        "saved-phrases",
+        JSON.stringify(currentPhrases),
+      );
+    } catch (e) {
+      console.log("Error", e);
+    }
     setModalVisible(false);
-  }
+    console.log(await AsyncStorage.getItem("saved-phrases"));
+  };
 
   /* Hardcode a list of topics. */
   const topics = [
@@ -111,7 +121,9 @@ const Phrases = ({ navigation }) => {
               }}
             >
               <Text style={{ fontSize: 20 }}>Your Phrase:</Text>
-              <Text style={{ fontSize: 18 }}>{selectedPhrase + "\n"}</Text>
+              <Text style={{ fontSize: 18 }}>
+                {selectedPhraseText.text + "\n"}
+              </Text>
               <Text style={{ fontSize: 20 }}>Translation:</Text>
               <Text style={{ fontSize: 18 }}>{translation}</Text>
             </View>
@@ -132,7 +144,7 @@ const Phrases = ({ navigation }) => {
               </Button>
               <Button
                 mode="contained"
-                onPress={savePhrase}
+                onPress={() => savePhrase(selectedPhrase)}
                 style={{ width: "49%", marginHorizontal: 5 }}
                 labelStyle={{ marginHorizontal: 0 }}
               >
