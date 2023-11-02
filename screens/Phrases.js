@@ -1,5 +1,5 @@
 // Phrases.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextInput,
   StyleSheet,
@@ -17,16 +17,16 @@ import {
   withTheme,
   useTheme,
 } from "react-native-paper";
-import DropDownPicker from "react-native-dropdown-picker";
-import Translation from "./Translation";
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HideKeyboard from "../components/HideKeyboard";
 
 const Phrases = ({ navigation }) => {
   const [searchedTopic, setSearchedTopic] = useState("Select a topic...");
   const [phrases, setPhrases] = useState([]);
-  const [response, setResponse] = useState("");
+  const [selectedPhrase, setSelectedPhrase] = useState("");
+  const [translation, setTranslation] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const [open, setOpen] = useState(false);
@@ -47,15 +47,27 @@ const Phrases = ({ navigation }) => {
 
   function showModal(item) {
     setModalVisible(true);
-    setResponse(
-      "Your Phrase:\n" +
-        item.text +
-        "\n\n" +
-        "English Translation:\n[Translation of " +
-        item.text +
-        "]",
-    );
   }
+
+  function hideModal() {
+    setModalVisible(false);
+  }
+
+  function selectPhrase(item) {
+    setSelectedPhrase(item.text);
+    setTranslation("[Translation of " + item.text + "]");
+    showModal();
+  }
+
+  function savePhrase(item) {}
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("my-key", value);
+    } catch (e) {
+      console.log("Error", e);
+    }
+  };
 
   function savePhrase() {
     setModalVisible(false);
@@ -83,22 +95,49 @@ const Phrases = ({ navigation }) => {
             contentContainerStyle={{
               backgroundColor: "white",
               borderRadius: 10,
-              padding: 20,
-              paddingBottom: 15,
-              marginTop: "10%",
-              marginBottom: "10%",
+              marginTop: "20%",
+              marginBottom: "20%",
               marginLeft: "10%",
               marginRight: "10%",
-              flex: 1,
               alignSelf: "center",
             }}
           >
-            <View style={{ width: useWindowDimensions().width * 0.8, flex: 1 }}>
-              <Text style={{ fontSize: 25 }}>{response}</Text>
+            <View
+              style={{
+                width: useWindowDimensions().width * 0.8,
+                flex: 1,
+                padding: 10,
+              }}
+            >
+              <Text style={{ fontSize: 20 }}>Your Phrase:</Text>
+              <Text style={{ fontSize: 18 }}>{selectedPhrase + "\n"}</Text>
+              <Text style={{ fontSize: 20 }}>Translation:</Text>
+              <Text style={{ fontSize: 18 }}>{translation}</Text>
             </View>
-            <Button mode="contained" onPress={savePhrase}>
-              Save Phrase
-            </Button>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                padding: 8,
+              }}
+            >
+              <Button
+                mode="contained"
+                onPress={hideModal}
+                style={{ width: "49%", marginHorizontal: 5 }}
+                labelStyle={{ marginHorizontal: 0 }}
+              >
+                Back
+              </Button>
+              <Button
+                mode="contained"
+                onPress={savePhrase}
+                style={{ width: "49%", marginHorizontal: 5 }}
+                labelStyle={{ marginHorizontal: 0 }}
+              >
+                Save Phrase
+              </Button>
+            </View>
           </Modal>
         </Portal>
         <View
@@ -156,7 +195,7 @@ const Phrases = ({ navigation }) => {
             <FlatList
               data={phrases}
               renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => showModal(item)}>
+                <TouchableOpacity onPress={() => selectPhrase(item)}>
                   <Text>{item.text}</Text>
                 </TouchableOpacity>
               )}
