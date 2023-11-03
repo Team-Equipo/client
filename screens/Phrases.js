@@ -34,9 +34,18 @@ const Phrases = ({ navigation }) => {
   function handleTopicSelect(item) {
     setSearchedTopic("Topic: " + item.text);
     setPhrases([
-      { text: 'Spanish phrase 1 for topic "' + item.text + '"', id: 1 },
-      { text: 'Spanish phrase 2 for topic "' + item.text + '"', id: 2 },
-      { text: 'Spanish phrase 3 for topic "' + item.text + '"', id: 3 },
+      {
+        id: Date.now(),
+        text: 'Spanish phrase 1 for topic "' + item.text + '"',
+      },
+      {
+        id: Date.now() - 1,
+        text: 'Spanish phrase 2 for topic "' + item.text + '"',
+      },
+      {
+        id: Date.now() - 2,
+        text: 'Spanish phrase 3 for topic "' + item.text + '"',
+      },
     ]);
   }
 
@@ -50,18 +59,18 @@ const Phrases = ({ navigation }) => {
 
   function selectPhrase(item) {
     setSelectedPhrase(item);
-    setSelectedPhraseText(item);
+    setSelectedPhraseText(item.text);
     setTranslation("[Translation of " + item.text + "]");
     showModal();
   }
 
   const savePhrase = async (item) => {
     // empty async storage, "resetting" for new one
-    // try {
-    //   await AsyncStorage.removeItem("saved-phrases");
-    // } catch (e) {
-    //   // remove error
-    // }
+    try {
+      await AsyncStorage.removeItem("saved-phrases");
+    } catch (e) {
+      // remove error
+    }
     try {
       var currentPhrases = JSON.parse(
         await AsyncStorage.getItem("saved-phrases"),
@@ -126,9 +135,7 @@ const Phrases = ({ navigation }) => {
               }}
             >
               <Text style={{ fontSize: 20 }}>Your Phrase:</Text>
-              <Text style={{ fontSize: 18 }}>
-                {selectedPhraseText.text + "\n"}
-              </Text>
+              <Text style={{ fontSize: 18 }}>{selectedPhraseText + "\n"}</Text>
               <Text style={{ fontSize: 20 }}>Translation:</Text>
               <Text style={{ fontSize: 18 }}>{translation}</Text>
             </View>
