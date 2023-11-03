@@ -166,6 +166,16 @@ const Phrases = ({ navigation }) => {
             paddingRight: "0.5%",
           }}
         >
+          <Text
+            style={{
+              color: "gray",
+              fontSize: 10,
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            Tap on a phrase to see its translation or to save
+          </Text>
           <CollapsibleView
             style={[styles.textBox, { backgroundColor: "white" }]}
             title={searchedTopic}
