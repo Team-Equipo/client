@@ -24,6 +24,7 @@ const Translation = ({ navigation }) => {
   const [wordRefURL, setWordRefURL] = React.useState(
     "https://www.wordreference.com/es/en/translation.asp?spen=",
   );
+  const [wordRefLoading, setWordRefLoading] = React.useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -103,8 +104,17 @@ const Translation = ({ navigation }) => {
                 flex: 1,
               }}
             >
+              {wordRefLoading ? (
+                <Text
+                  style={{ width: "100%", textAlign: "center", paddingTop: 5 }}
+                >
+                  Loading...
+                </Text>
+              ) : null}
               <WebView
                 source={{ uri: wordRefURL + selectedWord }}
+                onLoadStart={() => setWordRefLoading(true)}
+                onLoadProgress={() => setWordRefLoading(false)}
                 style={{ borderRadius: 10 }}
               />
             </View>
@@ -163,7 +173,7 @@ const Translation = ({ navigation }) => {
             <Text
               style={[
                 styles.languageLabel,
-                { fontSize: 10, marginTop: 9, marginRight: 15 },
+                { fontSize: 10, marginTop: 10, marginRight: 15 },
               ]}
             >
               Tap on a word to get its dictionary definition
