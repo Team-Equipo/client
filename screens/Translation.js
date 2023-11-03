@@ -8,23 +8,24 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  useWindowDimensions,
 } from "react-native";
-import { Button, withTheme } from "react-native-paper";
+import { Button, withTheme, Modal, Portal } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import HideKeyboard from "../components/HideKeyboard";
+import { WebView } from "react-native-webview";
 
 const Translation = ({ navigation }) => {
   const [textToTranslate, setTextToTranslate] = React.useState("");
   const [translation, setTranslation] = React.useState("");
   const [inputLang, setInputLang] = React.useState("English");
   const [outputLang, setOutputLang] = React.useState("Spanish");
+  const [selectedWord, setSelectedWord] = React.useState("");
+  const [wordRefURL, setWordRefURL] = React.useState(
+    "https://www.wordreference.com/es/en/translation.asp?spen=",
+  );
 
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState("translate");
-  const [modes, setModes] = useState([
-    { label: "Topical", value: "topical" },
-    { label: "Translate", value: "translate" },
-  ]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     handleTranslationText(textToTranslate, inputLang);
@@ -44,7 +45,7 @@ const Translation = ({ navigation }) => {
       if (text == "Hola mundo") {
         setTranslation("Hello world");
       } else {
-        setTranslation("Esto es una respuesta genérica...");
+        setTranslation("This is a generic response...");
       }
     }
   };
@@ -53,21 +54,62 @@ const Translation = ({ navigation }) => {
     if (inputLang == "English") {
       setInputLang("Spanish");
       setOutputLang("English");
+      setWordRefURL(
+        "https://www.wordreference.com/es/translation.asp?tranword=",
+      );
     } else if (inputLang == "Spanish") {
       setInputLang("English");
       setOutputLang("Spanish");
+      setWordRefURL(
+        "https://www.wordreference.com/es/en/translation.asp?spen=",
+      );
     }
     handleTranslationText(textToTranslate);
   };
 
-  const handleSelection = (value) => {
-    setMode(value);
-    navigation.navigate(value);
-  };
+  function showModal(item) {
+    setModalVisible(true);
+  }
+
+  function hideModal() {
+    setModalVisible(false);
+  }
+
+  function selectWord(word) {
+    setSelectedWord(word.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, ""));
+    showModal();
+  }
 
   return (
     <HideKeyboard>
       <SafeAreaView>
+        <Portal>
+          <Modal
+            visible={modalVisible}
+            onDismiss={() => setModalVisible(false)}
+            contentContainerStyle={{
+              backgroundColor: "white",
+              borderRadius: 10,
+              marginTop: "20%",
+              marginBottom: "20%",
+              marginLeft: "10%",
+              marginRight: "10%",
+              alignSelf: "center",
+            }}
+          >
+            <View
+              style={{
+                width: useWindowDimensions().width * 0.8,
+                flex: 1,
+              }}
+            >
+              <WebView
+                source={{ uri: wordRefURL + selectedWord }}
+                style={{ borderRadius: 10 }}
+              />
+            </View>
+          </Modal>
+        </Portal>
         <View
           style={{
             height: "100%",
@@ -125,7 +167,7 @@ const Translation = ({ navigation }) => {
               renderItem={({ item }) => (
                 <TouchableOpacity
                   onPress={() => {
-                    selectPhrase(item);
+                    selectWord(item);
                   }}
                 >
                   <Text>{item + " "}</Text>
