@@ -38,7 +38,11 @@ export default function AppBar({ navigation, route, options, back }) {
     return (
       <Appbar.Header style={{ backgroundColor: theme.colors.primary }}>
         {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-        <Appbar.Content title={title} color="white" />
+        <Appbar.Content
+          title={title}
+          color="white"
+          style={{ alignItems: "center" }}
+        />
       </Appbar.Header>
     );
   }
