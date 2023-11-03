@@ -8,7 +8,13 @@ export default function AppBar({ navigation, route, options, back }) {
 
   if (route.name === "Home") {
     return (
-      <Appbar.Header style={{ backgroundColor: theme.colors.primary }}>
+      <Appbar.Header
+        style={{
+          backgroundColor: theme.colors.primary,
+          marginTop: 5,
+          height: 35,
+        }}
+      >
         <Appbar.Action
           icon="menu"
           size={33}

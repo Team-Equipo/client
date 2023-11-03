@@ -17,5 +17,6 @@ const styles = StyleSheet.create({
     flex: 0,
     backgroundColor: "cornflowerblue",
     marginTop: "-2%",
+    justifyContent: "center",
   },
 });
