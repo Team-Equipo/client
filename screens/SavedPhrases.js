@@ -127,7 +127,6 @@ const SavedPhrases = ({ navigation }) => {
         </Modal>
       </Portal>
       <View style={{ height: "100%" }} paddingRight="0.5%" paddingLeft="0.5%">
-        <Text>Saved Screen</Text>
         <FlatList
           data={phraseData}
           renderItem={({ item }) => (
