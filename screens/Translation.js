@@ -112,6 +112,7 @@ const Translation = ({ navigation }) => {
                 </Text>
               ) : null}
               <WebView
+                originWhitelist={["*"]}
                 source={{ uri: wordRefURL + selectedWord }}
                 onLoadStart={() => setWordRefLoading(true)}
                 onLoadProgress={() => setWordRefLoading(false)}
