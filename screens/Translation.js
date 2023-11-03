@@ -1,6 +1,14 @@
 // Translation.js
 import React, { useEffect, useState } from "react";
-import { Text, TextInput, StyleSheet, View, SafeAreaView } from "react-native";
+import {
+  Text,
+  TextInput,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { Button, withTheme } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import HideKeyboard from "../components/HideKeyboard";
@@ -30,13 +38,13 @@ const Translation = ({ navigation }) => {
       if (text == "Hello world") {
         setTranslation("Hola mundo");
       } else {
-        setTranslation("Sorry, I don't have a translation for that yet.");
+        setTranslation("Esto es una respuesta genérica...");
       }
     } else if (inputLang == "Spanish") {
       if (text == "Hola mundo") {
         setTranslation("Hello world");
       } else {
-        setTranslation("Sorry, I don't have a translation for that yet.");
+        setTranslation("Esto es una respuesta genérica...");
       }
     }
   };
@@ -107,14 +115,24 @@ const Translation = ({ navigation }) => {
             onChangeText={(text) => handleTranslationText(text, inputLang)}
           />
           <Text style={styles.languageLabel}>{outputLang}</Text>
-          <Text
-            style={styles.textBox}
-            multiline
-            maxFontSizeMultiplier={100}
-            outlineColor="lightgray"
-          >
-            {translation}
-          </Text>
+          <View style={styles.textBox} outlineColor="lightgray">
+            <FlatList
+              numColumns={10}
+              columnWrapperStyle={{
+                flexWrap: "wrap",
+              }}
+              data={translation.split(" ")}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    selectPhrase(item);
+                  }}
+                >
+                  <Text>{item + " "}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
         </View>
       </SafeAreaView>
     </HideKeyboard>
