@@ -144,7 +144,7 @@ const Translation = ({ navigation }) => {
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               zIndex: 2,
             }}
           >
@@ -156,7 +156,19 @@ const Translation = ({ navigation }) => {
             value={textToTranslate}
             onChangeText={(text) => handleTranslationText(text, inputLang)}
           />
-          <Text style={styles.languageLabel}>{outputLang}</Text>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.languageLabel}>{outputLang}</Text>
+            <Text
+              style={[
+                styles.languageLabel,
+                { fontSize: 10, marginTop: 9, marginRight: 15 },
+              ]}
+            >
+              Tap on a word to get its dictionary definition
+            </Text>
+          </View>
           <View style={styles.textBox} outlineColor="lightgray">
             <FlatList
               numColumns={10}
@@ -201,7 +213,6 @@ const styles = StyleSheet.create({
     paddingLeft: "2%",
     fontSize: 20,
     color: "gray",
-    width: "100%",
     textAlign: "left",
   },
 });
