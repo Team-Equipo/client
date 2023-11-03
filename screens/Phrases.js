@@ -65,6 +65,7 @@ const Phrases = ({ navigation }) => {
   }
 
   const savePhrase = async (item) => {
+    hideModal();
     try {
       var currentPhrases = JSON.parse(
         await AsyncStorage.getItem("saved-phrases"),
@@ -88,8 +89,6 @@ const Phrases = ({ navigation }) => {
     } catch (e) {
       console.log("Error", e);
     }
-    setModalVisible(false);
-    console.log(await AsyncStorage.getItem("saved-phrases"));
   };
 
   /* Hardcode a list of topics. */
@@ -110,7 +109,7 @@ const Phrases = ({ navigation }) => {
         <Portal>
           <Modal
             visible={modalVisible}
-            onDismiss={() => setModalVisible(false)}
+            onDismiss={hideModal}
             contentContainerStyle={{
               backgroundColor: "white",
               borderRadius: 10,
