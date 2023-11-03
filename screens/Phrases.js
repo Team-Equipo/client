@@ -65,12 +65,6 @@ const Phrases = ({ navigation }) => {
   }
 
   const savePhrase = async (item) => {
-    // empty async storage, "resetting" for new one
-    try {
-      await AsyncStorage.removeItem("saved-phrases");
-    } catch (e) {
-      // remove error
-    }
     try {
       var currentPhrases = JSON.parse(
         await AsyncStorage.getItem("saved-phrases"),
@@ -113,7 +107,7 @@ const Phrases = ({ navigation }) => {
   return (
     <HideKeyboard>
       <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
-        <Portal style={{}}>
+        <Portal>
           <Modal
             visible={modalVisible}
             onDismiss={() => setModalVisible(false)}
