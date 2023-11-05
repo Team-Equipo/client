@@ -15,6 +15,8 @@ import TripInfo from "./screens/TripInfo";
 import Translation from "./screens/Translation";
 import Phrases from "./screens/Phrases";
 
+import Phrase from "./screens/Phrase";
+
 const Stack = createNativeStackNavigator();
 
 export default function App({ navigation }) {
@@ -101,7 +103,7 @@ export default function App({ navigation }) {
 
   return (
     <PaperProvider theme={{ version: 3 }}>
-      <AuthContext.Provider value={authContext}>
+      {/* <AuthContext.Provider value={authContext}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <NavigationContainer>
           <Stack.Navigator
@@ -152,7 +154,8 @@ export default function App({ navigation }) {
             )}
           </Stack.Navigator>
         </NavigationContainer>
-      </AuthContext.Provider>
+      </AuthContext.Provider> */}
+      <Phrase />
     </PaperProvider>
   );
 }
