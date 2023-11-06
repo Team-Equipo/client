@@ -1,10 +1,11 @@
+import { LinearGradient } from "expo-linear-gradient";
 import * as React from "react";
 import { View } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
-import { signinStyles } from "../styles/globalStyles";
+import { signinStyles, signinTheme } from "../styles/globalStyles";
 
 export default function SignInScreen() {
   const [username, setUsername] = React.useState("");
@@ -14,35 +15,58 @@ export default function SignInScreen() {
   const { signUp } = React.useContext(AuthContext);
 
   return (
-    <HideKeyboard>
-      <View style={signinStyles.container}>
-        <View style={signinStyles.textInput}>
-          <TextInput
-            mode="outlined"
-            label="Username"
-            value={username}
-            onChangeText={setUsername}
-          />
-          <TextInput
-            mode="outlined"
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-        </View>
-        <View style={signinStyles.button}>
-          <Button
-            mode="contained"
-            onPress={() => signIn({ username, password })}
-          >
-            Sign in
-          </Button>
-          <Button mode="contained" onPress={() => signUp()}>
-            Register
-          </Button>
-        </View>
-      </View>
-    </HideKeyboard>
+    <PaperProvider theme={signinTheme}>
+      <HideKeyboard>
+        <LinearGradient
+          colors={["#0014FF", "#00A9FF", "#A0E9FF", "#FFFFFF"]}
+          locations={[0.01, 0.2, 0.5]}
+        >
+          <View style={signinStyles.totalWrapper}>
+            <View style={signinStyles.container}>
+              <View style={signinStyles.textInputWrapper}>
+                <Text style={signinStyles.descText}>Username</Text>
+                <TextInput
+                  mode="outlined"
+                  label="Enter Username"
+                  value={username}
+                  onChangeText={setUsername}
+                  style={signinStyles.textInput}
+                  outlineStyle={{ borderRadius: 24 }}
+                />
+                <Text style={signinStyles.descText}>Password</Text>
+                <TextInput
+                  mode="outlined"
+                  label="Enter Password"
+                  value={password}
+                  onChangeText={setPassword}
+                  style={signinStyles.textInput}
+                  outlineStyle={{ borderRadius: 24 }}
+                  secureTextEntry
+                />
+              </View>
+              <View style={signinStyles.button}>
+                <Button
+                  mode="elevated"
+                  onPress={() => signIn({ username, password })}
+                  textColor="white"
+                  labelStyle={{ fontWeight: "bold" }}
+                >
+                  Sign in
+                </Button>
+                <Text style={signinStyles.divText}>- OR -</Text>
+                <Button
+                  mode="elevated"
+                  onPress={() => signUp()}
+                  textColor="white"
+                  labelStyle={{ fontWeight: "bold" }}
+                >
+                  Register
+                </Button>
+              </View>
+            </View>
+          </View>
+        </LinearGradient>
+      </HideKeyboard>
+    </PaperProvider>
   );
 }

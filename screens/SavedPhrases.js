@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import {
   FlatList,
   TouchableOpacity,
-  StyleSheet,
   View,
   SafeAreaView,
   useWindowDimensions,
