@@ -6,14 +6,12 @@ import { PaperProvider } from "react-native-paper";
 import AppBar from "./components/AppBar";
 import { AuthContext } from "./contexts/AuthContext";
 import HomeScreen from "./screens/HomeScreen";
+import Phrases from "./screens/Phrases";
 import SignInScreen from "./screens/SignInScreen";
 import SplashScreen from "./screens/SplashScreen";
-
-import UserInfo from "./screens/UserInfo";
-import TripInfo from "./screens/TripInfo";
-
 import Translation from "./screens/Translation";
-import Phrases from "./screens/Phrases";
+import TripInfo from "./screens/TripInfo";
+import UserInfo from "./screens/UserInfo";
 
 const Stack = createNativeStackNavigator();
 

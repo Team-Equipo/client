@@ -1,9 +1,10 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
+import { signinStyles } from "../styles/globalStyles";
 
 export default function SignInScreen() {
   const [username, setUsername] = React.useState("");
@@ -14,8 +15,8 @@ export default function SignInScreen() {
 
   return (
     <HideKeyboard>
-      <View style={styles.container}>
-        <View style={styles.textInput}>
+      <View style={signinStyles.container}>
+        <View style={signinStyles.textInput}>
           <TextInput
             mode="outlined"
             label="Username"
@@ -30,7 +31,7 @@ export default function SignInScreen() {
             secureTextEntry
           />
         </View>
-        <View style={styles.button}>
+        <View style={signinStyles.button}>
           <Button
             mode="contained"
             onPress={() => signIn({ username, password })}
@@ -45,22 +46,3 @@ export default function SignInScreen() {
     </HideKeyboard>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 10,
-    flex: 1,
-    alignItems: "center",
-  },
-  textInput: {
-    width: "80%",
-    display: "flex",
-    gap: 5,
-  },
-  button: {
-    marginTop: 10,
-    width: "80%",
-    display: "flex",
-    gap: 10,
-  },
-});

@@ -1,4 +1,6 @@
 // Phrases.js
+import CollapsibleView from "@eliav2/react-native-collapsible-view";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
 import {
   TextInput,
@@ -18,10 +20,9 @@ import {
   withTheme,
   useTheme,
 } from "react-native-paper";
-import CollapsibleView from "@eliav2/react-native-collapsible-view";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HideKeyboard from "../components/HideKeyboard";
+import { phraseStyles } from "../styles/globalStyles";
 
 const Phrases = ({ navigation }) => {
   const [searchedTopic, setSearchedTopic] = useState("Select a topic...");
@@ -177,7 +178,7 @@ const Phrases = ({ navigation }) => {
             Tap on a phrase to see its translation or to save
           </Text>
           <CollapsibleView
-            style={[styles.textBox, { backgroundColor: "white" }]}
+            style={[phraseStyles.textBox, { backgroundColor: "white" }]}
             title={searchedTopic}
             titleStyle={{ alignItems: "flex-start" }}
             noArrow={true}
@@ -221,7 +222,12 @@ const Phrases = ({ navigation }) => {
               </View>
             </TouchableWithoutFeedback>
           </CollapsibleView>
-          <View style={[styles.textBox, { flex: 1, backgroundColor: "white" }]}>
+          <View
+            style={[
+              phraseStyles.textBox,
+              { flex: 1, backgroundColor: "white" },
+            ]}
+          >
             <FlatList
               data={phrases}
               renderItem={({ item }) => (
@@ -236,18 +242,5 @@ const Phrases = ({ navigation }) => {
     </HideKeyboard>
   );
 };
-
-const styles = StyleSheet.create({
-  textBox: {
-    borderWidth: 1,
-    borderColor: "lightgray",
-    borderRadius: 10,
-    padding: "1%",
-    marginLeft: "1%",
-    marginRight: "1%",
-    marginBottom: "1%",
-    fontSize: 16,
-  },
-});
 
 export default withTheme(Phrases);

@@ -1,4 +1,5 @@
 // SavedPhrases.js
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
 import {
   FlatList,
@@ -9,7 +10,6 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { Button, withTheme, Text, Modal, Portal } from "react-native-paper";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SavedPhrases = ({ navigation }) => {
   const [phraseData, setPhraseData] = useState([]);
