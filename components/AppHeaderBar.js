@@ -1,22 +1,21 @@
-import { Appbar } from "react-native-paper";
-import { StyleSheet } from "react-native";
 import { getHeaderTitle } from "@react-navigation/elements";
+import { Appbar, PaperProvider } from "react-native-paper";
+
+import { appHeaderBarStyles, signinTheme } from "../styles/globalStyles";
 
 export default function RegistrationBar({ navigation, route, options, back }) {
   const title = getHeaderTitle(options, route.name);
   return (
-    <Appbar.Header style={styles.appbar}>
-      {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-      <Appbar.Content title={title} color="white" titleStyle={styles.title} />
-    </Appbar.Header>
+    <PaperProvider theme={signinTheme}>
+      <Appbar.Header style={appHeaderBarStyles.appbar}>
+        {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+        <Appbar.Content
+          title={title}
+          color="white"
+          titleStyle={appHeaderBarStyles.title}
+          theme={signinTheme}
+        />
+      </Appbar.Header>
+    </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  appbar: {
-    flex: 0,
-    backgroundColor: "cornflowerblue",
-    marginTop: "-2%",
-    justifyContent: "center",
-  },
-});

@@ -1,9 +1,11 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import React, { useState } from "react";
-import Translation from "./Translation";
+import { Button, withTheme, useTheme, Text } from "react-native-paper";
+
 import Phrases from "./Phrases";
 import SavedPhrases from "./SavedPhrases";
-import { Button, withTheme, useTheme, Text } from "react-native-paper";
+import Translation from "./Translation";
+import { signinTheme } from "../styles/globalStyles";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,7 +21,7 @@ const HomeScreen = ({ navigation, route, options, back }) => {
         },
         tabBarStyle: {
           marginTop: -10,
-          backgroundColor: theme.colors.primary,
+          backgroundColor: signinTheme.colors.primary,
         },
         tabBarIndicatorStyle: {
           backgroundColor: "darkblue",
@@ -40,7 +42,7 @@ const HomeScreen = ({ navigation, route, options, back }) => {
         options={{ tabBarLabel: "Translation" }}
       />
       <Tab.Screen
-        name={"SavedPhrases"}
+        name="SavedPhrases"
         component={SavedPhrases}
         options={{ tabBarLabel: "Saved" }}
       />

@@ -1,16 +1,17 @@
 import { getHeaderTitle } from "@react-navigation/elements";
 import * as React from "react";
-import { Appbar, useTheme } from "react-native-paper";
+import { Appbar, PaperProvider } from "react-native-paper";
+
+import { signinTheme } from "../styles/globalStyles";
 
 export default function AppBar({ navigation, route, options, back }) {
   const title = getHeaderTitle(options, route.name);
-  const theme = useTheme();
 
   if (route.name === "Home") {
     return (
       <Appbar.Header
         style={{
-          backgroundColor: theme.colors.primary,
+          backgroundColor: signinTheme.colors.primary,
           marginTop: 5,
           height: 35,
         }}
@@ -34,16 +35,20 @@ export default function AppBar({ navigation, route, options, back }) {
         />
       </Appbar.Header>
     );
+  } else if (route.name === "SignIn") {
+    return null; // hide the header
   } else {
     return (
-      <Appbar.Header style={{ backgroundColor: theme.colors.primary }}>
-        {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-        <Appbar.Content
-          title={title}
-          color="white"
-          style={{ alignItems: "center" }}
-        />
-      </Appbar.Header>
+      <PaperProvider theme={signinTheme}>
+        <Appbar.Header>
+          {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+          <Appbar.Content
+            title={title}
+            color="white"
+            style={{ alignItems: "center" }}
+          />
+        </Appbar.Header>
+      </PaperProvider>
     );
   }
 }
