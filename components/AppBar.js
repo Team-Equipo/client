@@ -1,12 +1,11 @@
 import { getHeaderTitle } from "@react-navigation/elements";
 import * as React from "react";
-import { Appbar, useTheme, PaperProvider } from "react-native-paper";
+import { Appbar, PaperProvider } from "react-native-paper";
 
 import { signinTheme } from "../styles/globalStyles";
 
 export default function AppBar({ navigation, route, options, back }) {
   const title = getHeaderTitle(options, route.name);
-  const theme = useTheme();
 
   if (route.name === "Home") {
     return (

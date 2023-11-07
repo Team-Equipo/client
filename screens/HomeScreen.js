@@ -5,6 +5,7 @@ import { Button, withTheme, useTheme, Text } from "react-native-paper";
 import Phrases from "./Phrases";
 import SavedPhrases from "./SavedPhrases";
 import Translation from "./Translation";
+import { signinTheme } from "../styles/globalStyles";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,7 +21,7 @@ const HomeScreen = ({ navigation, route, options, back }) => {
         },
         tabBarStyle: {
           marginTop: -10,
-          backgroundColor: theme.colors.primary,
+          backgroundColor: signinTheme.colors.primary,
         },
         tabBarIndicatorStyle: {
           backgroundColor: "darkblue",

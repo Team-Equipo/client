@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import * as React from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
@@ -18,25 +18,31 @@ export default function SignInScreen() {
     <PaperProvider theme={signinTheme}>
       <HideKeyboard>
         <LinearGradient
-          colors={["#0014FF", "#00A9FF", "#A0E9FF", "#FFFFFF"]}
-          locations={[0.01, 0.2, 0.5]}
+          // colors={["#0014FF", "#00A9FF", "#A0E9FF", "#FFFFFF"]}
+          // locations={[0.01, 0.2, 0.5, 0.7]}
+          colors={["#0014FF", "#A0E9FF", "#FFFFFF"]}
+          locations={[0.01, 0.2, 0.7]}
         >
+          <View style={signinStyles.imageContainer}>
+            <Image
+              source={require("../assets/talking.png")}
+              style={signinStyles.image}
+            />
+          </View>
           <View style={signinStyles.totalWrapper}>
             <View style={signinStyles.container}>
               <View style={signinStyles.textInputWrapper}>
-                <Text style={signinStyles.descText}>Username</Text>
                 <TextInput
                   mode="outlined"
-                  label="Enter Username"
+                  label="Username"
                   value={username}
                   onChangeText={setUsername}
                   style={signinStyles.textInput}
                   outlineStyle={{ borderRadius: 24 }}
                 />
-                <Text style={signinStyles.descText}>Password</Text>
                 <TextInput
                   mode="outlined"
-                  label="Enter Password"
+                  label="Password"
                   value={password}
                   onChangeText={setPassword}
                   style={signinStyles.textInput}

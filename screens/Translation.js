@@ -10,10 +10,18 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { Button, withTheme, Modal, Portal } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
-import HideKeyboard from "../components/HideKeyboard";
+import {
+  Button,
+  withTheme,
+  Modal,
+  Portal,
+  PaperProvider,
+} from "react-native-paper";
 import { WebView } from "react-native-webview";
+
+import HideKeyboard from "../components/HideKeyboard";
+import { translationTheme, translateStyles } from "../styles/globalStyles";
 
 const Translation = ({ navigation }) => {
   const [textToTranslate, setTextToTranslate] = React.useState("");
@@ -83,149 +91,128 @@ const Translation = ({ navigation }) => {
 
   return (
     <HideKeyboard>
-      <SafeAreaView>
-        <Portal>
-          <Modal
-            visible={modalVisible}
-            onDismiss={() => setModalVisible(false)}
-            contentContainerStyle={{
-              backgroundColor: "white",
-              borderRadius: 10,
-              marginTop: "20%",
-              marginBottom: "20%",
-              marginLeft: "10%",
-              marginRight: "10%",
-              alignSelf: "center",
-            }}
-          >
-            <View
-              style={{
-                width: useWindowDimensions().width * 0.8,
-                flex: 1,
-              }}
-            >
-              {wordRefLoading ? (
-                <Text
-                  style={{ width: "100%", textAlign: "center", paddingTop: 5 }}
-                >
-                  Loading...
-                </Text>
-              ) : null}
-              <WebView
-                originWhitelist={["*"]}
-                source={{ uri: wordRefURL + selectedWord }}
-                onLoadStart={() => setWordRefLoading(true)}
-                onLoadProgress={() => setWordRefLoading(false)}
-                style={{ borderRadius: 10 }}
-              />
-            </View>
-          </Modal>
-        </Portal>
-        <View
-          style={{
-            height: "100%",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-          }}
-          rowGap={4}
-          paddingRight={2}
-          paddingLeft={2}
-        >
-          <View
-            style={{
-              paddingTop: 5,
-              marginBottom: -30,
-              zIndex: 3,
-              alignItems: "center",
-              marginLeft: "30%",
-              marginRight: "30%",
-            }}
-          >
-            <Button
-              mode="text"
-              onPress={toggleLang}
-              icon="sync"
-              compact={true}
-              style={{ width: 160, paddingTop: 3 }}
-              contentStyle={{ marginBottom: -5, marginTop: -5 }}
-            >
-              Swap Languages
-            </Button>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              zIndex: 2,
-            }}
-          >
-            <Text style={styles.languageLabel}>{inputLang}</Text>
-          </View>
-          <TextInput
-            style={styles.textBox}
-            multiline
-            value={textToTranslate}
-            onChangeText={(text) => handleTranslationText(text, inputLang)}
-          />
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={styles.languageLabel}>{outputLang}</Text>
-            <Text
-              style={[
-                styles.languageLabel,
-                { fontSize: 10, marginTop: 10, marginRight: 15 },
-              ]}
-            >
-              Tap on a word to get its dictionary definition
-            </Text>
-          </View>
-          <View style={styles.textBox} outlineColor="lightgray">
-            <FlatList
-              numColumns={10}
-              columnWrapperStyle={{
-                flexWrap: "wrap",
-              }}
-              data={translation.split(" ")}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    selectWord(item);
+      <PaperProvider theme={translationTheme}>
+        <View style={translateStyles.background}>
+          <SafeAreaView>
+            <Portal>
+              <Modal
+                visible={modalVisible}
+                onDismiss={() => setModalVisible(false)}
+                contentContainerStyle={translateStyles.modalContainer}
+              >
+                <View
+                  style={{
+                    width: useWindowDimensions().width * 0.8,
+                    flex: 1,
                   }}
                 >
-                  <Text>{item + " "}</Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
+                  {wordRefLoading ? (
+                    <Text
+                      style={{
+                        width: "100%",
+                        textAlign: "center",
+                        paddingTop: 5,
+                      }}
+                    >
+                      Loading...
+                    </Text>
+                  ) : null}
+                  <WebView
+                    originWhitelist={["*"]}
+                    source={{ uri: wordRefURL + selectedWord }}
+                    onLoadStart={() => setWordRefLoading(true)}
+                    onLoadProgress={() => setWordRefLoading(false)}
+                    style={{ borderRadius: 24 }}
+                  />
+                </View>
+              </Modal>
+            </Portal>
+            <View
+              style={{
+                height: "100%",
+                flexDirection: "column",
+                justifyContent: "flex-end",
+              }}
+              rowGap={4}
+              paddingRight={2}
+              paddingLeft={2}
+            >
+              <View
+                style={{
+                  paddingTop: 5,
+                  marginBottom: -30,
+                  zIndex: 3,
+                  alignItems: "center",
+                  marginLeft: "30%",
+                  marginRight: "30%",
+                }}
+              >
+                <Button
+                  mode="text"
+                  onPress={toggleLang}
+                  icon="sync"
+                  compact={true}
+                  style={{ width: 160, paddingTop: 3 }}
+                  contentStyle={{ marginBottom: -5, marginTop: -5 }}
+                >
+                  Swap Languages
+                </Button>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  zIndex: 2,
+                }}
+              >
+                <Text style={translateStyles.languageLabel}>{inputLang}</Text>
+              </View>
+              <TextInput
+                style={translateStyles.textBox}
+                multiline
+                value={textToTranslate}
+                onChangeText={(text) => handleTranslationText(text, inputLang)}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={translateStyles.languageLabel}>{outputLang}</Text>
+                <Text
+                  style={[
+                    translateStyles.languageLabel,
+                    { fontSize: 12, marginTop: 10, marginRight: 15 },
+                  ]}
+                >
+                  Tap on a word to get its dictionary definition
+                </Text>
+              </View>
+              <View style={translateStyles.textBox} outlineColor="lightgray">
+                <FlatList
+                  numColumns={10}
+                  columnWrapperStyle={{
+                    flexWrap: "wrap",
+                  }}
+                  data={translation.split(" ")}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        selectWord(item);
+                      }}
+                    >
+                      <Text>{item + " "}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            </View>
+          </SafeAreaView>
         </View>
-      </SafeAreaView>
+      </PaperProvider>
     </HideKeyboard>
   );
 };
-
-const styles = StyleSheet.create({
-  textBox: {
-    flex: 1,
-    zIndex: 1,
-    textAlignVertical: "top",
-    borderWidth: 1,
-    borderColor: "lightgray",
-    borderRadius: 10,
-    backgroundColor: "white",
-    padding: "1%",
-    marginLeft: "1%",
-    marginRight: "1%",
-    marginBottom: "1%",
-    fontSize: 16,
-  },
-  languageLabel: {
-    paddingTop: "1%",
-    paddingLeft: "2%",
-    fontSize: 20,
-    color: "gray",
-    textAlign: "left",
-  },
-});
 
 export default withTheme(Translation);
