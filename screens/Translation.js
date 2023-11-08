@@ -11,11 +11,12 @@ import {
   useWindowDimensions,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import ElevatedView from "react-native-elevated-view";
 import {
   Button,
   withTheme,
-  Modal,
   Portal,
+  Modal,
   PaperProvider,
 } from "react-native-paper";
 import { WebView } from "react-native-webview";
@@ -102,7 +103,8 @@ const Translation = ({ navigation }) => {
               >
                 <View
                   style={{
-                    width: useWindowDimensions().width * 0.8,
+                    overflow: "hidden",
+                    width: useWindowDimensions().width * 0.9,
                     flex: 1,
                   }}
                 >
@@ -122,7 +124,8 @@ const Translation = ({ navigation }) => {
                     source={{ uri: wordRefURL + selectedWord }}
                     onLoadStart={() => setWordRefLoading(true)}
                     onLoadProgress={() => setWordRefLoading(false)}
-                    style={{ borderRadius: 24 }}
+                    style={{ borderRadius: 15, marginTop: -180 }}
+                    containerStyle={{ borderRadius: 15 }}
                   />
                 </View>
               </Modal>
@@ -167,12 +170,19 @@ const Translation = ({ navigation }) => {
               >
                 <Text style={translateStyles.languageLabel}>{inputLang}</Text>
               </View>
-              <TextInput
-                style={translateStyles.textBox}
-                multiline
-                value={textToTranslate}
-                onChangeText={(text) => handleTranslationText(text, inputLang)}
-              />
+              <ElevatedView style={translateStyles.textBox} elevation={3}>
+                <TextInput
+                  style={{
+                    justifyContent: "flex-start",
+                    textAlignVertical: "top",
+                  }}
+                  multiline
+                  value={textToTranslate}
+                  onChangeText={(text) =>
+                    handleTranslationText(text, inputLang)
+                  }
+                ></TextInput>
+              </ElevatedView>
               <View
                 style={{
                   flexDirection: "row",
@@ -183,13 +193,13 @@ const Translation = ({ navigation }) => {
                 <Text
                   style={[
                     translateStyles.languageLabel,
-                    { fontSize: 12, marginTop: 10, marginRight: 15 },
+                    { fontSize: 12, marginTop: 8, marginRight: 15 },
                   ]}
                 >
-                  Tap on a word to get its dictionary definition
+                  Tap word for dictionary definition
                 </Text>
               </View>
-              <View style={translateStyles.textBox} outlineColor="lightgray">
+              <ElevatedView style={translateStyles.textBox} elevation={3}>
                 <FlatList
                   numColumns={10}
                   columnWrapperStyle={{
@@ -206,7 +216,7 @@ const Translation = ({ navigation }) => {
                     </TouchableOpacity>
                   )}
                 />
-              </View>
+              </ElevatedView>
             </View>
           </SafeAreaView>
         </View>
