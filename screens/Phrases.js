@@ -17,6 +17,7 @@ import {
   Modal,
   Portal,
   Button,
+  Chip,
   withTheme,
   useTheme,
   PaperProvider,
@@ -200,7 +201,7 @@ const Phrases = ({ navigation }) => {
                       }}
                       data={topics}
                       renderItem={({ item }) => (
-                        <Button
+                        <Chip
                           style={phraseStyles.topicBox}
                           onPress={() => handleTopicSelect(item)}
                           mode="elevated"
@@ -216,7 +217,7 @@ const Phrases = ({ navigation }) => {
                           }}
                         >
                           {item.text}
-                        </Button>
+                        </Chip>
                       )}
                     />
                   </View>

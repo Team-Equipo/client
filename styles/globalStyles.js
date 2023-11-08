@@ -25,11 +25,8 @@ export const phraseStyles = StyleSheet.create({
     backgroundColor: "white",
   },
   topicBox: {
-    marginHorizontal: 5,
-    marginVertical: 5,
-    borderRadius: 10,
-    paddingVertical: 3,
-    paddingHorizontal: 1,
+    marginHorizontal: 2,
+    marginVertical: 2,
   },
   modalStyle: {
     backgroundColor: "white",
