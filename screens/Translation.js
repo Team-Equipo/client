@@ -11,7 +11,6 @@ import {
   useWindowDimensions,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import ElevatedView from "react-native-elevated-view";
 import {
   IconButton,
   Button,
@@ -23,7 +22,11 @@ import {
 import { WebView } from "react-native-webview";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { translationTheme, translateStyles } from "../styles/globalStyles";
+import {
+  translationTheme,
+  shadows,
+  translateStyles,
+} from "../styles/globalStyles";
 
 const Translation = ({ navigation }) => {
   const [textToTranslate, setTextToTranslate] = React.useState("");
@@ -170,7 +173,7 @@ const Translation = ({ navigation }) => {
               >
                 <Text style={translateStyles.languageLabel}>{inputLang}</Text>
               </View>
-              <ElevatedView style={translateStyles.textBox} elevation={3}>
+              <View style={{ ...shadows.shadow4, ...translateStyles.textBox }}>
                 <TextInput
                   style={{
                     justifyContent: "flex-start",
@@ -187,7 +190,7 @@ const Translation = ({ navigation }) => {
                     handleTranslationText(text, inputLang)
                   }
                 />
-              </ElevatedView>
+              </View>
               <View
                 style={{
                   flexDirection: "row",
@@ -204,7 +207,10 @@ const Translation = ({ navigation }) => {
                   Tap word for dictionary definition
                 </Text>
               </View>
-              <ElevatedView style={translateStyles.textBox} elevation={3}>
+              <View
+                style={{ ...shadows.shadow4, ...translateStyles.textBox }}
+                elevation={3}
+              >
                 <FlatList
                   numColumns={10}
                   columnWrapperStyle={{
@@ -221,7 +227,7 @@ const Translation = ({ navigation }) => {
                     </TouchableOpacity>
                   )}
                 />
-              </ElevatedView>
+              </View>
             </View>
           </SafeAreaView>
         </View>

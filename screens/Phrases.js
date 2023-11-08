@@ -23,7 +23,6 @@ import {
   PaperProvider,
 } from "react-native-paper";
 
-import ElevatedView from "react-native-elevated-view";
 import HideKeyboard from "../components/HideKeyboard";
 import { phraseStyles, shadows, phraseTheme } from "../styles/globalStyles";
 
@@ -33,9 +32,11 @@ const Phrases = ({ navigation }) => {
   const [selectedPhrase, setSelectedPhrase] = useState();
   const [selectedPhraseText, setSelectedPhraseText] = useState("");
   const [translation, setTranslation] = useState("");
+  const [topicsExpanded, setTopicsExpanded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   function handleTopicSelect(item) {
+    setTopicsExpanded(false);
     setSearchedTopic("Topic: " + item.text);
     setPhrases([
       {
@@ -59,6 +60,10 @@ const Phrases = ({ navigation }) => {
 
   function hideModal() {
     setModalVisible(false);
+  }
+
+  function toggleTopicsExpanded() {
+    topicsExpanded == true ? setTopicsExpanded(false) : setTopicsExpanded(true);
   }
 
   function selectPhrase(item) {
@@ -180,18 +185,34 @@ const Phrases = ({ navigation }) => {
                 Tap on a phrase to see its translation or to save
               </Text>
               <CollapsibleView
+                expanded={topicsExpanded}
                 style={{
-                  ...phraseStyles.textBox,
-                  ...shadows.shadow4,
                   padding: 0,
                   zIndex: 1,
-                  elevation: 4,
+                  borderColor: "transparent",
+                  //  alignItems: "flex-center"
                 }}
-                title={searchedTopic}
+                title={
+                  <Chip
+                    style={phraseStyles.topicBox}
+                    onPress={() => toggleTopicsExpanded()}
+                    mode="elevated"
+                    textColor="gray"
+                    contentStyle={{
+                      marginBottom: -7,
+                      marginTop: -7,
+                      marginLeft: -3,
+                      marginRight: -3,
+                    }}
+                    labelStyle={{
+                      fontSize: 14,
+                    }}
+                  >
+                    {searchedTopic}
+                  </Chip>
+                }
                 titleStyle={{
                   alignItems: "flex-start",
-                  fontSize: 20,
-                  padding: 4,
                 }}
                 noArrow={true}
                 activeOpacityFeedback={1}
