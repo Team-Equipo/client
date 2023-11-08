@@ -1,70 +1,90 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
-import { Button, Text, Card } from "react-native-paper";
+import { StyleSheet, View, SafeAreaView, Text } from "react-native";
 import { useState, useEffect } from "react";
 
-import { createClient } from "pexels";
-const client = createClient(
-  "vVKj2y1hBaXj3Rm1fR1iwXyrl7xTxfcqU28QFSRQDFkWWvXBXTnaII48",
-);
+import PhraseCard from "../components/PhraseCard";
 
-async function searchPexels(query, perPage) {
-  const result = await client.photos.search({ query, per_page: perPage });
-  const randomIndex = Math.floor(Math.random() * result.photos.length);
-  return result.photos[randomIndex].src.original;
-}
+const USER = 1;
 
 export default function Phrase() {
-  const [isToggled, setIsToggled] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [generatedPhrases, setGeneratedPhrases] = useState([]);
 
-  const toggleText = () => {
-    setIsToggled(!isToggled);
+  const fetchGeneratedPhrases = async () => {
+    try {
+      const response = await fetch(
+        `https://lingucidity.azurewebsites.net/user/${USER}/phrase`,
+      );
+      const json = await response.json();
+      setGeneratedPhrases(json);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchPhrase = async (userID, phraseID, index) => {
+    try {
+      const response = await fetch(
+        `https://lingucidity.azurewebsites.net/user/${userID}/phrase/${phraseID}`,
+      );
+      const json = await response.json();
+      const updatedPhrases = [...generatedPhrases];
+      updatedPhrases[index] = json;
+      setGeneratedPhrases(updatedPhrases);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateGeneratedPhrase = async (userID, phraseID) => {
+    const updatedPhrases = [...generatedPhrases];
+    const index = updatedPhrases.findIndex(
+      (phrase) => phrase.generated_phrases_id === phraseID,
+    );
+    updatedPhrases[index].isloading = true;
+    setGeneratedPhrases(updatedPhrases);
+
+    const data = {
+      user_id: userID,
+      phrase_id: phraseID,
+    };
+
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch("https://llama.kenarnold.org/update_phrase", options)
+      .then(() => fetchPhrase(userID, phraseID, index))
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
-    async function getImageUrl() {
-      const url = await searchPexels("public bathroom", 1);
-      setImageUrl(url);
-      setIsLoading(false);
-    }
-    getImageUrl();
+    fetchGeneratedPhrases();
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Card>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <Card.Cover source={{ uri: imageUrl }} />
-        )}
-        <Card.Title title="Public facilities" />
-        <Card.Content>
-          <TouchableOpacity onPress={toggleText}>
-            <Text variant="bodyLarge">
-              {isToggled ? "Where is the bathroom?" : "¿Dónde está el baño?"}
-            </Text>
-          </TouchableOpacity>
-        </Card.Content>
-        <Card.Actions>
-          <Button>Save</Button>
-        </Card.Actions>
-      </Card>
-    </View>
+    <SafeAreaView style={styles.container}>
+      {generatedPhrases.map((phrase, index) => (
+        <PhraseCard
+          key={index}
+          phrase={phrase}
+          isLoading={isLoading}
+          updateGeneratedPhrase={updateGeneratedPhrase}
+        />
+      ))}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
   },
 });
