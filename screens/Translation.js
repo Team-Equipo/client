@@ -13,6 +13,7 @@ import {
 import DropDownPicker from "react-native-dropdown-picker";
 import ElevatedView from "react-native-elevated-view";
 import {
+  IconButton,
   Button,
   withTheme,
   Portal,
@@ -142,30 +143,29 @@ const Translation = ({ navigation }) => {
             >
               <View
                 style={{
-                  paddingTop: 5,
-                  marginBottom: -30,
+                  marginBottom: -43,
+                  marginRight: 10,
                   zIndex: 3,
-                  alignItems: "center",
-                  marginLeft: "30%",
-                  marginRight: "30%",
+                  alignItems: "flex-end",
+                  // marginLeft: "30%",
+                  // marginRight: "30%",
                 }}
               >
-                <Button
-                  mode="text"
+                <IconButton
                   onPress={toggleLang}
-                  icon="sync"
-                  compact={true}
-                  style={{ width: 160, paddingTop: 3 }}
-                  contentStyle={{ marginBottom: -5, marginTop: -5 }}
-                >
-                  Swap Languages
-                </Button>
+                  icon="swap-vertical"
+                  iconColor="gray"
+                  // compact={true}
+                  style={{ width: 25, height: 30, marginTop: 4 }}
+                  // labelStyle={{fontSize: 30, color: "gray", fontWeight: "normal"}}
+                ></IconButton>
               </View>
               <View
                 style={{
                   flexDirection: "row",
                   justifyContent: "flex-start",
                   zIndex: 2,
+                  //marginTop: 15,
                 }}
               >
                 <Text style={translateStyles.languageLabel}>{inputLang}</Text>
@@ -175,13 +175,18 @@ const Translation = ({ navigation }) => {
                   style={{
                     justifyContent: "flex-start",
                     textAlignVertical: "top",
+                    paddingTop: 0,
+                    height: "100%",
+                    fontSize: 20,
+                    //backgroundColor: "blue",
+                    marginTop: 0,
                   }}
                   multiline
                   value={textToTranslate}
                   onChangeText={(text) =>
                     handleTranslationText(text, inputLang)
                   }
-                ></TextInput>
+                />
               </ElevatedView>
               <View
                 style={{
@@ -212,7 +217,7 @@ const Translation = ({ navigation }) => {
                         selectWord(item);
                       }}
                     >
-                      <Text>{item + " "}</Text>
+                      <Text style={{ fontSize: 20 }}>{item + " "}</Text>
                     </TouchableOpacity>
                   )}
                 />
