@@ -29,6 +29,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.72.5",
     "react-native-cli": "^2.0.1",
+    "react-native-collapse-view": "^1.0.0",
     "react-native-collapsible": "^1.6.1",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-elevated-view": "^0.0.6",

@@ -23,8 +23,9 @@ import {
   PaperProvider,
 } from "react-native-paper";
 
+import ElevatedView from "react-native-elevated-view";
 import HideKeyboard from "../components/HideKeyboard";
-import { phraseStyles, phraseTheme } from "../styles/globalStyles";
+import { phraseStyles, shadows, phraseTheme } from "../styles/globalStyles";
 
 const Phrases = ({ navigation }) => {
   const [searchedTopic, setSearchedTopic] = useState("Select a topic...");
@@ -179,10 +180,30 @@ const Phrases = ({ navigation }) => {
                 Tap on a phrase to see its translation or to save
               </Text>
               <CollapsibleView
-                style={[phraseStyles.textBox]}
+                style={{
+                  ...phraseStyles.textBox,
+                  ...shadows.shadow4,
+                  padding: 0,
+                  zIndex: 1,
+                  elevation: 4,
+                }}
                 title={searchedTopic}
-                titleStyle={{ alignItems: "flex-start", fontSize: 20 }}
+                titleStyle={{
+                  alignItems: "flex-start",
+                  fontSize: 20,
+                  padding: 4,
+                }}
                 noArrow={true}
+                activeOpacityFeedback={1}
+                collapsibleContainerStyle={{
+                  ...shadows.shadow4,
+                  width: "100%",
+                  marginTop: 5,
+                  borderRadius: 15,
+                  backgroundColor: "white",
+                  position: "absolute",
+                  top: "100%",
+                }}
               >
                 <TouchableWithoutFeedback
                   style={{
@@ -192,38 +213,39 @@ const Phrases = ({ navigation }) => {
                     zIndex: 10,
                   }}
                 >
-                  <View>
-                    <FlatList
-                      numColumns={10}
-                      columnWrapperStyle={{
-                        flexWrap: "wrap",
-                        justifyContent: "center",
-                      }}
-                      data={topics}
-                      renderItem={({ item }) => (
-                        <Chip
-                          style={phraseStyles.topicBox}
-                          onPress={() => handleTopicSelect(item)}
-                          mode="elevated"
-                          textColor="gray"
-                          contentStyle={{
-                            marginBottom: -7,
-                            marginTop: -7,
-                            marginLeft: -3,
-                            marginRight: -3,
-                          }}
-                          labelStyle={{
-                            fontSize: 14,
-                          }}
-                        >
-                          {item.text}
-                        </Chip>
-                      )}
-                    />
-                  </View>
+                  <FlatList
+                    style={{ padding: 3 }}
+                    numColumns={10}
+                    columnWrapperStyle={{
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                    }}
+                    data={topics}
+                    renderItem={({ item }) => (
+                      <Chip
+                        style={phraseStyles.topicBox}
+                        onPress={() => handleTopicSelect(item)}
+                        mode="elevated"
+                        textColor="gray"
+                        contentStyle={{
+                          marginBottom: -7,
+                          marginTop: -7,
+                          marginLeft: -3,
+                          marginRight: -3,
+                        }}
+                        labelStyle={{
+                          fontSize: 14,
+                        }}
+                      >
+                        {item.text}
+                      </Chip>
+                    )}
+                  />
                 </TouchableWithoutFeedback>
               </CollapsibleView>
-              <View style={phraseStyles.genPhraseBox}>
+              <View
+                style={{ ...shadows.shadow4, ...phraseStyles.genPhraseBox }}
+              >
                 <FlatList
                   data={phrases}
                   renderItem={({ item }) => (

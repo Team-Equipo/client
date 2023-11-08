@@ -20,7 +20,7 @@ export const phraseStyles = StyleSheet.create({
     borderRadius: 15,
     padding: "2%",
     marginHorizontal: "2%",
-    marginBottom: "2%",
+    marginBottom: 5,
     fontSize: 18,
     backgroundColor: "white",
   },
@@ -181,6 +181,18 @@ export const savedPhrases = StyleSheet.create({
     marginHorizontal: "1.5%",
     marginVertical: "1.25%",
     borderRadius: 20,
+  },
+});
+
+export const shadows = StyleSheet.create({
+  shadow4: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    elevation: 4,
   },
 });
 
