@@ -169,21 +169,8 @@ const Phrases = ({ navigation }) => {
             <View
               style={{
                 flex: 1,
-                paddingTop: "1%",
-                paddingLeft: "0.5%",
-                paddingRight: "0.5%",
               }}
             >
-              <Text
-                style={{
-                  color: "gray",
-                  fontSize: 12,
-                  width: "100%",
-                  textAlign: "center",
-                }}
-              >
-                Tap on a phrase to see its translation or to save
-              </Text>
               <CollapsibleView
                 expanded={topicsExpanded}
                 style={{
