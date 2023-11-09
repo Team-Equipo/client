@@ -153,6 +153,7 @@ export default function App({ navigation }) {
           </Stack.Navigator>
         </NavigationContainer>
       </AuthContext.Provider> */}
+      {/* <SignInScreen /> */}
       <Phrase />
     </PaperProvider>
   );

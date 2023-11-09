@@ -72,10 +72,13 @@ export const signinStyles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 196,
-    height: 196,
+    width: 240,
+    height: 364,
+    transform: [{ translateY: -25 }],
+    transform: [{ scale: 0.9 }],
     marginTop: 100,
-    marginBottom: 32,
+    justifyContent: "center",
+    // marginBottom: 32,
     alignSelf: "center",
   },
   imageContainer: {
@@ -95,13 +98,28 @@ export const signinStyles = StyleSheet.create({
   },
   textInput: {
     display: "flex",
-    marginBottom: 20,
+    marginBottom: 10,
+    backgroundColor: "#F5F7F8",
   },
-  button: {
-    marginTop: 10,
+  buttonWrapper: {
     width: "80%",
     display: "flex",
     gap: 10,
+    alignItems: "center",
+  },
+  button: {
+    borderRadius: 10,
+    marginTop: 10,
+    width: "88%",
+    display: "flex",
+    paddingVertical: 5,
+  },
+  signupText: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   divText: {
     textAlign: "center",
@@ -116,9 +134,6 @@ export const signinStyles = StyleSheet.create({
     alignSelf: "center",
     // backgroundColor: "#CDF5FD",
     backgroundColor: "white",
-    paddingBottom: "80%",
-    paddingTop: "8%",
-    borderRadius: 32,
   },
 });
 
@@ -199,7 +214,7 @@ export const signinTheme = {
   colors: {
     ...DefaultTheme.colors,
     // primary: "#51c3f5",
-    primary: "#5272F2",
+    primary: "#87C4FF",
     // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
@@ -207,7 +222,8 @@ export const signinTheme = {
     outline: "#FFBDD4",
     backgroundColor: "#5272F2",
     elevation: {
-      level1: "#39A7FF",
+      // level1: "#39A7FF",
+      level1: "#3BC4E2",
     },
   },
 };
