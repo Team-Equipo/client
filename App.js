@@ -101,7 +101,7 @@ export default function App({ navigation }) {
 
   return (
     <PaperProvider theme={{ version: 3 }}>
-      {/* <AuthContext.Provider value={authContext}>
+      <AuthContext.Provider value={authContext}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <NavigationContainer>
           <Stack.Navigator
@@ -152,8 +152,7 @@ export default function App({ navigation }) {
             )}
           </Stack.Navigator>
         </NavigationContainer>
-      </AuthContext.Provider> */}
-      <Phrase />
+      </AuthContext.Provider>
     </PaperProvider>
   );
 }

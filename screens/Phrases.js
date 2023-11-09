@@ -26,6 +26,10 @@ import {
 import HideKeyboard from "../components/HideKeyboard";
 import { phraseStyles, shadows, phraseTheme } from "../styles/globalStyles";
 
+import PhraseCard from "../components/PhraseCard";
+
+const USER = 1;
+
 const Phrases = ({ navigation }) => {
   const [searchedTopic, setSearchedTopic] = useState("Select a topic...");
   const [phrases, setPhrases] = useState([]);
@@ -110,12 +114,75 @@ const Phrases = ({ navigation }) => {
     { text: "Pleasantries", id: 6 },
   ];
 
+  // Integrate Phrase Card functionality
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [generatedPhrases, setGeneratedPhrases] = useState([]);
+
+  const fetchGeneratedPhrases = async () => {
+    try {
+      const response = await fetch(
+        `https://lingucidity.azurewebsites.net/user/${USER}/phrase`,
+      );
+      const json = await response.json();
+      setGeneratedPhrases(json);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchPhrase = async (userID, phraseID, index) => {
+    try {
+      const response = await fetch(
+        `https://lingucidity.azurewebsites.net/user/${userID}/phrase/${phraseID}`,
+      );
+      const json = await response.json();
+      const updatedPhrases = [...generatedPhrases];
+      updatedPhrases[index] = json;
+      setGeneratedPhrases(updatedPhrases);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateGeneratedPhrase = async (userID, phraseID) => {
+    const updatedPhrases = [...generatedPhrases];
+    const index = updatedPhrases.findIndex(
+      (phrase) => phrase.generated_phrases_id === phraseID,
+    );
+    updatedPhrases[index].isloading = true;
+    setGeneratedPhrases(updatedPhrases);
+
+    const data = {
+      user_id: userID,
+      phrase_id: phraseID,
+    };
+
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch("https://llama.kenarnold.org/update_phrase", options)
+      .then(() => fetchPhrase(userID, phraseID, index))
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    fetchGeneratedPhrases();
+  }, []);
+
   return (
     <HideKeyboard>
       <PaperProvider theme={phraseTheme}>
         <View style={phraseStyles.background}>
           <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
-            <Portal>
+            {/* <Portal>
               <Modal
                 visible={modalVisible}
                 onDismiss={hideModal}
@@ -165,7 +232,7 @@ const Phrases = ({ navigation }) => {
                   </Button>
                 </View>
               </Modal>
-            </Portal>
+            </Portal> */}
             <View
               style={{
                 flex: 1,
@@ -251,7 +318,18 @@ const Phrases = ({ navigation }) => {
                   />
                 </TouchableWithoutFeedback>
               </CollapsibleView>
-              <View
+              <View style={{ alignItems: "center", rowGap: 8 }}>
+                {generatedPhrases.map((phrase, index) => (
+                  <PhraseCard
+                    key={index}
+                    phrase={phrase}
+                    isLoading={isLoading}
+                    updateGeneratedPhrase={updateGeneratedPhrase}
+                  />
+                ))}
+              </View>
+
+              {/* <View
                 style={{ ...shadows.shadow4, ...phraseStyles.genPhraseBox }}
               >
                 <FlatList
@@ -262,7 +340,7 @@ const Phrases = ({ navigation }) => {
                     </TouchableOpacity>
                   )}
                 />
-              </View>
+              </View> */}
             </View>
           </SafeAreaView>
         </View>
