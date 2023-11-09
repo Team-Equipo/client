@@ -32,12 +32,11 @@ export default function SignInScreen() {
             colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
             locations={[0.01, 0.2, 0.7]}
           >
-            <View style={signinStyles.imageContainer}>
-              <Image
-                source={require("../assets/girl1.png")}
-                style={signinStyles.image}
-              />
-            </View>
+            <Image
+              source={require("../assets/girl1.png")}
+              style={signinStyles.image}
+              resizeMode="contain"
+            />
             <View style={signinStyles.totalWrapper}>
               <View style={signinStyles.container}>
                 <View style={signinStyles.textInputWrapper}>

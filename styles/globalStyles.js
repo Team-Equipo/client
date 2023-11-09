@@ -72,25 +72,18 @@ export const signinStyles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 240,
-    height: 364,
-    transform: [{ translateY: -25 }],
-    transform: [{ scale: 0.9 }],
-    marginTop: 100,
-    justifyContent: "center",
+    display: "flex",
+    // flex: 1,
+    // width: 240,
+    // height: 364,
+    width: "65%",
+    height: "45%",
+    // transform: [{ translateY: -25 }],
+    // transform: [{ scale: 0.8 }],
+    marginTop: "30%",
+    marginBottom: "2%",
     // marginBottom: 32,
     alignSelf: "center",
-  },
-  imageContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    // backgroundColor: "white",
-    // marginHorizontal: 15,
-    // marginTop: 10,
-    // padding: 10,
-    // borderRadius: 32,
   },
   textInputWrapper: {
     width: "80%",
@@ -124,7 +117,7 @@ export const signinStyles = StyleSheet.create({
   divText: {
     textAlign: "center",
     color: "gray",
-    margin: 10,
+    margin: 3,
   },
   totalWrapper: {
     display: "flex",
@@ -134,6 +127,7 @@ export const signinStyles = StyleSheet.create({
     alignSelf: "center",
     // backgroundColor: "#CDF5FD",
     backgroundColor: "white",
+    width: "85%",
   },
 });
 
