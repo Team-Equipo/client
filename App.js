@@ -70,7 +70,9 @@ export default function App({ navigation }) {
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({ type: "RESTORE_TOKEN", token: userToken });
+      setTimeout(() => {
+        dispatch({ type: "RESTORE_TOKEN", token: userToken });
+      }, 3000);
     };
 
     bootstrapAsync();
@@ -101,60 +103,61 @@ export default function App({ navigation }) {
 
   return (
     <PaperProvider theme={{ version: 3 }}>
-      {/* <AuthContext.Provider value={authContext}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              header: (props) => <AppBar {...props} />,
-            }}
-          >
-            {state.isLoading ? (
-              // We haven't finished checking for the token yet
-              <Stack.Screen name="Splash" component={SplashScreen} />
-            ) : state.userToken == null ? (
-              // No token found, user isn't signed in
-              <Stack.Screen
-                name="SignIn"
-                component={SignInScreen}
-                options={{
-                  title: "Sign in",
-                  // When logging out, a pop animation feels intuitive
-                  animationTypeForReplace: state.isSignout ? "pop" : "push",
-                }}
-              />
-            ) : state.userToken === "signup" ? (
-              <>
+      {
+        <AuthContext.Provider value={authContext}>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                header: (props) => <AppBar {...props} />,
+              }}
+            >
+              {state.isLoading ? (
+                // We haven't finished checking for the token yet
+                <Stack.Screen name="Splash" component={SplashScreen} />
+              ) : state.userToken == null ? (
+                // No token found, user isn't signed in
                 <Stack.Screen
-                  name="SignUp"
-                  component={UserInfo}
+                  name="SignIn"
+                  component={SignInScreen}
                   options={{
-                    title: "Sign up",
+                    title: "Sign in",
                     // When logging out, a pop animation feels intuitive
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                   }}
                 />
-                <Stack.Screen
-                  name="TripInfo"
-                  component={TripInfo}
-                  options={{
-                    title: "Trip Info",
-                    // When logging out, a pop animation feels intuitive
-                    animationTypeForReplace: state.isSignout ? "pop" : "push",
-                  }}
-                />
-              </>
-            ) : (
-              // User is signed in
-              <>
-                <Stack.Screen name="Home" component={HomeScreen} />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </AuthContext.Provider> */}
-      <SignInScreen />
-      {/* <Phrase /> */}
+              ) : state.userToken === "signup" ? (
+                <>
+                  <Stack.Screen
+                    name="SignUp"
+                    component={UserInfo}
+                    options={{
+                      title: "Sign up",
+                      // When logging out, a pop animation feels intuitive
+                      animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    }}
+                  />
+                  <Stack.Screen
+                    name="TripInfo"
+                    component={TripInfo}
+                    options={{
+                      title: "Trip Info",
+                      // When logging out, a pop animation feels intuitive
+                      animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    }}
+                  />
+                </>
+              ) : (
+                // User is signed in
+                <>
+                  <Stack.Screen name="Home" component={HomeScreen} />
+                </>
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AuthContext.Provider>
+      }
+      <Phrase />
     </PaperProvider>
   );
 }
