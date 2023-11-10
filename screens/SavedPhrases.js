@@ -9,6 +9,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { Button, withTheme, Text, Modal, Portal } from "react-native-paper";
+import PhraseCard from "../components/PhraseCard";
 
 import { savedPhrases } from "../styles/globalStyles";
 
@@ -21,8 +22,8 @@ const SavedPhrases = ({ navigation }) => {
 
   function selectPhrase(item) {
     setSelectedPhrase(item);
-    setSelectedPhraseText(item.text);
-    setTranslation("[Translation of " + item.text + "]");
+    setSelectedPhraseText(item.text_original);
+    setTranslation(item.text_translated);
     showModal();
   }
 
@@ -38,7 +39,7 @@ const SavedPhrases = ({ navigation }) => {
       // conditional to check for identical phrase taken from:
       // https://stackoverflow.com/a/8217584
       updatedPhrases = currentPhrases.filter(
-        (existing) => existing.text !== item.text,
+        (existing) => existing.text_original !== item.text_original,
       );
     } catch (e) {
       console.log("Error", e);
@@ -121,17 +122,29 @@ const SavedPhrases = ({ navigation }) => {
           </Modal>
         </Portal>
         <View style={{ height: "100%" }} paddingRight="0.5%" paddingLeft="0.5%">
+          {/* {generatedPhrases.map((phrase, index) => (
+            <PhraseCard
+              key={index}
+              phrase={phrase}
+              isLoading={isLoading}
+              updateGeneratedPhrase={updateGeneratedPhrase}
+              savePhrase={savePhrase}
+              mode={"browse"}
+            />
+          ))} */}
           <FlatList
+            contentContainerStyle={{
+              alignItems: "center",
+              rowGap: 8,
+              paddingTop: 8,
+            }}
             data={phraseData}
             renderItem={({ item }) => (
-              <TouchableOpacity
-                style={savedPhrases.savedPhrasesList}
-                onPress={() => {
-                  selectPhrase(item);
-                }}
-              >
-                <Text>{item.text}</Text>
-              </TouchableOpacity>
+              <PhraseCard
+                phrase={item}
+                deletePhrase={deletePhrase}
+                mode={"saved"}
+              />
             )}
           />
         </View>

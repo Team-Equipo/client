@@ -21,6 +21,7 @@ import {
   withTheme,
   useTheme,
   PaperProvider,
+  Divider,
 } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
@@ -70,15 +71,14 @@ const Phrases = ({ navigation }) => {
     topicsExpanded == true ? setTopicsExpanded(false) : setTopicsExpanded(true);
   }
 
-  function selectPhrase(item) {
-    setSelectedPhrase(item);
-    setSelectedPhraseText(item.text);
-    setTranslation("[Translation of " + item.text + "]");
-    showModal();
-  }
+  // function selectPhrase(item) {
+  //   setSelectedPhrase(item);
+  //   setSelectedPhraseText(item.text);
+  //   setTranslation("[Translation of " + item.text + "]");
+  //   showModal();
+  // }
 
-  const savePhrase = async (item) => {
-    hideModal();
+  const savePhrase = async (phrase) => {
     try {
       var currentPhrases = JSON.parse(
         await AsyncStorage.getItem("saved-phrases"),
@@ -88,8 +88,12 @@ const Phrases = ({ navigation }) => {
       }
       // conditional to check for duplicate phrases taken from:
       // https://stackoverflow.com/a/8217584
-      if (!currentPhrases.some((existing) => existing.text === item.text)) {
-        currentPhrases.push(item);
+      if (
+        !currentPhrases.some(
+          (existing) => existing.text_original === phrase.text_original,
+        )
+      ) {
+        currentPhrases.push(phrase);
       }
     } catch (e) {
       console.log("Error", e);
@@ -318,16 +322,19 @@ const Phrases = ({ navigation }) => {
                   />
                 </TouchableWithoutFeedback>
               </CollapsibleView>
-              <View style={{ alignItems: "center", rowGap: 8 }}>
-                {generatedPhrases.map((phrase, index) => (
+              <FlatList
+                contentContainerStyle={{ alignItems: "center", rowGap: 8 }}
+                data={generatedPhrases}
+                renderItem={({ item }) => (
                   <PhraseCard
-                    key={index}
-                    phrase={phrase}
+                    phrase={item}
                     isLoading={isLoading}
                     updateGeneratedPhrase={updateGeneratedPhrase}
+                    savePhrase={savePhrase}
+                    mode={"browse"}
                   />
-                ))}
-              </View>
+                )}
+              />
 
               {/* <View
                 style={{ ...shadows.shadow4, ...phraseStyles.genPhraseBox }}

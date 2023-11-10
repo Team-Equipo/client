@@ -13,6 +13,9 @@ export default function PhraseCard({
   phrase,
   isLoading,
   updateGeneratedPhrase,
+  savePhrase,
+  deletePhrase,
+  mode,
 }) {
   const [isToggled, setIsToggled] = useState(true);
 
@@ -22,36 +25,67 @@ export default function PhraseCard({
 
   return (
     <SafeAreaView>
-      {isLoading || phrase.isloading ? (
-        <Card style={styles.card}>
-          <Card.Content style={styles.cardContent}>
-            <ActivityIndicator />
-          </Card.Content>
-        </Card>
-      ) : (
-        <Card style={styles.card}>
-          <Pressable onPress={() => togglePhrase()}>
-            <Card.Content style={styles.cardContent}>
-              <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                {isToggled ? phrase.text_original : phrase.text_translated}
-              </Text>
-            </Card.Content>
-            <Card.Actions>
-              <IconButton icon="bookmark-box-multiple-outline" mode="default" />
-              <IconButton
-                icon="cached"
-                mode="default"
-                onPress={() => {
-                  updateGeneratedPhrase(
-                    phrase.userid,
-                    phrase.generated_phrases_id,
-                  );
-                }}
-              />
-            </Card.Actions>
-          </Pressable>
-        </Card>
-      )}
+      {mode === "browse" ? (
+        <>
+          {isLoading || phrase.isloading ? (
+            <Card style={styles.card}>
+              <Card.Content style={styles.cardContent}>
+                <ActivityIndicator />
+              </Card.Content>
+            </Card>
+          ) : (
+            <Card style={styles.card}>
+              <Pressable onPress={() => togglePhrase()}>
+                <Card.Content style={styles.cardContent}>
+                  <Text variant="titleLarge" style={{ marginTop: 10 }}>
+                    {isToggled ? phrase.text_original : phrase.text_translated}
+                  </Text>
+                </Card.Content>
+                <Card.Actions>
+                  <IconButton
+                    icon="bookmark-box-multiple-outline"
+                    mode="default"
+                    onPress={() => {
+                      savePhrase(phrase);
+                    }}
+                  />
+                  <IconButton
+                    icon="cached"
+                    mode="default"
+                    onPress={() => {
+                      updateGeneratedPhrase(
+                        phrase.userid,
+                        phrase.generated_phrases_id,
+                      );
+                    }}
+                  />
+                </Card.Actions>
+              </Pressable>
+            </Card>
+          )}
+        </>
+      ) : mode === "saved" ? (
+        <>
+          <Card style={styles.card}>
+            <Pressable onPress={() => togglePhrase()}>
+              <Card.Content style={styles.cardContent}>
+                <Text variant="titleLarge" style={{ marginTop: 10 }}>
+                  {isToggled ? phrase.text_original : phrase.text_translated}
+                </Text>
+              </Card.Content>
+              <Card.Actions>
+                <IconButton
+                  icon="delete"
+                  mode="default"
+                  onPress={() => {
+                    deletePhrase(phrase);
+                  }}
+                />
+              </Card.Actions>
+            </Pressable>
+          </Card>
+        </>
+      ) : null}
     </SafeAreaView>
   );
 }
