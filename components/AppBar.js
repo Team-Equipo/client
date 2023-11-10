@@ -13,6 +13,7 @@ export default function AppBar({ navigation, route, options, back }) {
         style={{
           backgroundColor: signinTheme.colors.primary,
           marginTop: 5,
+          marginBottom: 15,
           height: 35,
         }}
       >

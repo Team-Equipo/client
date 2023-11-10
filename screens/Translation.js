@@ -12,16 +12,21 @@ import {
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import {
+  IconButton,
   Button,
   withTheme,
-  Modal,
   Portal,
+  Modal,
   PaperProvider,
 } from "react-native-paper";
 import { WebView } from "react-native-webview";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { translationTheme, translateStyles } from "../styles/globalStyles";
+import {
+  translationTheme,
+  shadows,
+  translateStyles,
+} from "../styles/globalStyles";
 
 const Translation = ({ navigation }) => {
   const [textToTranslate, setTextToTranslate] = React.useState("");
@@ -102,7 +107,8 @@ const Translation = ({ navigation }) => {
               >
                 <View
                   style={{
-                    width: useWindowDimensions().width * 0.8,
+                    overflow: "hidden",
+                    width: useWindowDimensions().width * 0.9,
                     flex: 1,
                   }}
                 >
@@ -122,7 +128,8 @@ const Translation = ({ navigation }) => {
                     source={{ uri: wordRefURL + selectedWord }}
                     onLoadStart={() => setWordRefLoading(true)}
                     onLoadProgress={() => setWordRefLoading(false)}
-                    style={{ borderRadius: 24 }}
+                    style={{ borderRadius: 15, marginTop: -180 }}
+                    containerStyle={{ borderRadius: 15 }}
                   />
                 </View>
               </Modal>
@@ -139,40 +146,51 @@ const Translation = ({ navigation }) => {
             >
               <View
                 style={{
-                  paddingTop: 5,
-                  marginBottom: -30,
+                  marginBottom: -43,
+                  marginRight: 10,
                   zIndex: 3,
-                  alignItems: "center",
-                  marginLeft: "30%",
-                  marginRight: "30%",
+                  alignItems: "flex-end",
+                  // marginLeft: "30%",
+                  // marginRight: "30%",
                 }}
               >
-                <Button
-                  mode="text"
+                <IconButton
                   onPress={toggleLang}
-                  icon="sync"
-                  compact={true}
-                  style={{ width: 160, paddingTop: 3 }}
-                  contentStyle={{ marginBottom: -5, marginTop: -5 }}
-                >
-                  Swap Languages
-                </Button>
+                  icon="swap-vertical"
+                  iconColor="gray"
+                  // compact={true}
+                  style={{ width: 25, height: 30, marginTop: 4 }}
+                  // labelStyle={{fontSize: 30, color: "gray", fontWeight: "normal"}}
+                ></IconButton>
               </View>
               <View
                 style={{
                   flexDirection: "row",
                   justifyContent: "flex-start",
                   zIndex: 2,
+                  //marginTop: 15,
                 }}
               >
                 <Text style={translateStyles.languageLabel}>{inputLang}</Text>
               </View>
-              <TextInput
-                style={translateStyles.textBox}
-                multiline
-                value={textToTranslate}
-                onChangeText={(text) => handleTranslationText(text, inputLang)}
-              />
+              <View style={{ ...shadows.shadow4, ...translateStyles.textBox }}>
+                <TextInput
+                  style={{
+                    justifyContent: "flex-start",
+                    textAlignVertical: "top",
+                    paddingTop: 0,
+                    height: "100%",
+                    fontSize: 20,
+                    //backgroundColor: "blue",
+                    marginTop: 0,
+                  }}
+                  multiline
+                  value={textToTranslate}
+                  onChangeText={(text) =>
+                    handleTranslationText(text, inputLang)
+                  }
+                />
+              </View>
               <View
                 style={{
                   flexDirection: "row",
@@ -183,13 +201,16 @@ const Translation = ({ navigation }) => {
                 <Text
                   style={[
                     translateStyles.languageLabel,
-                    { fontSize: 12, marginTop: 10, marginRight: 15 },
+                    { fontSize: 12, marginTop: 8, marginRight: 15 },
                   ]}
                 >
-                  Tap on a word to get its dictionary definition
+                  Tap word for dictionary definition
                 </Text>
               </View>
-              <View style={translateStyles.textBox} outlineColor="lightgray">
+              <View
+                style={{ ...shadows.shadow4, ...translateStyles.textBox }}
+                elevation={3}
+              >
                 <FlatList
                   numColumns={10}
                   columnWrapperStyle={{
@@ -202,7 +223,7 @@ const Translation = ({ navigation }) => {
                         selectWord(item);
                       }}
                     >
-                      <Text>{item + " "}</Text>
+                      <Text style={{ fontSize: 20 }}>{item + " "}</Text>
                     </TouchableOpacity>
                   )}
                 />

@@ -17,13 +17,19 @@ import {
   Modal,
   Portal,
   Button,
+  Chip,
   withTheme,
   useTheme,
   PaperProvider,
+  Divider,
 } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { phraseStyles, phraseTheme } from "../styles/globalStyles";
+import { phraseStyles, shadows, phraseTheme } from "../styles/globalStyles";
+
+import PhraseCard from "../components/PhraseCard";
+
+const USER = 1;
 
 const Phrases = ({ navigation }) => {
   const [searchedTopic, setSearchedTopic] = useState("Select a topic...");
@@ -31,9 +37,11 @@ const Phrases = ({ navigation }) => {
   const [selectedPhrase, setSelectedPhrase] = useState();
   const [selectedPhraseText, setSelectedPhraseText] = useState("");
   const [translation, setTranslation] = useState("");
+  const [topicsExpanded, setTopicsExpanded] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   function handleTopicSelect(item) {
+    setTopicsExpanded(false);
     setSearchedTopic("Topic: " + item.text);
     setPhrases([
       {
@@ -59,15 +67,18 @@ const Phrases = ({ navigation }) => {
     setModalVisible(false);
   }
 
-  function selectPhrase(item) {
-    setSelectedPhrase(item);
-    setSelectedPhraseText(item.text);
-    setTranslation("[Translation of " + item.text + "]");
-    showModal();
+  function toggleTopicsExpanded() {
+    topicsExpanded == true ? setTopicsExpanded(false) : setTopicsExpanded(true);
   }
 
-  const savePhrase = async (item) => {
-    hideModal();
+  // function selectPhrase(item) {
+  //   setSelectedPhrase(item);
+  //   setSelectedPhraseText(item.text);
+  //   setTranslation("[Translation of " + item.text + "]");
+  //   showModal();
+  // }
+
+  const savePhrase = async (phrase) => {
     try {
       var currentPhrases = JSON.parse(
         await AsyncStorage.getItem("saved-phrases"),
@@ -77,8 +88,12 @@ const Phrases = ({ navigation }) => {
       }
       // conditional to check for duplicate phrases taken from:
       // https://stackoverflow.com/a/8217584
-      if (!currentPhrases.some((existing) => existing.text === item.text)) {
-        currentPhrases.push(item);
+      if (
+        !currentPhrases.some(
+          (existing) => existing.text_original === phrase.text_original,
+        )
+      ) {
+        currentPhrases.push(phrase);
       }
     } catch (e) {
       console.log("Error", e);
@@ -103,12 +118,75 @@ const Phrases = ({ navigation }) => {
     { text: "Pleasantries", id: 6 },
   ];
 
+  // Integrate Phrase Card functionality
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [generatedPhrases, setGeneratedPhrases] = useState([]);
+
+  const fetchGeneratedPhrases = async () => {
+    try {
+      const response = await fetch(
+        `https://lingucidity.azurewebsites.net/user/${USER}/phrase`,
+      );
+      const json = await response.json();
+      setGeneratedPhrases(json);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchPhrase = async (userID, phraseID, index) => {
+    try {
+      const response = await fetch(
+        `https://lingucidity.azurewebsites.net/user/${userID}/phrase/${phraseID}`,
+      );
+      const json = await response.json();
+      const updatedPhrases = [...generatedPhrases];
+      updatedPhrases[index] = json;
+      setGeneratedPhrases(updatedPhrases);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateGeneratedPhrase = async (userID, phraseID) => {
+    const updatedPhrases = [...generatedPhrases];
+    const index = updatedPhrases.findIndex(
+      (phrase) => phrase.generated_phrases_id === phraseID,
+    );
+    updatedPhrases[index].isloading = true;
+    setGeneratedPhrases(updatedPhrases);
+
+    const data = {
+      user_id: userID,
+      phrase_id: phraseID,
+    };
+
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch("https://llama.kenarnold.org/update_phrase", options)
+      .then(() => fetchPhrase(userID, phraseID, index))
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    fetchGeneratedPhrases();
+  }, []);
+
   return (
     <HideKeyboard>
       <PaperProvider theme={phraseTheme}>
         <View style={phraseStyles.background}>
           <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
-            <Portal>
+            {/* <Portal>
               <Modal
                 visible={modalVisible}
                 onDismiss={hideModal}
@@ -158,30 +236,53 @@ const Phrases = ({ navigation }) => {
                   </Button>
                 </View>
               </Modal>
-            </Portal>
+            </Portal> */}
             <View
               style={{
                 flex: 1,
-                paddingTop: "1%",
-                paddingLeft: "0.5%",
-                paddingRight: "0.5%",
               }}
             >
-              <Text
-                style={{
-                  color: "gray",
-                  fontSize: 12,
-                  width: "100%",
-                  textAlign: "center",
-                }}
-              >
-                Tap on a phrase to see its translation or to save
-              </Text>
               <CollapsibleView
-                style={[phraseStyles.textBox]}
-                title={searchedTopic}
-                titleStyle={{ alignItems: "flex-start", fontSize: 20 }}
+                expanded={topicsExpanded}
+                style={{
+                  padding: 0,
+                  zIndex: 1,
+                  borderColor: "transparent",
+                  //  alignItems: "flex-center"
+                }}
+                title={
+                  <Chip
+                    style={phraseStyles.topicBox}
+                    onPress={() => toggleTopicsExpanded()}
+                    mode="elevated"
+                    textColor="gray"
+                    contentStyle={{
+                      marginBottom: -7,
+                      marginTop: -7,
+                      marginLeft: -3,
+                      marginRight: -3,
+                    }}
+                    labelStyle={{
+                      fontSize: 14,
+                    }}
+                  >
+                    {searchedTopic}
+                  </Chip>
+                }
+                titleStyle={{
+                  alignItems: "flex-start",
+                }}
                 noArrow={true}
+                activeOpacityFeedback={1}
+                collapsibleContainerStyle={{
+                  ...shadows.shadow4,
+                  width: "100%",
+                  marginTop: 5,
+                  borderRadius: 15,
+                  backgroundColor: "white",
+                  position: "absolute",
+                  top: "100%",
+                }}
               >
                 <TouchableWithoutFeedback
                   style={{
@@ -191,38 +292,53 @@ const Phrases = ({ navigation }) => {
                     zIndex: 10,
                   }}
                 >
-                  <View>
-                    <FlatList
-                      numColumns={10}
-                      columnWrapperStyle={{
-                        flexWrap: "wrap",
-                        justifyContent: "center",
-                      }}
-                      data={topics}
-                      renderItem={({ item }) => (
-                        <Button
-                          style={phraseStyles.topicBox}
-                          onPress={() => handleTopicSelect(item)}
-                          mode="elevated"
-                          textColor="gray"
-                          contentStyle={{
-                            marginBottom: -7,
-                            marginTop: -7,
-                            marginLeft: -3,
-                            marginRight: -3,
-                          }}
-                          labelStyle={{
-                            fontSize: 14,
-                          }}
-                        >
-                          {item.text}
-                        </Button>
-                      )}
-                    />
-                  </View>
+                  <FlatList
+                    style={{ padding: 3 }}
+                    numColumns={10}
+                    columnWrapperStyle={{
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                    }}
+                    data={topics}
+                    renderItem={({ item }) => (
+                      <Chip
+                        style={phraseStyles.topicBox}
+                        onPress={() => handleTopicSelect(item)}
+                        mode="elevated"
+                        textColor="gray"
+                        contentStyle={{
+                          marginBottom: -7,
+                          marginTop: -7,
+                          marginLeft: -3,
+                          marginRight: -3,
+                        }}
+                        labelStyle={{
+                          fontSize: 14,
+                        }}
+                      >
+                        {item.text}
+                      </Chip>
+                    )}
+                  />
                 </TouchableWithoutFeedback>
               </CollapsibleView>
-              <View style={phraseStyles.genPhraseBox}>
+              <FlatList
+                contentContainerStyle={{ alignItems: "center", rowGap: 8 }}
+                data={generatedPhrases}
+                renderItem={({ item }) => (
+                  <PhraseCard
+                    phrase={item}
+                    isLoading={isLoading}
+                    updateGeneratedPhrase={updateGeneratedPhrase}
+                    savePhrase={savePhrase}
+                    mode={"browse"}
+                  />
+                )}
+              />
+
+              {/* <View
+                style={{ ...shadows.shadow4, ...phraseStyles.genPhraseBox }}
+              >
                 <FlatList
                   data={phrases}
                   renderItem={({ item }) => (
@@ -231,7 +347,7 @@ const Phrases = ({ navigation }) => {
                     </TouchableOpacity>
                   )}
                 />
-              </View>
+              </View> */}
             </View>
           </SafeAreaView>
         </View>

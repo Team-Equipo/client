@@ -16,25 +16,21 @@ import { DefaultTheme } from "react-native-paper";
 // mostly used in Phrases.js
 export const phraseStyles = StyleSheet.create({
   textBox: {
-    borderWidth: 1,
-    borderColor: "#CDF5FD",
-    borderRadius: 24,
+    borderColor: "white",
+    borderRadius: 15,
     padding: "2%",
-    marginHorizontal: "1%",
-    marginBottom: "2%",
+    marginHorizontal: "2%",
+    marginBottom: 5,
     fontSize: 18,
     backgroundColor: "white",
   },
   topicBox: {
-    marginHorizontal: 5,
-    marginVertical: 5,
-    borderRadius: 10,
-    paddingVertical: 3,
-    paddingHorizontal: 1,
+    marginHorizontal: 2,
+    marginVertical: 2,
   },
   modalStyle: {
     backgroundColor: "white",
-    borderRadius: 16,
+    borderRadius: 15,
     marginTop: "20%",
     marginBottom: "20%",
     marginLeft: "10%",
@@ -46,18 +42,17 @@ export const phraseStyles = StyleSheet.create({
     backgroundColor: "#CDF5FD",
   },
   genPhrases: {
-    fontSize: 16,
+    fontSize: 15,
     paddingVertical: 2,
     paddingHorizontal: 3,
   },
   genPhraseBox: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: "#CDF5FD",
-    borderRadius: 24,
+    // borderWidth: 1,
+    // borderColor: "#CDF5FD",
+    borderRadius: 15,
     padding: "2%",
-    marginLeft: "1%",
-    marginRight: "1%",
+    marginHorizontal: "2%",
     marginBottom: "2%",
     fontSize: 18,
     backgroundColor: "white",
@@ -139,14 +134,13 @@ export const translateStyles = StyleSheet.create({
   textBox: {
     flex: 1,
     zIndex: 1,
-    textAlignVertical: "top",
-    borderWidth: 1,
-    borderColor: "#CDF5FD",
-    borderRadius: 24,
+    // borderWidth: 1,
+    // borderColor: "#CDF5FD",
+    borderRadius: 15,
     backgroundColor: "white",
-    padding: "1%",
-    marginLeft: "1%",
-    marginRight: "1%",
+    paddingTop: 5,
+    paddingHorizontal: 10,
+    marginHorizontal: "2%",
     marginBottom: "1%",
     fontSize: 16,
   },
@@ -159,11 +153,9 @@ export const translateStyles = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: "white",
-    borderRadius: 24,
+    borderRadius: 15,
     marginTop: "20%",
     marginBottom: "20%",
-    marginLeft: "10%",
-    marginRight: "10%",
     alignSelf: "center",
   },
 });
@@ -175,7 +167,7 @@ export const savedPhrases = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: "white",
-    borderRadius: 24,
+    borderRadius: 15,
     marginTop: "20%",
     marginBottom: "20%",
     marginLeft: "10%",
@@ -189,6 +181,18 @@ export const savedPhrases = StyleSheet.create({
     marginHorizontal: "1.5%",
     marginVertical: "1.25%",
     borderRadius: 20,
+  },
+});
+
+export const shadows = StyleSheet.create({
+  shadow4: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    elevation: 4,
   },
 });
 
