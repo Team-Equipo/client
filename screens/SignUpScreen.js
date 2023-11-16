@@ -27,7 +27,7 @@ export default function SignInScreen() {
     }
 
     // Check if the email is from @calvin.edu domain
-    if (!email.endsWith("@calvin.edu")) {
+    if (!username.endsWith("@calvin.edu") || !username.endsWith("@gmail.com")) {
       alert("Enter valid email address.");
     }
   };
@@ -45,16 +45,8 @@ export default function SignInScreen() {
             locations={[0.01, 0.2, 0.7]}
           >
             <Image
-              source={require("../assets/talking.png")}
-              // style={signupStyles.image}
-              style={{
-                isplay: "flex",
-                width: "45%",
-                height: "35%",
-                marginTop: "30%",
-                marginBottom: "2%",
-                alignSelf: "center",
-              }}
+              source={require("../assets/girl1.png")}
+              style={signupStyles.image}
               resizeMode="contain"
             />
             <View style={signupStyles.totalWrapper}>
@@ -68,7 +60,13 @@ export default function SignInScreen() {
                     onChangeText={setUsername}
                     style={signupStyles.textInput}
                     right={
-                      <TextInput.Icon icon="email-outline" color="#3BC4E2" />
+                      <TextInput.Icon
+                        onPress={() =>
+                          alert("Accepted email types: gmail.com, calvin.edu")
+                        }
+                        icon="email-outline"
+                        color="#3BC4E2"
+                      />
                     }
                     outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
                   />

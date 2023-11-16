@@ -78,11 +78,6 @@ export const signinStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "white",
-    // marginHorizontal: 15,
-    // marginTop: 10,
-    // padding: 10,
-    // borderRadius: 32,
   },
   textInputWrapper: {
     width: "80%",
@@ -100,7 +95,7 @@ export const signinStyles = StyleSheet.create({
   },
   divText: {
     textAlign: "center",
-    color: "gray",
+    color: "#ADC4CE",
     margin: 10,
   },
   totalWrapper: {
@@ -125,16 +120,10 @@ export const signupStyles = StyleSheet.create({
   },
   image: {
     display: "flex",
-    // flex: 1,
-    // width: 240,
-    // height: 364,
-    width: "65%",
-    height: "45%",
-    // transform: [{ translateY: -25 }],
-    // transform: [{ scale: 0.8 }],
-    marginTop: "30%",
+    width: "60%",
+    height: "40%",
+    marginTop: "28%",
     marginBottom: "2%",
-    // marginBottom: 32,
     alignSelf: "center",
   },
   textInputWrapper: {
@@ -168,7 +157,7 @@ export const signupStyles = StyleSheet.create({
   },
   divText: {
     textAlign: "center",
-    color: "gray",
+    color: "#ADC4CE",
     margin: 3,
   },
   totalWrapper: {
