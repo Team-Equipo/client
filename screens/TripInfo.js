@@ -1,12 +1,19 @@
 // TripInfo.js
 import React from "react";
-import { StyleSheet, View, SafeAreaView } from "react-native";
-import { TextInput, Button, withTheme } from "react-native-paper";
+import { View, SafeAreaView } from "react-native";
+import {
+  TextInput,
+  Button,
+  withTheme,
+  PaperProvider,
+  Text,
+} from "react-native-paper";
 import { DatePickerInput } from "react-native-paper-dates";
 import DropDown from "react-native-paper-dropdown";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
+import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
 const TripInfo = ({ navigation }) => {
   const [country, setCountry] = React.useState("");
@@ -23,7 +30,7 @@ const TripInfo = ({ navigation }) => {
 
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const { signIn } = React.useContext(AuthContext);
+  // const { signIn } = React.useContext(AuthContext);
 
   // list of choices for travel plan dropdown
   const planList = [
@@ -70,105 +77,129 @@ const TripInfo = ({ navigation }) => {
   };
 
   return (
-    <HideKeyboard>
-      <SafeAreaView>
-        <View
-          style={{ height: "100%" }}
-          rowGap={2}
-          paddingRight={2}
-          paddingLeft={2}
-        >
-          <TextInput
-            mode="outlined"
-            label="Country of Destination"
-            dense={true}
-            value={country}
-            outlineColor="lightgray"
-            onChangeText={(text) => setCountry(text)}
-          />
-          <TextInput
-            mode="outlined"
-            label="Region of Destination"
-            dense={true}
-            value={region}
-            outlineColor="lightgray"
-            onChangeText={(text) => setRegion(text)}
-          />
-          <TextInput
-            mode="outlined"
-            label="City/Municipality"
-            dense={true}
-            value={dest}
-            outlineColor="lightgray"
-            onChangeText={(text) => setDest(text)}
-          />
-          <View style={{ height: "6%" }}>
-            <DatePickerInput
-              locale="en"
-              label="Select Start Date"
+    <PaperProvider theme={settingsTheme}>
+      <HideKeyboard>
+        <SafeAreaView>
+          <View
+            style={{ height: "100%" }}
+            rowGap={2}
+            paddingRight={2}
+            paddingLeft={2}
+          >
+            <Text style={settingsStyle.titleText}>
+              Tell us about your Travel Plan
+            </Text>
+            <TextInput
               mode="outlined"
-              presentationStyle="formsheet"
-              value={startDate}
-              onChange={setStartDate}
+              label="Country of Destination"
+              dense={true}
+              value={country}
+              right={<TextInput.Icon icon="airplane-landing" color="#3BC4E2" />}
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              style={settingsStyle.textInput}
+              onChangeText={(text) => setCountry(text)}
             />
-          </View>
-          <View style={{ height: "6%" }}>
-            <DatePickerInput
-              locale="en"
-              label="Select End Date"
+            <TextInput
               mode="outlined"
-              presentationStyle="formsheet"
-              value={endDate}
-              onChange={setEndDate}
+              label="Region of Destination"
+              dense={true}
+              value={region}
+              right={<TextInput.Icon icon="airplane-landing" color="#3BC4E2" />}
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              style={settingsStyle.textInput}
+              onChangeText={(text) => setRegion(text)}
             />
-          </View>
-          <DropDown
-            label="Purpose of Trip"
-            list={planList}
-            mode="outlined"
-            value={plan}
-            setValue={handleSetPlan}
-            visible={dropVisible}
-            multiSelect={false}
-            showDropDown={() => setDropVisibility(true)}
-            onDismiss={() => setDropVisibility(false)}
-            dropDownStyle={{ paddingLeft: "1%", paddingRight: "60%" }}
-          />
-          <View>
-            {planPromptVisible ? (
-              <View paddingTop="1%" paddingLeft="1%" paddingRight="1%">
-                <TextInput
-                  label={planPrompt}
-                  mode="flat"
-                  dense={true}
-                  underlineColor="lightgray"
-                  onChangeText={(text) => setPlanDetails(text)}
-                />
-              </View>
-            ) : null}
-          </View>
+            <TextInput
+              mode="outlined"
+              label="City/Municipality"
+              dense={true}
+              value={dest}
+              right={
+                <TextInput.Icon icon="city-variant-outline" color="#3BC4E2" />
+              }
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              style={settingsStyle.textInput}
+              onChangeText={(text) => setDest(text)}
+            />
+            <View style={{ height: "6%" }}>
+              <DatePickerInput
+                locale="en"
+                label="Select Start Date"
+                mode="outlined"
+                presentationStyle="formsheet"
+                value={startDate}
+                outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+                style={settingsStyle.textInput}
+                onChange={setStartDate}
+              />
+            </View>
+            <View style={{ height: "6%" }}>
+              <DatePickerInput
+                locale="en"
+                label="Select End Date"
+                mode="outlined"
+                presentationStyle="formsheet"
+                outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+                style={settingsStyle.textInput}
+                value={endDate}
+                onChange={setEndDate}
+              />
+            </View>
+            <DropDown
+              label="Purpose of Trip"
+              list={planList}
+              mode="outlined"
+              value={plan}
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              style={settingsStyle.textInput}
+              setValue={handleSetPlan}
+              visible={dropVisible}
+              multiSelect={false}
+              showDropDown={() => setDropVisibility(true)}
+              onDismiss={() => setDropVisibility(false)}
+              dropDownStyle={settingsStyle.textInput}
+              dropDownItemSelectedStyle={settingsStyle.textInput}
+              // dropDownItemStyle={settingsStyle.textInput}
+            />
+            <View>
+              {planPromptVisible ? (
+                <View paddingTop="1%" paddingLeft="1%" paddingRight="1%">
+                  <TextInput
+                    label={planPrompt}
+                    mode="outlined"
+                    outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+                    style={settingsStyle.textInput}
+                    dense={true}
+                    underlineColor="lightgray"
+                    onChangeText={(text) => setPlanDetails(text)}
+                  />
+                </View>
+              ) : null}
+            </View>
 
-          <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
-            <Button
-              mode="contained"
-              onPress={() => signIn({ username, password })}
-            >
-              Submit
-            </Button>
+            <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
+              {/* <Button
+                mode="contained"
+                onPress={() => signIn({ username, password })}
+              >
+                Submit
+              </Button> */}
+              <Button
+                mode="elevated"
+                onPress={() => signIn({ username, password })}
+                textColor="white"
+                onPress={handleSetPlan}
+                labelStyle={{ fontWeight: "bold" }}
+                style={settingsStyle.button}
+              >
+                Submit
+              </Button>
+            </View>
           </View>
-        </View>
-      </SafeAreaView>
-    </HideKeyboard>
+        </SafeAreaView>
+      </HideKeyboard>
+    </PaperProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    color: "white",
-    fontSize: 20,
-    justifyContent: "space-around",
-    textAlign: "center",
-  },
-});
 
 export default withTheme(TripInfo);

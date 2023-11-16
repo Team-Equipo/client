@@ -117,16 +117,90 @@ export const signinStyles = StyleSheet.create({
   },
 });
 
-export const settingsStyle = StyleSheet.create({
+export const signupStyles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+    flex: 1,
+    alignItems: "center",
+  },
+  image: {
+    display: "flex",
+    // flex: 1,
+    // width: 240,
+    // height: 364,
+    width: "65%",
+    height: "45%",
+    // transform: [{ translateY: -25 }],
+    // transform: [{ scale: 0.8 }],
+    marginTop: "30%",
+    marginBottom: "2%",
+    // marginBottom: 32,
+    alignSelf: "center",
+  },
+  textInputWrapper: {
+    width: "80%",
+    display: "flex",
+  },
   textInput: {
     display: "flex",
-    marginBottom: 20,
+    marginBottom: 10,
+    backgroundColor: "#F5F7F8",
   },
-  button: {
-    marginTop: 10,
+  buttonWrapper: {
     width: "80%",
     display: "flex",
     gap: 10,
+    alignItems: "center",
+  },
+  button: {
+    borderRadius: 10,
+    marginTop: 10,
+    width: "88%",
+    display: "flex",
+    paddingVertical: 5,
+  },
+  signupText: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  divText: {
+    textAlign: "center",
+    color: "gray",
+    margin: 3,
+  },
+  totalWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    // backgroundColor: "#CDF5FD",
+    backgroundColor: "white",
+    width: "85%",
+  },
+});
+
+export const settingsStyle = StyleSheet.create({
+  titleText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    alignSelf: "center",
+    paddingVertical: 20,
+  },
+  textInput: {
+    display: "flex",
+    marginBottom: 10,
+    backgroundColor: "#F5F7F8",
+  },
+  button: {
+    borderRadius: 10,
+    marginTop: 10,
+    width: "88%",
+    display: "flex",
+    paddingVertical: 5,
     justifyContent: "center",
     alignSelf: "center",
   },
@@ -135,6 +209,36 @@ export const settingsStyle = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignSelf: "center",
+  },
+});
+
+// used by "All Set Screen"
+export const allSetStyle = StyleSheet.create({
+  container: {
+    marginTop: 10,
+    flex: 1,
+    alignItems: "center",
+  },
+  titleText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    alignSelf: "center",
+    paddingVertical: 20,
+  },
+  image: {
+    display: "flex",
+    width: "65%",
+    height: "45%",
+    marginTop: "30%",
+    marginBottom: "2%",
+    alignSelf: "center",
+  },
+  button: {
+    borderRadius: 10,
+    marginTop: 10,
+    width: "88%",
+    display: "flex",
+    paddingVertical: 5,
   },
 });
 
@@ -224,7 +328,7 @@ export const signinTheme = {
   colors: {
     ...DefaultTheme.colors,
     // primary: "#51c3f5",
-    primary: "#5272F2",
+    primary: "#87C4FF",
     // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
@@ -232,7 +336,8 @@ export const signinTheme = {
     outline: "#FFBDD4",
     backgroundColor: "#5272F2",
     elevation: {
-      level1: "#39A7FF",
+      // level1: "#39A7FF",
+      level1: "#3BC4E2",
     },
   },
 };
@@ -243,7 +348,7 @@ export const settingsTheme = {
   colors: {
     ...DefaultTheme.colors,
     // primary: "#51c3f5",
-    primary: "#5272F2",
+    primary: "#87C4FF",
     // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
@@ -251,7 +356,8 @@ export const settingsTheme = {
     outline: "#FFBDD4",
     backgroundColor: "#5272F2",
     elevation: {
-      level1: "#39A7FF",
+      // level1: "#39A7FF",
+      level1: "#3BC4E2",
     },
   },
 };

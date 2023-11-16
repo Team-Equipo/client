@@ -60,7 +60,7 @@ const UserInfo = ({ navigation }) => {
             paddingLeft={2}
             style={settingsStyle.textInputWrapper}
           >
-            <Text style={{ fontWeight: "bold" }}>Tell us more about you</Text>
+            <Text style={settingsStyle.titleText}>Tell us more about you</Text>
             <TextInput
               mode="outlined"
               label="Name"
@@ -143,17 +143,13 @@ const UserInfo = ({ navigation }) => {
             >
               <Button
                 mode="elevated"
-                onPress={handleUserSubmit}
+                onPress={() => signIn({ username, password })}
                 textColor="white"
+                onPress={handleUserSubmit}
                 labelStyle={{ fontWeight: "bold" }}
                 style={settingsStyle.button}
               >
-                <Text
-                  style={{ color: "#3BC4E2", fontWeight: "bold" }}
-                  onPress={() => signUp()}
-                >
-                  Submit
-                </Text>
+                NEXT
               </Button>
             </View>
           </View>

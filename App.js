@@ -8,6 +8,7 @@ import { AuthContext } from "./contexts/AuthContext";
 import HomeScreen from "./screens/HomeScreen";
 import Phrases from "./screens/Phrases";
 import SignInScreen from "./screens/SignInScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 import SplashScreen from "./screens/SplashScreen";
 import Translation from "./screens/Translation";
 import TripInfo from "./screens/TripInfo";
@@ -100,7 +101,8 @@ export default function App({ navigation }) {
   );
 
   return (
-    <UserInfo />
+    <SignUpScreen />
+    // <UserInfo />
     // <TripInfo />
     // <PaperProvider theme={{ version: 3 }}>
     //   <AuthContext.Provider value={authContext}>
