@@ -25,23 +25,23 @@ export default function PhraseCard({
 
   return (
     <SafeAreaView>
-      {mode === "browse" ? (
-        <>
-          {isLoading || phrase.isloading ? (
-            <Card style={styles.card}>
-              <Card.Content style={styles.cardContent}>
-                <ActivityIndicator />
-              </Card.Content>
-            </Card>
-          ) : (
-            <Card style={styles.card}>
-              <Pressable onPress={() => togglePhrase()}>
-                <Card.Content style={styles.cardContent}>
-                  <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                    {isToggled ? phrase.text_original : phrase.text_translated}
-                  </Text>
-                </Card.Content>
-                <Card.Actions>
+      {isLoading || phrase.isloading ? (
+        <Card style={styles.card}>
+          <Card.Content style={styles.cardContent}>
+            <ActivityIndicator />
+          </Card.Content>
+        </Card>
+      ) : (
+        <Card style={styles.card}>
+          <Pressable onPress={() => togglePhrase()}>
+            <Card.Content style={styles.cardContent}>
+              <Text variant="titleLarge" style={{ marginTop: 10 }}>
+                {isToggled ? phrase.text_translated : phrase.text_original}
+              </Text>
+            </Card.Content>
+            <Card.Actions>
+              {mode !== "saved" ? (
+                <>
                   <IconButton
                     icon="bookmark-box-multiple-outline"
                     mode="default"
@@ -59,33 +59,22 @@ export default function PhraseCard({
                       );
                     }}
                   />
-                </Card.Actions>
-              </Pressable>
-            </Card>
-          )}
-        </>
-      ) : mode === "saved" ? (
-        <>
-          <Card style={styles.card}>
-            <Pressable onPress={() => togglePhrase()}>
-              <Card.Content style={styles.cardContent}>
-                <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                  {isToggled ? phrase.text_original : phrase.text_translated}
-                </Text>
-              </Card.Content>
-              <Card.Actions>
-                <IconButton
-                  icon="delete"
-                  mode="default"
-                  onPress={() => {
-                    deletePhrase(phrase);
-                  }}
-                />
-              </Card.Actions>
-            </Pressable>
-          </Card>
-        </>
-      ) : null}
+                </>
+              ) : (
+                <>
+                  <IconButton
+                    icon="delete"
+                    mode="default"
+                    onPress={() => {
+                      deletePhrase(phrase);
+                    }}
+                  />
+                </>
+              )}
+            </Card.Actions>
+          </Pressable>
+        </Card>
+      )}
     </SafeAreaView>
   );
 }
