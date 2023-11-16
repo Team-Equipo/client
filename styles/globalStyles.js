@@ -117,6 +117,27 @@ export const signinStyles = StyleSheet.create({
   },
 });
 
+export const settingsStyle = StyleSheet.create({
+  textInput: {
+    display: "flex",
+    marginBottom: 20,
+  },
+  button: {
+    marginTop: 10,
+    width: "80%",
+    display: "flex",
+    gap: 10,
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+  textInputWrapper: {
+    width: "80%",
+    display: "flex",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+});
+
 export const appHeaderBarStyles = StyleSheet.create({
   appbar: {
     flex: 0,
@@ -198,6 +219,25 @@ export const shadows = StyleSheet.create({
 
 // THEMES
 export const signinTheme = {
+  ...DefaultTheme,
+  myOwnProperty: true,
+  colors: {
+    ...DefaultTheme.colors,
+    // primary: "#51c3f5",
+    primary: "#5272F2",
+    // primary: "#F5587B",
+    secondary: "#5272F2",
+    text: "black",
+    // outline: "#51c3f5",
+    outline: "#FFBDD4",
+    backgroundColor: "#5272F2",
+    elevation: {
+      level1: "#39A7FF",
+    },
+  },
+};
+
+export const settingsTheme = {
   ...DefaultTheme,
   myOwnProperty: true,
   colors: {
