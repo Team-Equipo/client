@@ -9,6 +9,8 @@ import {
 import { IconButton, Card, Text, ActivityIndicator } from "react-native-paper";
 import { useState } from "react";
 
+import * as Speech from "expo-speech";
+
 export default function PhraseCard({
   phrase,
   isLoading,
@@ -41,12 +43,19 @@ export default function PhraseCard({
                     {isToggled ? phrase.text_original : phrase.text_translated}
                   </Text>
                 </Card.Content>
-                <Card.Actions>
+                <Card.Actions style={{}}>
                   <IconButton
                     icon="bookmark-box-multiple-outline"
                     mode="default"
                     onPress={() => {
                       savePhrase(phrase);
+                    }}
+                  />
+                  <IconButton
+                    icon="volume-high"
+                    mode="default"
+                    onPress={() => {
+                      Speech.speak(phrase.text_original, { language: "es" });
                     }}
                   />
                   <IconButton
