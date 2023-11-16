@@ -6,7 +6,13 @@ import {
   Pressable,
   View,
 } from "react-native";
-import { IconButton, Card, Text, ActivityIndicator } from "react-native-paper";
+import {
+  IconButton,
+  Card,
+  Text,
+  ActivityIndicator,
+  TouchableRipple,
+} from "react-native-paper";
 import { useState } from "react";
 
 export default function PhraseCard({
@@ -33,46 +39,52 @@ export default function PhraseCard({
         </Card>
       ) : (
         <Card style={styles.card}>
-          <Pressable onPress={() => togglePhrase()}>
-            <Card.Content style={styles.cardContent}>
-              <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                {isToggled ? phrase.text_translated : phrase.text_original}
-              </Text>
-            </Card.Content>
-            <Card.Actions>
-              {mode !== "saved" ? (
-                <>
-                  <IconButton
-                    icon="bookmark-box-multiple-outline"
-                    mode="default"
-                    onPress={() => {
-                      savePhrase(phrase);
-                    }}
-                  />
-                  <IconButton
-                    icon="cached"
-                    mode="default"
-                    onPress={() => {
-                      updateGeneratedPhrase(
-                        phrase.userid,
-                        phrase.generated_phrases_id,
-                      );
-                    }}
-                  />
-                </>
-              ) : (
-                <>
-                  <IconButton
-                    icon="delete"
-                    mode="default"
-                    onPress={() => {
-                      deletePhrase(phrase);
-                    }}
-                  />
-                </>
-              )}
-            </Card.Actions>
-          </Pressable>
+          <TouchableRipple
+            borderless={true}
+            style={{ borderRadius: 10 }}
+            onPress={() => togglePhrase()}
+          >
+            <>
+              <Card.Content style={styles.cardContent}>
+                <Text variant="titleLarge" style={{ marginTop: 10 }}>
+                  {isToggled ? phrase.text_translated : phrase.text_original}
+                </Text>
+              </Card.Content>
+              <Card.Actions>
+                {mode !== "saved" ? (
+                  <>
+                    <IconButton
+                      icon="bookmark-box-multiple-outline"
+                      mode="default"
+                      onPress={() => {
+                        savePhrase(phrase);
+                      }}
+                    />
+                    <IconButton
+                      icon="cached"
+                      mode="default"
+                      onPress={() => {
+                        updateGeneratedPhrase(
+                          phrase.userid,
+                          phrase.generated_phrases_id,
+                        );
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <IconButton
+                      icon="delete"
+                      mode="default"
+                      onPress={() => {
+                        deletePhrase(phrase);
+                      }}
+                    />
+                  </>
+                )}
+              </Card.Actions>
+            </>
+          </TouchableRipple>
         </Card>
       )}
     </SafeAreaView>
