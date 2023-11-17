@@ -20,6 +20,7 @@ import {
   PaperProvider,
 } from "react-native-paper";
 import { WebView } from "react-native-webview";
+import * as Speech from "expo-speech";
 
 import HideKeyboard from "../components/HideKeyboard";
 import {
@@ -227,6 +228,20 @@ const Translation = ({ navigation }) => {
                     </TouchableOpacity>
                   )}
                 />
+                <View style={{ width: "100%", alignItems: "flex-end" }}>
+                  <IconButton
+                    style={{ marginTop: -50 }}
+                    icon="volume-high"
+                    mode="default"
+                    onPress={() => {
+                      if (outputLang === "Spanish") {
+                        Speech.speak(translation, { language: "es" });
+                      } else if (outputLang === "English") {
+                        Speech.speak(translation, { language: "en" });
+                      }
+                    }}
+                  />
+                </View>
               </View>
             </View>
           </SafeAreaView>
