@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import {
+  Divider,
   IconButton,
   Button,
   withTheme,
@@ -194,26 +195,41 @@ const Translation = ({ navigation }) => {
               </View>
               <View
                 style={{
+                  marginTop: -3,
+                  marginRight: 4,
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  // backgroundColor: "purple",
                 }}
               >
-                <Text style={translateStyles.languageLabel}>{outputLang}</Text>
-                <Text
-                  style={[
-                    translateStyles.languageLabel,
-                    { fontSize: 12, marginTop: 8, marginRight: 15 },
-                  ]}
-                >
-                  Tap word for dictionary definition
+                <Text style={{ ...translateStyles.languageLabel }}>
+                  Portuguese
                 </Text>
+                <IconButton
+                  style={{ width: 30, height: 30, marginBottom: -3 }}
+                  iconColor="gray"
+                  icon="volume-high"
+                  mode="default"
+                  onPress={() => {
+                    if (outputLang === "Spanish") {
+                      Speech.speak(translation, { language: "es" });
+                    } else if (outputLang === "English") {
+                      Speech.speak(translation, { language: "en" });
+                    }
+                  }}
+                />
               </View>
               <View
-                style={{ ...shadows.shadow4, ...translateStyles.textBox }}
+                style={{
+                  ...shadows.shadow4,
+                  ...translateStyles.textBox,
+                  flex: 1,
+                }}
                 elevation={3}
               >
                 <FlatList
-                  numColumns={10}
+                  style={{ height: 0 }}
+                  numColumns={1000}
                   columnWrapperStyle={{
                     flexWrap: "wrap",
                   }}
@@ -228,21 +244,21 @@ const Translation = ({ navigation }) => {
                     </TouchableOpacity>
                   )}
                 />
-                <View style={{ width: "100%", alignItems: "flex-end" }}>
-                  <IconButton
-                    style={{ marginTop: -50 }}
-                    icon="volume-high"
-                    mode="default"
-                    onPress={() => {
-                      if (outputLang === "Spanish") {
-                        Speech.speak(translation, { language: "es" });
-                      } else if (outputLang === "English") {
-                        Speech.speak(translation, { language: "en" });
-                      }
-                    }}
-                  />
-                </View>
               </View>
+              <Text
+                style={[
+                  translateStyles.languageLabel,
+                  {
+                    textDecorationLine: "underline",
+                    fontSize: 12,
+                    width: "100%",
+                    textAlign: "center",
+                    marginTop: -7,
+                  },
+                ]}
+              >
+                Tap a translated word for the dictionary definition
+              </Text>
             </View>
           </SafeAreaView>
         </View>
