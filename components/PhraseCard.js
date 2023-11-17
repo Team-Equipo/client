@@ -53,6 +53,13 @@ export default function PhraseCard({
                 </Text>
               </Card.Content>
               <Card.Actions>
+                <IconButton
+                  icon="volume-high"
+                  mode="default"
+                  onPress={() => {
+                    Speech.speak(phrase.text_original, { language: "es" });
+                  }}
+                />
                 {mode !== "saved" ? (
                   <>
                     <IconButton
@@ -60,13 +67,6 @@ export default function PhraseCard({
                       mode="default"
                       onPress={() => {
                         savePhrase(phrase);
-                      }}
-                    />
-                    <IconButton
-                      icon="volume-high"
-                      mode="default"
-                      onPress={() => {
-                        Speech.speak(phrase.text_original, { language: "es" });
                       }}
                     />
                     <IconButton
