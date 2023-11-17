@@ -1,23 +1,20 @@
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
+import Base64 from "Base64";
+import React from "react";
 
-import AppBar from "./components/AppBar";
 import { AuthContext } from "./contexts/AuthContext";
-import HomeScreen from "./screens/HomeScreen";
-import Phrases from "./screens/Phrases";
-import SignInScreen from "./screens/SignInScreen";
 import SplashScreen from "./screens/SplashScreen";
-import Translation from "./screens/Translation";
+import SignIn from "./screens/SignIn";
 import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
-
-import Phrase from "./screens/Phrase";
+import HomeScreen from "./screens/HomeScreen";
+import AppBar from "./components/AppBar";
 
 const Stack = createNativeStackNavigator();
 
-export default function App({ navigation }) {
+export default function App() {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -79,20 +76,34 @@ export default function App({ navigation }) {
   const authContext = React.useMemo(
     () => ({
       signIn: async (data) => {
-        // In a production app, we need to send some data (usually username, password) to server and get a token
-        // We will also need to handle errors if sign in failed
-        // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
-        // In the example, we'll use a dummy token
+        // try {
+        //   const url =
+        //     "https://d36f-2600-1700-a650-12a0-6d91-2b6-7de7-afaf.ngrok-free.app/user";
+        //   const headers = new Headers({
+        //     "ngrok-skip-browser-warning": "true",
+        //     Authorization:
+        //       "Basic " + Base64.btoa(data.emailAddress + ":" + data.password),
+        //   });
+        try {
+          const url = "https://lingucidity.azurewebsites.net/user";
+          const headers = new Headers({
+            Authorization:
+              "Basic " + Base64.btoa(data.emailAddress + ":" + data.password),
+          });
 
-        dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
+          const response = await fetch(url, {
+            method: "GET",
+            headers: headers,
+          });
+
+          const credentials = await response.json();
+          dispatch({ type: "SIGN_IN", token: credentials.token });
+        } catch (error) {
+          console.error(error);
+        }
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
       signUp: async (data) => {
-        // In a production app, we need to send user data to server and get a token
-        // We will also need to handle errors if sign up failed
-        // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
-        // In the example, we'll use a dummy token
-
         dispatch({ type: "SIGN_UP", token: "signup" });
       },
     }),
@@ -116,14 +127,14 @@ export default function App({ navigation }) {
               // No token found, user isn't signed in
               <Stack.Screen
                 name="SignIn"
-                component={SignInScreen}
+                component={SignIn}
                 options={{
                   title: "Sign in",
                   // When logging out, a pop animation feels intuitive
                   animationTypeForReplace: state.isSignout ? "pop" : "push",
                 }}
               />
-            ) : state.userToken === "signup" ? (
+            ) : state.userToken == "signup" ? (
               <>
                 <Stack.Screen
                   name="SignUp"
