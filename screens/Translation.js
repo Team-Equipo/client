@@ -203,7 +203,7 @@ const Translation = ({ navigation }) => {
                 }}
               >
                 <Text style={{ ...translateStyles.languageLabel }}>
-                  Portuguese
+                  {outputLang}
                 </Text>
                 <IconButton
                   style={{ width: 30, height: 30, marginBottom: -3 }}
