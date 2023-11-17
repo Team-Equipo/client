@@ -8,7 +8,6 @@ import {
   PaperProvider,
   Text,
 } from "react-native-paper";
-import { DatePickerInput } from "react-native-paper-dates";
 import DropDown from "react-native-paper-dropdown";
 
 import HideKeyboard from "../components/HideKeyboard";
@@ -136,30 +135,6 @@ const TripInfo = ({ navigation }) => {
               style={settingsStyle.textInput}
               onChangeText={(text) => setEndDate(text)}
             />
-            {/* <View style={{ height: "6%" }}>
-              <DatePickerInput
-                locale="en"
-                label="Select Start Date"
-                mode="outlined"
-                presentationStyle="formsheet"
-                value={startDate}
-                outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
-                style={settingsStyle.textInput}
-                onChange={setStartDate}
-              />
-            </View>
-            <View style={{ height: "6%" }}>
-              <DatePickerInput
-                locale="en"
-                label="Select End Date"
-                mode="outlined"
-                presentationStyle="formsheet"
-                outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
-                style={settingsStyle.textInput}
-                value={endDate}
-                onChange={setEndDate}
-              />
-            </View> */}
             <DropDown
               label="Purpose of Trip"
               list={planList}

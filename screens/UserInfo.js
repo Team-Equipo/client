@@ -76,15 +76,6 @@ const UserInfo = ({ navigation }) => {
               style={settingsStyle.textInput}
               onChangeText={(text) => setName(text)}
             />
-            {/* <TextInput
-                keyboardType="numeric"
-                mode="outlined"
-                label="Age"
-                dense={true}
-                value={ageInput}
-                outlineColor="lightgray"
-                onChangeText={(text) => handleAgeInput(text)}
-              /> */}
             <Text style={settingsStyle.textInputDescription}>
               Where are you from?
             </Text>
