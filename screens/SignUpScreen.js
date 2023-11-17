@@ -37,10 +37,6 @@ export default function SignInScreen() {
       <KeyboardAvoidingView behavior="position">
         <HideKeyboard>
           <LinearGradient
-            // colors={["#0014FF", "#00A9FF", "#A0E9FF", "#FFFFFF"]}
-            // locations={[0.01, 0.2, 0.5, 0.7]}
-            // colors={["#0014FF", "#A0E9FF", "#FFFFFF"]}
-            // locations={[0.01, 0.2, 0.7]}
             colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
             locations={[0.01, 0.2, 0.7]}
           >

@@ -199,35 +199,47 @@ export const settingsStyle = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
   },
+  textInputDescription: {
+    fontWeight: "bold",
+    color: "#83A2FF",
+    marginTop: "1%",
+  },
 });
 
 // used by "All Set Screen"
 export const allSetStyle = StyleSheet.create({
   container: {
-    marginTop: 10,
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 32,
     fontWeight: "bold",
     alignSelf: "center",
     paddingVertical: 20,
+    paddingTop: "40%",
   },
   image: {
-    display: "flex",
-    width: "65%",
-    height: "45%",
-    marginTop: "30%",
+    // display: "flex",
+    width: "49%",
+    height: "50%",
+    marginTop: "28%",
     marginBottom: "2%",
     alignSelf: "center",
   },
   button: {
     borderRadius: 10,
     marginTop: 10,
-    width: "88%",
+    width: "66%",
     display: "flex",
     paddingVertical: 5,
+    alignSelf: "center",
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
   },
 });
 

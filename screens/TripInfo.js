@@ -58,11 +58,11 @@ const TripInfo = ({ navigation }) => {
 
   // list of prompts in response to dropdown selection
   const planPrompts = {
-    school: "Describe your school's program.",
-    work: "Describe your work.",
+    school: "Describe your school's program",
+    work: "Describe your work",
     family: "What will you be doing with your family?",
     recreational: "What do you see yourself doing?",
-    other: "Please describe your plans.",
+    other: "Please describe your plans",
   };
 
   // display the right text prompt in response to dropdown
@@ -81,18 +81,15 @@ const TripInfo = ({ navigation }) => {
       <HideKeyboard>
         <SafeAreaView>
           <View
-            style={{ height: "100%" }}
             rowGap={2}
             paddingRight={2}
             paddingLeft={2}
+            style={settingsStyle.textInputWrapper}
           >
-            <Text style={settingsStyle.titleText}>
-              Tell us about your Travel Plan
-            </Text>
+            <Text style={settingsStyle.titleText}>Tell us about your Plan</Text>
             <TextInput
               mode="outlined"
               label="Country of Destination"
-              dense={true}
               value={country}
               right={<TextInput.Icon icon="airplane-landing" color="#3BC4E2" />}
               outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
@@ -102,9 +99,8 @@ const TripInfo = ({ navigation }) => {
             <TextInput
               mode="outlined"
               label="Region of Destination"
-              dense={true}
               value={region}
-              right={<TextInput.Icon icon="airplane-landing" color="#3BC4E2" />}
+              right={<TextInput.Icon icon="map-marker" color="#3BC4E2" />}
               outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}
               onChangeText={(text) => setRegion(text)}
@@ -112,7 +108,6 @@ const TripInfo = ({ navigation }) => {
             <TextInput
               mode="outlined"
               label="City/Municipality"
-              dense={true}
               value={dest}
               right={
                 <TextInput.Icon icon="city-variant-outline" color="#3BC4E2" />
@@ -121,7 +116,25 @@ const TripInfo = ({ navigation }) => {
               style={settingsStyle.textInput}
               onChangeText={(text) => setDest(text)}
             />
-            <View style={{ height: "6%" }}>
+            <TextInput
+              mode="outlined"
+              label="Start Date (YYYY/MM/DD)"
+              value={startDate}
+              right={<TextInput.Icon icon="calendar" color="#3BC4E2" />}
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              style={settingsStyle.textInput}
+              onChangeText={(text) => setStartDate(text)}
+            />
+            <TextInput
+              mode="outlined"
+              label="End Date (YYYY/MM/DD)"
+              value={endDate}
+              right={<TextInput.Icon icon="calendar" color="#3BC4E2" />}
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              style={settingsStyle.textInput}
+              onChangeText={(text) => setEndDate(text)}
+            />
+            {/* <View style={{ height: "6%" }}>
               <DatePickerInput
                 locale="en"
                 label="Select Start Date"
@@ -144,14 +157,12 @@ const TripInfo = ({ navigation }) => {
                 value={endDate}
                 onChange={setEndDate}
               />
-            </View>
+            </View> */}
             <DropDown
               label="Purpose of Trip"
               list={planList}
               mode="outlined"
               value={plan}
-              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
-              style={settingsStyle.textInput}
               setValue={handleSetPlan}
               visible={dropVisible}
               multiSelect={false}
@@ -159,7 +170,6 @@ const TripInfo = ({ navigation }) => {
               onDismiss={() => setDropVisibility(false)}
               dropDownStyle={settingsStyle.textInput}
               dropDownItemSelectedStyle={settingsStyle.textInput}
-              // dropDownItemStyle={settingsStyle.textInput}
             />
             <View>
               {planPromptVisible ? (
@@ -169,7 +179,6 @@ const TripInfo = ({ navigation }) => {
                     mode="outlined"
                     outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
                     style={settingsStyle.textInput}
-                    dense={true}
                     underlineColor="lightgray"
                     onChangeText={(text) => setPlanDetails(text)}
                   />

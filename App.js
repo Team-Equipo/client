@@ -13,6 +13,7 @@ import SplashScreen from "./screens/SplashScreen";
 import Translation from "./screens/Translation";
 import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
+import AllSetScreen from "./screens/AllSetPage";
 
 import Phrase from "./screens/Phrase";
 
@@ -93,7 +94,6 @@ export default function App({ navigation }) {
         // We will also need to handle errors if sign up failed
         // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
         // In the example, we'll use a dummy token
-
         dispatch({ type: "SIGN_UP", token: "signup" });
       },
     }),
@@ -101,9 +101,10 @@ export default function App({ navigation }) {
   );
 
   return (
-    <SignUpScreen />
+    // <SignUpScreen />
     // <UserInfo />
     // <TripInfo />
+    <AllSetScreen />
     // <PaperProvider theme={{ version: 3 }}>
     //   <AuthContext.Provider value={authContext}>
     //     <Stack.Screen name="Home" component={HomeScreen} />

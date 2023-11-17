@@ -61,13 +61,18 @@ const UserInfo = ({ navigation }) => {
             style={settingsStyle.textInputWrapper}
           >
             <Text style={settingsStyle.titleText}>Tell us more about you</Text>
+            <Text style={settingsStyle.textInputDescription}>
+              How can we call you?
+            </Text>
             <TextInput
               mode="outlined"
               label="Name"
-              dense={true}
               value={name}
               right={<TextInput.Icon icon="account" color="#3BC4E2" />}
-              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              outlineStyle={{
+                borderRadius: 24,
+                borderColor: name === "" ? "#FFB7B7" : "#CDF5FD",
+              }}
               style={settingsStyle.textInput}
               onChangeText={(text) => setName(text)}
             />
@@ -80,40 +85,54 @@ const UserInfo = ({ navigation }) => {
                 outlineColor="lightgray"
                 onChangeText={(text) => handleAgeInput(text)}
               /> */}
+            <Text style={settingsStyle.textInputDescription}>
+              Where are you from?
+            </Text>
             <TextInput
               mode="outlined"
               label="Nationality"
-              dense={true}
               value={nationality}
               right={<TextInput.Icon icon="earth" color="#3BC4E2" />}
-              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              outlineStyle={{
+                borderRadius: 24,
+                borderColor: nationality === "" ? "#FFB7B7" : "#CDF5FD",
+              }}
               style={settingsStyle.textInput}
               onChangeText={(text) => setNationality(text)}
             />
+            <Text style={settingsStyle.textInputDescription}>
+              What is your first language?
+            </Text>
             <TextInput
               mode="outlined"
               label="First Language"
-              dense={true}
               value={firstLanguage}
               right={<TextInput.Icon icon="translate" color="#3BC4E2" />}
-              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              outlineStyle={{
+                borderRadius: 24,
+                borderColor: firstLanguage === "" ? "#FFB7B7" : "#CDF5FD",
+              }}
               style={settingsStyle.textInput}
               onChangeText={(text) => setFirstLanguage(text)}
             />
+            <Text style={settingsStyle.textInputDescription}>
+              What is your highest degree?
+            </Text>
             <TextInput
               mode="outlined"
               label="Educational Background"
-              dense={true}
               value={education}
               right={<TextInput.Icon icon="school-outline" color="#3BC4E2" />}
               outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}
               onChangeText={(text) => setEducation(text)}
             />
+            <Text style={settingsStyle.textInputDescription}>
+              What do you do in your free time?
+            </Text>
             <TextInput
               mode="outlined"
               label="Interests/Hobbies"
-              dense={true}
               multiline={true}
               value={interests}
               right={
@@ -123,10 +142,12 @@ const UserInfo = ({ navigation }) => {
               style={settingsStyle.textInput}
               onChangeText={(text) => setInterests(text)}
             />
+            <Text style={settingsStyle.textInputDescription}>
+              What do you enjoy eating?
+            </Text>
             <TextInput
               mode="outlined"
               label="Favorite Food(s)"
-              dense={true}
               multiline={true}
               value={foods}
               right={<TextInput.Icon icon="food" color="#3BC4E2" />}
