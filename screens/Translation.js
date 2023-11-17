@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
 import {
   Divider,
   IconButton,
