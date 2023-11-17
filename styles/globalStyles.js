@@ -178,6 +178,7 @@ export const settingsStyle = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     paddingVertical: 20,
+    paddingTop: "22%",
   },
   textInput: {
     display: "flex",
@@ -214,7 +215,7 @@ export const allSetStyle = StyleSheet.create({
     justifyContent: "center",
   },
   titleText: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: "bold",
     alignSelf: "center",
     paddingVertical: 20,

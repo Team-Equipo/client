@@ -15,12 +15,12 @@ export default function AllSetScreen() {
       Animated.sequence([
         Animated.timing(changeTxtColor, {
           toValue: 1,
-          duration: 1000,
+          duration: 4000,
           useNativeDriver: false,
         }),
         Animated.timing(changeTxtColor, {
           toValue: 0,
-          duration: 1000,
+          duration: 4000,
           useNativeDriver: false,
         }),
       ]),
@@ -29,7 +29,7 @@ export default function AllSetScreen() {
 
   const textColor = changeTxtColor.interpolate({
     inputRange: [0, 1],
-    outputRange: ["#00A9FF", "#190482"],
+    outputRange: ["#00A9FF", "#FF6666"],
   });
 
   // animate object
@@ -40,24 +40,24 @@ export default function AllSetScreen() {
           Animated.spring(progress, {
             toValue: 1,
             useNativeDriver: true,
-            duration: 2000 * 1.33, // slow down
+            duration: 4000,
           }),
           Animated.spring(progress, {
             toValue: 0.5,
             useNativeDriver: true,
-            duration: 1000 * 1.33, // slow down
+            duration: 2000,
           }),
         ]),
         Animated.sequence([
           Animated.spring(scale, {
             toValue: 2,
             useNativeDriver: true,
-            duration: 2000 * 1.33, // slow down
+            duration: 4000,
           }),
           Animated.spring(scale, {
             toValue: 1,
             useNativeDriver: true,
-            duration: 1000 * 1.33, // slow down
+            duration: 2000,
           }),
         ]),
       ]),
@@ -73,7 +73,6 @@ export default function AllSetScreen() {
           style={{ height: "100%" }}
         >
           <View>
-            {/* <Text style={allSetStyle.titleText}>You are All Set!</Text> */}
             <Animated.Text
               style={[allSetStyle.titleText, { color: textColor }]}
             >
@@ -93,7 +92,6 @@ export default function AllSetScreen() {
                     {
                       rotate: progress.interpolate({
                         inputRange: [0.5, 1],
-                        // outputRange: [Math.PI, 2 * Math.PI],
                         outputRange: ["0deg", "360deg"],
                       }),
                     },
@@ -118,7 +116,7 @@ export default function AllSetScreen() {
   );
 }
 
-const SIZE = 100.0;
+const SIZE = 96.0;
 
 const styles = StyleSheet.create({
   square: {

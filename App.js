@@ -101,10 +101,11 @@ export default function App({ navigation }) {
   );
 
   return (
-    // <SignUpScreen />
+    // <SignInScreen />
+    <SignUpScreen />
     // <UserInfo />
     // <TripInfo />
-    <AllSetScreen />
+    // <AllSetScreen />
     // <PaperProvider theme={{ version: 3 }}>
     //   <AuthContext.Provider value={authContext}>
     //     <Stack.Screen name="Home" component={HomeScreen} />

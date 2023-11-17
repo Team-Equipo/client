@@ -1,6 +1,6 @@
 // TripInfo.js
 import React from "react";
-import { View, SafeAreaView } from "react-native";
+import { View, SafeAreaView, KeyboardAvoidingView } from "react-native";
 import {
   TextInput,
   Button,
@@ -78,15 +78,17 @@ const TripInfo = ({ navigation }) => {
 
   return (
     <PaperProvider theme={settingsTheme}>
-      <HideKeyboard>
-        <SafeAreaView>
+      <KeyboardAvoidingView behavior="position">
+        <HideKeyboard>
           <View
             rowGap={2}
             paddingRight={2}
             paddingLeft={2}
             style={settingsStyle.textInputWrapper}
           >
-            <Text style={settingsStyle.titleText}>Tell us about your Plan</Text>
+            <Text style={[settingsStyle.titleText, { paddingTop: "36%" }]}>
+              Tell us about your Plan
+            </Text>
             <TextInput
               mode="outlined"
               label="Country of Destination"
@@ -205,8 +207,8 @@ const TripInfo = ({ navigation }) => {
               </Button>
             </View>
           </View>
-        </SafeAreaView>
-      </HideKeyboard>
+        </HideKeyboard>
+      </KeyboardAvoidingView>
     </PaperProvider>
   );
 };

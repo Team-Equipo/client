@@ -51,9 +51,9 @@ const UserInfo = ({ navigation }) => {
 
   return (
     <PaperProvider theme={settingsTheme}>
-      <HideKeyboard>
-        {/* <KeyboardAvoidingView> */}
-        <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
+      <KeyboardAvoidingView behavior="position">
+        <HideKeyboard>
+          {/* <SafeAreaView style={{ flexDirection: "column", flex: 1 }}> */}
           <View
             rowGap={2}
             paddingRight={2}
@@ -174,9 +174,9 @@ const UserInfo = ({ navigation }) => {
               </Button>
             </View>
           </View>
-        </SafeAreaView>
-        {/* </KeyboardAvoidingView> */}
-      </HideKeyboard>
+          {/* </SafeAreaView> */}
+        </HideKeyboard>
+      </KeyboardAvoidingView>
     </PaperProvider>
   );
 };
