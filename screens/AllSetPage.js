@@ -1,4 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
+import LottieView from "lottie-react-native";
 import * as React from "react";
 import { View, Animated, StyleSheet } from "react-native";
 import { Button, PaperProvider, Text } from "react-native-paper";
@@ -66,7 +67,7 @@ export default function AllSetScreen() {
 
   return (
     <PaperProvider theme={settingsTheme}>
-      <View>
+      <View style={allSetStyle.container}>
         <LinearGradient
           colors={["#6DCCFC", "#B4BDFF", "#FFFFFF"]}
           locations={[0.01, 0.02, 0.25]}
@@ -78,7 +79,7 @@ export default function AllSetScreen() {
             >
               You are All Set!
             </Animated.Text>
-            <Animated.View
+            {/* <Animated.View
               style={[
                 styles.square,
                 {
@@ -98,7 +99,15 @@ export default function AllSetScreen() {
                   ],
                 },
               ]}
-            />
+            /> */}
+            <View style={allSetStyle.animationContainer}>
+              <LottieView
+                source={require("../assets/animation/FileAnimation.json")}
+                style={allSetStyle.animation}
+                autoPlay
+                loop
+              />
+            </View>
             <Button
               mode="elevated"
               textColor="white"

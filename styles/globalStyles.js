@@ -211,8 +211,6 @@ export const settingsStyle = StyleSheet.create({
 export const allSetStyle = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   titleText: {
     fontSize: 28,
@@ -241,6 +239,14 @@ export const allSetStyle = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "white",
+  },
+  animationContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  animation: {
+    width: "100%",
+    aspectRatio: 1,
   },
 });
 
