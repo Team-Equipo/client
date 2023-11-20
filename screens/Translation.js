@@ -48,6 +48,7 @@ const Translation = ({ navigation }) => {
   }, [inputLang, textToTranslate]);
 
   const handleTranslationText = (text) => {
+    console.log(process.env.EXPO_PUBLIC_FAKE_KEY);
     setTextToTranslate(text);
     if (text == "") {
       setTranslation("");
