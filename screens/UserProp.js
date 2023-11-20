@@ -110,7 +110,7 @@ const UserInfo = ({ navigation }) => {
                 labelStyle={{ fontWeight: "bold" }}
                 style={settingsStyle.button}
               >
-                NEXT
+                <Text style={settingsStyle.buttonText}>NEXT</Text>
               </Button>
             </View>
           </View>

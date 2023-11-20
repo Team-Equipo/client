@@ -178,7 +178,7 @@ const TripInfo = ({ navigation }) => {
                 labelStyle={{ fontWeight: "bold" }}
                 style={settingsStyle.button}
               >
-                Submit
+                <Text style={settingsStyle.buttonText}>Submit</Text>
               </Button>
             </View>
           </View>

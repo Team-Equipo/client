@@ -10,7 +10,7 @@ import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 // import { AuthContext } from "../contexts/AuthContext";
-import { signupStyles, signinTheme } from "../styles/globalStyles";
+import { signupStyles, signinTheme, fonts } from "../styles/globalStyles";
 
 export default function SignInScreen() {
   const [username, setUsername] = React.useState("");
@@ -33,7 +33,7 @@ export default function SignInScreen() {
   };
 
   return (
-    <PaperProvider theme={signinTheme}>
+    <PaperProvider theme={{ ...signinTheme, fonts }}>
       <KeyboardAvoidingView behavior="position">
         <HideKeyboard>
           <LinearGradient
@@ -51,7 +51,6 @@ export default function SignInScreen() {
                   <TextInput
                     mode="outlined"
                     label="Email"
-                    // label="Username"
                     value={username}
                     onChangeText={setUsername}
                     style={signupStyles.textInput}
@@ -109,14 +108,16 @@ export default function SignInScreen() {
                     labelStyle={{ fontWeight: "bold" }}
                     style={signupStyles.button}
                   >
-                    Sign Up
+                    <Text style={signupStyles.buttonText}>Sign Up</Text>
                   </Button>
                   <Text style={signupStyles.divText}>- OR -</Text>
                   <View style={signupStyles.signupText}>
-                    <Text>Already have an account? </Text>
+                    <Text style={signupStyles.bottomText}>
+                      Already have an account?{" "}
+                    </Text>
                     <TouchableOpacity>
                       <Text
-                        style={{ color: "#3BC4E2", fontWeight: "bold" }}
+                        style={signupStyles.signinTouchable}
                         onPress={() => signIn()}
                       >
                         Sign In

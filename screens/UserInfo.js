@@ -15,11 +15,12 @@ import {
 } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { settingsStyle, settingsTheme } from "../styles/globalStyles";
+import { settingsStyle, settingsTheme, fonts } from "../styles/globalStyles";
 
 const UserInfo = ({ navigation }) => {
   const [name, setName] = React.useState("");
   const [nationality, setNationality] = React.useState("");
+  const [firstLanguage, setFirstLanguage] = React.useState("");
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
@@ -35,7 +36,7 @@ const UserInfo = ({ navigation }) => {
   };
 
   return (
-    <PaperProvider theme={settingsTheme}>
+    <PaperProvider theme={{ ...settingsTheme, fonts }}>
       <KeyboardAvoidingView behavior="position">
         <HideKeyboard>
           {/* <SafeAreaView style={{ flexDirection: "column", flex: 1 }}> */}
@@ -104,7 +105,7 @@ const UserInfo = ({ navigation }) => {
                 labelStyle={{ fontWeight: "bold" }}
                 style={settingsStyle.button}
               >
-                NEXT
+                <Text style={settingsStyle.buttonText}>NEXT</Text>
               </Button>
             </View>
           </View>

@@ -1,11 +1,14 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as Font from "expo-font";
 import React from "react";
 import { PaperProvider } from "react-native-paper";
 
 import AppBar from "./components/AppBar";
 import { AuthContext } from "./contexts/AuthContext";
+import AllSetScreen from "./screens/AllSetPage";
 import HomeScreen from "./screens/HomeScreen";
+import Phrase from "./screens/Phrase";
 import Phrases from "./screens/Phrases";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
@@ -14,9 +17,6 @@ import Translation from "./screens/Translation";
 import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
 import UserProp from "./screens/UserProp";
-import AllSetScreen from "./screens/AllSetPage";
-
-import Phrase from "./screens/Phrase";
 
 const Stack = createNativeStackNavigator();
 
