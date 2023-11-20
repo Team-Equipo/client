@@ -101,6 +101,20 @@ export default function App({ navigation }) {
     [],
   );
 
+  const [fontLoaded, setFontLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    const loadFont = async () => {
+      await Font.loadAsync({
+        "Poppins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
+      });
+      setFontLoaded(true);
+    };
+    loadFont();
+  }, []);
+
+  if (!fontLoaded) return null;
+
   return (
     // <SignInScreen />
     // <SignUpScreen />
