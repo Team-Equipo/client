@@ -18,8 +18,18 @@ import HideKeyboard from "../components/HideKeyboard";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
 const UserInfo = ({ navigation }) => {
-  const [name, setName] = React.useState("");
-  const [nationality, setNationality] = React.useState("");
+  const [education, setEducation] = React.useState("");
+  const [interests, setInterests] = React.useState("");
+  const [foods, setFoods] = React.useState("");
+
+  // only allow numerical input
+  const handleAgeInput = (text) => {
+    const numericRegex = /^[0-9]*$/;
+    if (numericRegex.test(text)) {
+      setAgeInput(text);
+      setAge(parseInt(text, 10));
+    }
+  };
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
@@ -45,52 +55,48 @@ const UserInfo = ({ navigation }) => {
             paddingLeft={2}
             style={settingsStyle.textInputWrapper}
           >
-            <Text style={settingsStyle.titleText}>Tell us about you!</Text>
+            <Text style={settingsStyle.titleText}>Tell us more about you!</Text>
             <Text style={settingsStyle.textInputDescription}>
-              How can we call you?
+              What is your highest degree?
             </Text>
             <TextInput
               mode="outlined"
-              label="Name"
-              value={name}
-              right={<TextInput.Icon icon="account" color="#3BC4E2" />}
-              outlineStyle={{
-                borderRadius: 24,
-                borderColor: name === "" ? "#FFB7B7" : "#CDF5FD",
-              }}
+              label="Educational Background"
+              value={education}
+              right={<TextInput.Icon icon="school-outline" color="#3BC4E2" />}
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}
-              onChangeText={(text) => setName(text)}
+              onChangeText={(text) => setEducation(text)}
             />
             <Text style={settingsStyle.textInputDescription}>
-              Where are you from?
+              What do you do in your free time?
             </Text>
             <TextInput
               mode="outlined"
-              label="Nationality"
-              value={nationality}
-              right={<TextInput.Icon icon="earth" color="#3BC4E2" />}
-              outlineStyle={{
-                borderRadius: 24,
-                borderColor: nationality === "" ? "#FFB7B7" : "#CDF5FD",
-              }}
+              label="Interests/Hobbies"
+              multiline={true}
+              value={interests}
+              right={
+                <TextInput.Icon icon="toy-brick-outline" color="#3BC4E2" />
+              }
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}
-              onChangeText={(text) => setNationality(text)}
+              onChangeText={(text) => setInterests(text)}
             />
             <Text style={settingsStyle.textInputDescription}>
-              What is your first language?
+              What do you enjoy eating?
             </Text>
             <TextInput
               mode="outlined"
-              label="First Language"
-              value={firstLanguage}
-              right={<TextInput.Icon icon="translate" color="#3BC4E2" />}
-              outlineStyle={{
-                borderRadius: 24,
-                borderColor: firstLanguage === "" ? "#FFB7B7" : "#CDF5FD",
-              }}
+              label="Favorite Food(s)"
+              multiline={true}
+              value={foods}
+              right={<TextInput.Icon icon="food" color="#3BC4E2" />}
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}
-              onChangeText={(text) => setFirstLanguage(text)}
+              onChangeText={(text) => setFoods(text)}
             />
+
             <View
               paddingTop="1%"
               paddingRight="0.5%"
