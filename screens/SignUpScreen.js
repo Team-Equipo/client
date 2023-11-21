@@ -41,7 +41,8 @@ export default function SignInScreen() {
             locations={[0.01, 0.2, 0.7]}
           >
             <Image
-              source={require("../assets/girl1.png")}
+              // source={require("../assets/girl1.png")}
+              source={require("../assets/accountPhone.png")}
               style={signupStyles.image}
               resizeMode="contain"
             />

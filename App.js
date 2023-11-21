@@ -17,6 +17,7 @@ import Translation from "./screens/Translation";
 import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
 import UserProp from "./screens/UserProp";
+import UserPropFood from "./screens/UserPropFood";
 
 const Stack = createNativeStackNavigator();
 
@@ -117,11 +118,12 @@ export default function App({ navigation }) {
 
   return (
     // <SignInScreen />
-    // <SignUpScreen />
+    <SignUpScreen />
     // <UserInfo />
     // <UserProp />
+    // <UserPropFood />
     // <TripInfo />
-    <AllSetScreen />
+    // <AllSetScreen />
     // <PaperProvider theme={{ version: 3 }}>
     //   <AuthContext.Provider value={authContext}>
     //     <Stack.Screen name="Home" component={HomeScreen} />

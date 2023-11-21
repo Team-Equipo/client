@@ -1,4 +1,4 @@
-// UserInfo.js
+// UserProp.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import {
@@ -17,31 +17,20 @@ import {
 } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { settingsStyle, settingsTheme, fonts } from "../styles/globalStyles";
+import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
 const UserInfo = ({ navigation }) => {
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
+  const [foods, setFoods] = React.useState("");
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
-    if (firstName != "" && lastName != "") {
-      // storeData({ firstName, lastName });
-      navigation.navigate("UserProp");
-    }
-  };
-
-  const storeData = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("user-info", jsonValue);
-    } catch (e) {
-      console.log(e);
+    if (foods != "") {
+      navigation.navigate("TripInfo");
     }
   };
 
   return (
-    <PaperProvider theme={{ ...settingsTheme, fonts }}>
+    <PaperProvider theme={settingsTheme}>
       <KeyboardAvoidingView behavior="position">
         <HideKeyboard>
           {/* <SafeAreaView style={{ flexDirection: "column", flex: 1 }}> */}
@@ -51,42 +40,27 @@ const UserInfo = ({ navigation }) => {
             paddingLeft={2}
             style={settingsStyle.textInputWrapper}
           >
-            <Text style={settingsStyle.titleText}>How can we call you?</Text>
+            <Text style={settingsStyle.titleText}>Nice to see you, NAME!</Text>
             <Image
+              // source={require("../assets/girl1.png")}
               source={require("../assets/myselfGirl.png")}
               style={settingsStyle.image}
               resizeMode="contain"
             />
             <Text style={settingsStyle.textInputDescription}>
-              What is your First Name?
+              What do you enjoy eating?
             </Text>
             <TextInput
               mode="outlined"
-              label="First Name"
-              value={firstName}
-              right={<TextInput.Icon icon="account" color="#3BC4E2" />}
-              outlineStyle={{
-                borderRadius: 24,
-                borderColor: "#CDF5FD",
-              }}
+              label="Favorite Food(s)"
+              multiline={true}
+              value={foods}
+              right={<TextInput.Icon icon="food" color="#3BC4E2" />}
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}
-              onChangeText={(text) => setFirstName(text)}
+              onChangeText={(text) => setFoods(text)}
             />
-            <Text style={settingsStyle.textInputDescription}>
-              What is your Last Name?
-            </Text>
-            <TextInput
-              mode="outlined"
-              label="Last Name"
-              value={lastName}
-              right={<TextInput.Icon icon="account" color="#3BC4E2" />}
-              outlineStyle={{
-                borderRadius: 24,
-                borderColor: "#CDF5FD",
-              }}
-              style={settingsStyle.textInput}
-              onChangeText={(text) => setLastName(text)}
-            />
+
             <View
               paddingTop="1%"
               paddingRight="0.5%"

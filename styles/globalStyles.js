@@ -208,6 +208,14 @@ export const settingsStyle = StyleSheet.create({
     paddingVertical: 20,
     paddingTop: "22%",
   },
+  image: {
+    display: "flex",
+    width: "66%",
+    height: "34%",
+    marginTop: "6%",
+    marginBottom: "12%",
+    alignSelf: "center",
+  },
   textInput: {
     display: "flex",
     marginBottom: 10,

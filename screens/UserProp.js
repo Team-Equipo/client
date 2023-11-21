@@ -1,10 +1,12 @@
-// UserInfo.js
+// UserProp.js
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import {
   StyleSheet,
   View,
   SafeAreaView,
   KeyboardAvoidingView,
+  Image,
 } from "react-native";
 import {
   TextInput,
@@ -18,31 +20,28 @@ import HideKeyboard from "../components/HideKeyboard";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
 const UserInfo = ({ navigation }) => {
-  const [education, setEducation] = React.useState("");
   const [interests, setInterests] = React.useState("");
-  const [foods, setFoods] = React.useState("");
-
-  // only allow numerical input
-  const handleAgeInput = (text) => {
-    const numericRegex = /^[0-9]*$/;
-    if (numericRegex.test(text)) {
-      setAgeInput(text);
-      setAge(parseInt(text, 10));
-    }
-  };
+  const [userData, setUserdata] = React.useState({});
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
-    if (
-      name != "" &&
-      // age != -1 &&
-      nationality != "" &&
-      firstLanguage != "" &&
-      education != ""
-    ) {
-      navigation.navigate("TripInfo");
+    if (interests != "") {
+      navigation.navigate("UserPropFood");
     }
   };
+
+  // read user info from storage
+  const getUserData = async () => {
+    try {
+      setUserdata(JSON.parse(await AsyncStorage.getItem("user-info")));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  React.useEffect(() => {
+    getUserData();
+  }, [AsyncStorage.getItem("user-info")]);
 
   return (
     <PaperProvider theme={settingsTheme}>
@@ -55,18 +54,15 @@ const UserInfo = ({ navigation }) => {
             paddingLeft={2}
             style={settingsStyle.textInputWrapper}
           >
-            <Text style={settingsStyle.titleText}>Tell us more about you!</Text>
-            <Text style={settingsStyle.textInputDescription}>
-              What is your highest degree?
+            <Text style={settingsStyle.titleText}>
+              {/* Nice to see you, {userData.firstName}! */}
+              Nice to see you, NAME!
             </Text>
-            <TextInput
-              mode="outlined"
-              label="Educational Background"
-              value={education}
-              right={<TextInput.Icon icon="school-outline" color="#3BC4E2" />}
-              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
-              style={settingsStyle.textInput}
-              onChangeText={(text) => setEducation(text)}
+            <Image
+              // source={require("../assets/girl1.png")}
+              source={require("../assets/myselfGirl.png")}
+              style={settingsStyle.image}
+              resizeMode="contain"
             />
             <Text style={settingsStyle.textInputDescription}>
               What do you do in your free time?
@@ -74,7 +70,7 @@ const UserInfo = ({ navigation }) => {
             <TextInput
               mode="outlined"
               label="Interests/Hobbies"
-              multiline={true}
+              multiline
               value={interests}
               right={
                 <TextInput.Icon icon="toy-brick-outline" color="#3BC4E2" />
@@ -83,20 +79,6 @@ const UserInfo = ({ navigation }) => {
               style={settingsStyle.textInput}
               onChangeText={(text) => setInterests(text)}
             />
-            <Text style={settingsStyle.textInputDescription}>
-              What do you enjoy eating?
-            </Text>
-            <TextInput
-              mode="outlined"
-              label="Favorite Food(s)"
-              multiline={true}
-              value={foods}
-              right={<TextInput.Icon icon="food" color="#3BC4E2" />}
-              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
-              style={settingsStyle.textInput}
-              onChangeText={(text) => setFoods(text)}
-            />
-
             <View
               paddingTop="1%"
               paddingRight="0.5%"
