@@ -145,11 +145,11 @@ export const translateStyles = StyleSheet.create({
     fontSize: 16,
   },
   languageLabel: {
-    paddingTop: "1%",
-    paddingLeft: "4%",
+    backgroundColor: "white",
     fontSize: 20,
-    color: "gray",
-    textAlign: "left",
+    textColor: "black",
+    textAlign: "center",
+    marginTop: 7,
   },
   modalContainer: {
     backgroundColor: "white",
