@@ -144,6 +144,7 @@ const Translation = ({ navigation }) => {
       <PaperProvider theme={translationTheme}>
         <View style={translateStyles.background}>
           <SafeAreaView>
+            {/* Wordreference popup */}
             <Portal>
               <Modal
                 visible={wordRefVisible}
@@ -179,6 +180,8 @@ const Translation = ({ navigation }) => {
                 </View>
               </Modal>
             </Portal>
+
+            {/* Main screen */}
             <View
               style={{
                 height: "100%",
@@ -186,33 +189,9 @@ const Translation = ({ navigation }) => {
                 justifyContent: "flex-end",
               }}
               rowGap={4}
-              paddingRight={2}
-              paddingLeft={2}
+              paddingTop={8}
             >
-              <View
-                style={{
-                  marginBottom: -43,
-                  marginRight: 10,
-                  zIndex: 3,
-                  alignItems: "flex-end",
-                }}
-              >
-                <IconButton
-                  onPress={toggleLang}
-                  icon="swap-vertical"
-                  iconColor="gray"
-                  style={{ width: 25, height: 30, marginTop: 4 }}
-                ></IconButton>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  zIndex: 2,
-                }}
-              >
-                <Text style={translateStyles.languageLabel}>{inputLang}</Text>
-              </View>
+              {/* Top input box */}
               <View style={{ ...shadows.shadow4, ...translateStyles.textBox }}>
                 <TextInput
                   style={{
@@ -226,31 +205,8 @@ const Translation = ({ navigation }) => {
                   onChangeText={(text) => setTranslationInput(text)}
                 />
               </View>
-              <View
-                style={{
-                  marginTop: -3,
-                  marginRight: 4,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text style={{ ...translateStyles.languageLabel }}>
-                  {outputLang}
-                </Text>
-                <IconButton
-                  style={{ width: 30, height: 30, marginBottom: -3 }}
-                  iconColor="gray"
-                  icon="volume-high"
-                  mode="default"
-                  onPress={() => {
-                    if (outputLang === "Spanish") {
-                      Speech.speak(translationOutput, { language: "es" });
-                    } else if (outputLang === "English") {
-                      Speech.speak(translationOutput, { language: "en" });
-                    }
-                  }}
-                />
-              </View>
+
+              {/* Bottom output box */}
               <View
                 style={{
                   ...shadows.shadow4,
@@ -277,6 +233,8 @@ const Translation = ({ navigation }) => {
                   )}
                 />
               </View>
+
+              {/* Guide text for word selection */}
               <Text
                 style={[
                   translateStyles.languageLabel,
@@ -291,11 +249,34 @@ const Translation = ({ navigation }) => {
               >
                 Tap a translated word for the dictionary definition
               </Text>
+              {/* <Text style={{ ...translateStyles.languageLabel }}>
+                  {outputLang}
+              </Text> */}
               <Button
                 onPress={() => doTranslation(translationInput, outputLang)}
               >
                 Submit
               </Button>
+              {/* <IconButton
+                  onPress={toggleLang}
+                  icon="swap-vertical"
+                  iconColor="gray"
+                  style={{ width: 25, height: 30, marginTop: 4 }}
+                ></IconButton> */}
+
+              {/* <IconButton
+                  style={{ width: 30, height: 30, marginBottom: -3 }}
+                  iconColor="gray"
+                  icon="volume-high"
+                  mode="default"
+                  onPress={() => {
+                    if (outputLang === "Spanish") {
+                      Speech.speak(translationOutput, { language: "es" });
+                    } else if (outputLang === "English") {
+                      Speech.speak(translationOutput, { language: "en" });
+                    }
+                  }}
+                /> */}
             </View>
           </SafeAreaView>
         </View>
