@@ -47,24 +47,68 @@ const Translation = ({ navigation }) => {
     handleTranslationText(textToTranslate, inputLang);
   }, [inputLang, textToTranslate]);
 
-  const handleTranslationText = (text) => {
-    console.log(process.env.EXPO_PUBLIC_FAKE_KEY);
-    setTextToTranslate(text);
-    if (text == "") {
-      setTranslation("");
-    } else if (inputLang == "English") {
-      if (text == "Hello world") {
-        setTranslation("Hola mundo");
-      } else {
-        setTranslation("Esto es una respuesta genérica...");
+  const translateText = async (text, targetLanguage) => {
+    const apiKey = process.env.EXPO_PUBLIC_TRANSLATION_KEY;
+    const endpoint = `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${targetLanguage}`;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": apiKey,
+          "Ocp-Apim-Subscription-Region": "westcentralus",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify([{ text }]),
+      });
+
+      if (!response.ok) {
+        // Handle non-successful responses (e.g., HTTP error status)
+        throw new Error(
+          `Translation request failed with status ${response.status}`,
+        );
       }
-    } else if (inputLang == "Spanish") {
-      if (text == "Hola mundo") {
-        setTranslation("Hello world");
-      } else {
-        setTranslation("This is a generic response...");
+
+      const data = await response.json();
+
+      if (!data || !data[0]?.translations || !data[0].translations[0]?.text) {
+        // Handle unexpected response structure
+        throw new Error("Unexpected response format from translation API");
       }
+
+      return data[0].translations[0].text;
+    } catch (error) {
+      // Handle other errors (e.g., network issues, parsing errors)
+      console.error("Translation error:", error.message);
+      return text; // Return the original text as a fallback
     }
+  };
+
+  const handleTranslationText = async (text) => {
+    // console.log(process.env.EXPO_PUBLIC_FAKE_KEY);
+    if (text != "") {
+      setTextToTranslate(text);
+      const microsoftTranslation = await translateText(text, "es");
+      console.log(microsoftTranslation);
+      setTranslation(microsoftTranslation);
+    }
+
+    // if (text == "") {
+    //   setTranslation("");
+    // } else if (inputLang == "English") {
+    //   if (text == "Hello world") {
+    //     setTranslation("Hola mundo");
+    //   } else {
+    //     setTranslation("Esto es una respuesta genérica...");
+    //   }
+    // } else if (inputLang == "Spanish") {
+    //   if (text == "Hola mundo") {
+    //     setTranslation("Hello world");
+    //   } else {
+    //     setTranslation("This is a generic response...");
+    //   }
+    // }
   };
 
   const toggleLang = () => {
