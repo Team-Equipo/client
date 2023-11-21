@@ -25,16 +25,34 @@ const UserInfo = ({ navigation }) => {
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
-    if (firstName != "" && lastName != "") {
-      // storeData({ firstName, lastName });
+    if (firstName !== "" && lastName !== "") {
+      storeData(["firstName", "lastName"], [firstName, lastName]);
       navigation.navigate("UserProp");
     }
   };
 
-  const storeData = async (value) => {
+  const storeData = async (keys, values) => {
+    let userData;
     try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("user-info", jsonValue);
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      if (userData == null) {
+        userData = {};
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    for (let i = 0; i < keys.length; i++) {
+      userData[keys[i]] = values[i];
+    }
+    // console.log("User data with insertion:", userData);
+    try {
+      await AsyncStorage.setItem("user-info", JSON.stringify(userData));
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      console.log(userData);
     } catch (e) {
       console.log(e);
     }

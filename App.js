@@ -118,8 +118,8 @@ export default function App({ navigation }) {
 
   return (
     // <SignInScreen />
-    <SignUpScreen />
-    // <UserInfo />
+    // <SignUpScreen />
+    <UserInfo />
     // <UserProp />
     // <UserPropFood />
     // <TripInfo />
