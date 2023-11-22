@@ -1,14 +1,13 @@
+import * as Font from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
 import * as React from "react";
-import { View, Animated, StyleSheet } from "react-native";
+import { View, Animated } from "react-native";
 import { Button, PaperProvider, Text } from "react-native-paper";
 
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
 export default function AllSetScreen() {
-  const progress = React.useRef(new Animated.Value(0.5)).current;
-  const scale = React.useRef(new Animated.Value(1)).current;
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -33,37 +32,23 @@ export default function AllSetScreen() {
     outputRange: ["#00A9FF", "#FF6666"],
   });
 
-  // animate object
+  const [fontLoaded, setFontLoaded] = React.useState(false);
+
   React.useEffect(() => {
-    Animated.loop(
-      Animated.parallel([
-        Animated.sequence([
-          Animated.spring(progress, {
-            toValue: 1,
-            useNativeDriver: true,
-            duration: 4000,
-          }),
-          Animated.spring(progress, {
-            toValue: 0.5,
-            useNativeDriver: true,
-            duration: 2000,
-          }),
-        ]),
-        Animated.sequence([
-          Animated.spring(scale, {
-            toValue: 2,
-            useNativeDriver: true,
-            duration: 4000,
-          }),
-          Animated.spring(scale, {
-            toValue: 1,
-            useNativeDriver: true,
-            duration: 2000,
-          }),
-        ]),
-      ]),
-    ).start();
+    const loadFont = async () => {
+      await Font.loadAsync({
+        "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+        "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+        "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
+        "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
+        "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
+      });
+      setFontLoaded(true);
+    };
+    loadFont();
   }, []);
+
+  if (!fontLoaded) return null;
 
   return (
     <PaperProvider theme={settingsTheme}>
@@ -79,27 +64,6 @@ export default function AllSetScreen() {
             >
               You are All Set!
             </Animated.Text>
-            {/* <Animated.View
-              style={[
-                styles.square,
-                {
-                  borderRadius: progress.interpolate({
-                    inputRange: [0.5, 1],
-                    outputRange: [SIZE / 4, SIZE / 2],
-                  }),
-                  opacity: progress,
-                  transform: [
-                    { scale },
-                    {
-                      rotate: progress.interpolate({
-                        inputRange: [0.5, 1],
-                        outputRange: ["0deg", "360deg"],
-                      }),
-                    },
-                  ],
-                },
-              ]}
-            /> */}
             <View style={allSetStyle.animationContainer}>
               <LottieView
                 source={require("../assets/animation/FileAnimation.json")}
@@ -124,15 +88,3 @@ export default function AllSetScreen() {
     </PaperProvider>
   );
 }
-
-const SIZE = 96.0;
-
-const styles = StyleSheet.create({
-  square: {
-    width: SIZE,
-    height: SIZE,
-    marginVertical: "28%",
-    backgroundColor: "#83A2FF",
-    alignSelf: "center",
-  },
-});

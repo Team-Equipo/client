@@ -295,7 +295,7 @@ export const allSetStyle = StyleSheet.create({
     alignSelf: "center",
   },
   buttonText: {
-    fontFamily: "Poppins-Regular",
+    fontFamily: "Poppins-Bold",
     fontSize: 16,
     fontWeight: "bold",
     color: "white",

@@ -1,8 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import * as Font from "expo-font";
 import React from "react";
-import { PaperProvider } from "react-native-paper";
 
 import AppBar from "./components/AppBar";
 import { AuthContext } from "./contexts/AuthContext";
@@ -102,28 +100,14 @@ export default function App({ navigation }) {
     [],
   );
 
-  const [fontLoaded, setFontLoaded] = React.useState(false);
-
-  React.useEffect(() => {
-    const loadFont = async () => {
-      await Font.loadAsync({
-        "Poppins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
-      });
-      setFontLoaded(true);
-    };
-    loadFont();
-  }, []);
-
-  if (!fontLoaded) return null;
-
   return (
     // <SignInScreen />
     // <SignUpScreen />
     // <UserInfo />
     // <UserProp />
     // <UserPropFood />
-    <TripInfo />
-    // <AllSetScreen />
+    // <TripInfo />
+    <AllSetScreen />
     // <PaperProvider theme={{ version: 3 }}>
     //   <AuthContext.Provider value={authContext}>
     //     <Stack.Screen name="Home" component={HomeScreen} />
