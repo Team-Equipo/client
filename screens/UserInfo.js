@@ -71,7 +71,7 @@ const UserInfo = ({ navigation }) => {
           >
             <Text style={settingsStyle.titleText}>How can we call you?</Text>
             <Image
-              source={require("../assets/myselfGirl.png")}
+              source={require("../assets/images/myselfGirl.png")}
               style={settingsStyle.image}
               resizeMode="contain"
             />

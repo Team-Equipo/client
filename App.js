@@ -122,8 +122,8 @@ export default function App({ navigation }) {
     // <UserInfo />
     // <UserProp />
     // <UserPropFood />
-    // <TripInfo />
-    <AllSetScreen />
+    <TripInfo />
+    // <AllSetScreen />
     // <PaperProvider theme={{ version: 3 }}>
     //   <AuthContext.Provider value={authContext}>
     //     <Stack.Screen name="Home" component={HomeScreen} />

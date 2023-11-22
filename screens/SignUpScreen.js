@@ -42,7 +42,7 @@ export default function SignInScreen() {
           >
             <Image
               // source={require("../assets/girl1.png")}
-              source={require("../assets/accountPhone.png")}
+              source={require("../assets/images/accountPhone.png")}
               style={signupStyles.image}
               resizeMode="contain"
             />

@@ -76,11 +76,13 @@ const TripInfo = ({ navigation }) => {
           >
             <Text style={[settingsStyle.titleText, { paddingTop: "36%" }]}>
               Where do you plan to travel,{" "}
-              {userData.firstName ? userData.firstName : "User"}!?
+              <Text style={settingsStyle.titleText2}>
+                {userData.firstName ? userData.firstName : "User"}?
+              </Text>
             </Text>
             <Image
               // source={require("../assets/girl1.png")}
-              source={require("../assets/airplane.png")}
+              source={require("../assets/images/airplane.png")}
               style={settingsStyle.image}
               resizeMode="contain"
             />
