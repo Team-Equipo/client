@@ -119,11 +119,11 @@ export default function App({ navigation }) {
   return (
     // <SignInScreen />
     // <SignUpScreen />
-    <UserInfo />
+    // <UserInfo />
     // <UserProp />
     // <UserPropFood />
     // <TripInfo />
-    // <AllSetScreen />
+    <AllSetScreen />
     // <PaperProvider theme={{ version: 3 }}>
     //   <AuthContext.Provider value={authContext}>
     //     <Stack.Screen name="Home" component={HomeScreen} />

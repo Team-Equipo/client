@@ -27,7 +27,7 @@ const UserInfo = ({ navigation }) => {
   const handleUserSubmit = () => {
     if (firstName !== "" && lastName !== "") {
       storeData(["firstName", "lastName"], [firstName, lastName]);
-      navigation.navigate("UserProp");
+      // navigation.navigate("UserProp");
     }
   };
 

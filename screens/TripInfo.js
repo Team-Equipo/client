@@ -14,12 +14,55 @@ import HideKeyboard from "../components/HideKeyboard";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
 const TripInfo = ({ navigation }) => {
-  const [region, setRegion] = React.useState("");
-  const [plan, setPlan] = React.useState("");
+  const [destination, setRegion] = React.useState("");
+  const [userData, setUserdata] = React.useState({});
 
-  const handleSetPlan = (text) => {
-    setPlan(text);
+  const handleUserSubmit = () => {
+    if (destination != "") {
+      storeData(["Destination"], [destination]);
+      // navigation.navigate("TripInfo");
+    }
   };
+
+  const storeData = async (keys, values) => {
+    let userData;
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      if (userData == null) {
+        userData = {};
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    for (let i = 0; i < keys.length; i++) {
+      userData[keys[i]] = values[i];
+    }
+    // console.log("User data with insertion:", userData);
+    try {
+      await AsyncStorage.setItem("user-info", JSON.stringify(userData));
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      console.log(userData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // read user info from storage
+  const getUserData = async () => {
+    try {
+      setUserdata(JSON.parse(await AsyncStorage.getItem("user-info")));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  React.useEffect(() => {
+    getUserData();
+  }, [AsyncStorage.getItem("user-info")]);
 
   return (
     <PaperProvider theme={settingsTheme}>
@@ -32,7 +75,8 @@ const TripInfo = ({ navigation }) => {
             style={settingsStyle.textInputWrapper}
           >
             <Text style={[settingsStyle.titleText, { paddingTop: "36%" }]}>
-              Where do you plan to travel, NAME?
+              Where do you plan to travel,{" "}
+              {userData.firstName ? userData.firstName : "User"}!?
             </Text>
             <Image
               // source={require("../assets/girl1.png")}
@@ -43,23 +87,17 @@ const TripInfo = ({ navigation }) => {
             <TextInput
               mode="outlined"
               label="Destination"
-              value={region}
+              value={destination}
               right={<TextInput.Icon icon="map-marker" color="#3BC4E2" />}
               outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}
               onChangeText={(text) => setRegion(text)}
             />
             <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
-              {/* <Button
-                mode="contained"
-                onPress={() => signIn({ username, password })}
-              >
-                Submit
-              </Button> */}
               <Button
                 mode="elevated"
                 textColor="white"
-                onPress={handleSetPlan}
+                onPress={handleUserSubmit}
                 labelStyle={{ fontWeight: "bold" }}
                 style={settingsStyle.button}
               >

@@ -26,7 +26,35 @@ const UserInfo = ({ navigation }) => {
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
     if (interests != "") {
-      navigation.navigate("UserPropFood");
+      storeData(["Hobbies"], [interests]);
+      // navigation.navigate("UserPropFood");
+    }
+  };
+
+  const storeData = async (keys, values) => {
+    let userData;
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      if (userData == null) {
+        userData = {};
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    for (let i = 0; i < keys.length; i++) {
+      userData[keys[i]] = values[i];
+    }
+    // console.log("User data with insertion:", userData);
+    try {
+      await AsyncStorage.setItem("user-info", JSON.stringify(userData));
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      console.log(userData);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -55,8 +83,10 @@ const UserInfo = ({ navigation }) => {
             style={settingsStyle.textInputWrapper}
           >
             <Text style={settingsStyle.titleText}>
-              {/* Nice to see you, {userData.firstName}! */}
-              Nice to see you, NAME!
+              Nice to see you,{" "}
+              <Text style={settingsStyle.titleText2}>
+                {userData.firstName ? userData.firstName : "User"}!
+              </Text>
             </Text>
             <Image
               // source={require("../assets/girl1.png")}
