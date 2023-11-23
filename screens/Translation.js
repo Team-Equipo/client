@@ -18,7 +18,6 @@ import {
   PaperProvider,
   Divider,
   Surface,
-  ActivityIndicator,
 } from "react-native-paper";
 import { WebView } from "react-native-webview";
 
@@ -181,7 +180,6 @@ const Translation = ({ navigation }) => {
                   ...shadows.shadow4,
                   ...translateStyles.textBox,
                   backgroundColor: "white",
-                  borderColor: "white",
                   borderBottomLeftRadius: 0,
                   borderBottomRightRadius: 0,
                 }}
@@ -239,7 +237,13 @@ const Translation = ({ navigation }) => {
                   }}
                 >
                   <Surface
-                    style={{ borderRadius: 100, marginTop: -30, opacity: 0.5 }}
+                    style={{
+                      borderRadius: 100,
+                      marginTop: -30,
+                      opacity: 0.5,
+                      backgroundColor: "transparent",
+                    }}
+                    elevation={2}
                   >
                     <IconButton
                       mode="outlined"
@@ -265,7 +269,14 @@ const Translation = ({ navigation }) => {
                   zIndex: 5,
                 }}
               >
-                <Surface style={{ borderRadius: 100, padding: -20 }}>
+                <Surface
+                  style={{
+                    borderRadius: 100,
+                    padding: -20,
+                    backgroundColor: "white",
+                  }}
+                  elevation={2}
+                >
                   <IconButton
                     mode="outlined"
                     containerColor="#F5F5F9"
