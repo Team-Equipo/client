@@ -2,7 +2,7 @@
 import * as Speech from "expo-speech";
 import React, { useState } from "react";
 import {
-  Text,
+  // Text,
   TextInput,
   View,
   SafeAreaView,
@@ -11,13 +11,17 @@ import {
   useWindowDimensions,
 } from "react-native";
 import {
+  Text,
+  Button,
   IconButton,
   withTheme,
   Portal,
   Modal,
+  Dialog,
   PaperProvider,
   Divider,
   Surface,
+  TouchableRipple,
   ActivityIndicator,
 } from "react-native-paper";
 import { WebView } from "react-native-webview";
@@ -30,7 +34,8 @@ import {
 } from "../styles/globalStyles";
 
 const Translation = ({ navigation }) => {
-  // States for I/O, dictionary loading and displaying dictionary entry
+  // States for I/O, dictionary loading and displaying dictionary entry,
+  // displaying audio input info
   const [inputLang, setInputLang] = React.useState("English");
   const [outputLang, setOutputLang] = React.useState("Spanish");
   const [translationInput, setTranslationInput] = React.useState("");
@@ -42,16 +47,17 @@ const Translation = ({ navigation }) => {
   );
   const [wordRefLoading, setWordRefLoading] = React.useState(false);
   const [wordRefVisible, setWordRefVisible] = useState(false);
+  const [micInfoVisible, setMicInfoVisible] = useState(false);
 
   // To encode/decode ISO language codes used by Microsoft Translate
   const ISO6391 = require("iso-639-1");
 
   // Function to send text and target language to Microsoft Translator API,
   // return received translation or error if something went wrong
-  const translateText = async (text, targetLanguage) => {
+  const translateText = async (text, inputLanguage, targetLanguage) => {
     // apiKey stored in environmental variable to avoid exposure in Github
     const apiKey = process.env.EXPO_PUBLIC_TRANSLATION_KEY;
-    const endpoint = `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${targetLanguage}`;
+    const endpoint = `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=${inputLanguage}&to=${targetLanguage}`;
 
     // Fetch translation
     try {
@@ -98,6 +104,7 @@ const Translation = ({ navigation }) => {
       if (text !== "") {
         const microsoftTranslation = await translateText(
           text,
+          ISO6391.getCode(inputLang),
           ISO6391.getCode(outputLang),
         );
         setTranslationOutput(microsoftTranslation);
@@ -142,8 +149,41 @@ const Translation = ({ navigation }) => {
       <HideKeyboard>
         <View style={translateStyles.background}>
           <SafeAreaView>
-            {/* Wordreference popup */}
+            {/* Overlay for popups */}
             <Portal>
+              {/* Mic info alert */}
+              <Dialog
+                visible={micInfoVisible}
+                onDismiss={() => setMicInfoVisible(false)}
+              >
+                <Dialog.Content>
+                  <Text>
+                    Your device's built-in transcription functionality can be
+                    used if it is set to record in the correct language(s).
+                  </Text>
+                </Dialog.Content>
+                <Divider />
+                <TouchableRipple
+                  borderless
+                  onPress={() => setMicInfoVisible(false)}
+                  style={{
+                    borderBottomLeftRadius: 25,
+                    borderBottomRightRadius: 25,
+                  }}
+                >
+                  <Dialog.Actions
+                    style={{
+                      justifyContent: "center",
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                    }}
+                  >
+                    <Text>OK</Text>
+                  </Dialog.Actions>
+                </TouchableRipple>
+              </Dialog>
+
+              {/* Wordreference popup */}
               <Modal
                 visible={wordRefVisible}
                 onDismiss={() => setWordRefVisible(false)}
@@ -210,7 +250,7 @@ const Translation = ({ navigation }) => {
                     style={{ marginTop: 0, marginRight: 0 }}
                     icon="microphone"
                     onPress={() => {
-                      // Speak
+                      setMicInfoVisible(true);
                     }}
                   />
                 </View>
@@ -224,7 +264,6 @@ const Translation = ({ navigation }) => {
                     textAlignVertical: "top",
                     flex: 1,
                     fontSize: 20,
-                    marginTop: 3,
                   }}
                   multiline
                   value={translationInput}
