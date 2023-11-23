@@ -18,6 +18,7 @@ import {
   PaperProvider,
   Divider,
   Surface,
+  ActivityIndicator,
 } from "react-native-paper";
 import { WebView } from "react-native-webview";
 
@@ -39,6 +40,7 @@ const Translation = ({ navigation }) => {
   const [wordRefEndpoint, setWordRefEndpoint] = React.useState(
     "https://www.wordreference.com/es/en/translation.asp?spen=",
   );
+  const [wordRefLoading, setWordRefLoading] = React.useState(false);
   const [wordRefVisible, setWordRefVisible] = useState(false);
 
   // To encode/decode ISO language codes used by Microsoft Translate
@@ -154,12 +156,21 @@ const Translation = ({ navigation }) => {
                     flex: 1,
                   }}
                 >
+                  {/* Loading indicator */}
+                  {wordRefLoading ? (
+                    <View style={{ height: "100%", justifyContent: "center" }}>
+                      <ActivityIndicator />
+                    </View>
+                  ) : null}
+
+                  {/* Wordreference page */}
                   <WebView
                     originWhitelist={["*"]}
                     source={{ uri: wordRefEndpoint + searchedWord }}
-                    style={{ borderRadius: 15, marginTop: -180 }}
+                    style={{ borderRadius: 15, marginTop: -175 }}
                     containerStyle={{ borderRadius: 15 }}
-                    startInLoadingState
+                    onLoadStart={() => setWordRefLoading(true)}
+                    onLoadProgress={() => setWordRefLoading(false)}
                   />
                 </View>
               </Modal>
