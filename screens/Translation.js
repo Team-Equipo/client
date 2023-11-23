@@ -118,13 +118,11 @@ const Translation = ({ navigation }) => {
   // Function to switch input and output languages and their corresponding
   // Wordreference endpoints for the dictionary
   const toggleLang = () => {
-    let temp = inputLang;
+    const temp = inputLang;
     setInputLang(outputLang);
     setOutputLang(temp);
 
-    temp = translationInput;
-    setTranslationInput(translationOutput);
-    setTranslationOutput(temp);
+    setTranslationOutput("");
 
     if (inputLang === "English") {
       setWordRefEndpoint(
