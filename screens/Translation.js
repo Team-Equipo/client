@@ -245,14 +245,28 @@ const Translation = ({ navigation }) => {
                   {/* Input language label */}
                   <Text style={translateStyles.languageLabel}>{inputLang}</Text>
 
-                  {/* Audio input button */}
-                  <IconButton
-                    style={{ marginTop: 0, marginRight: 0 }}
-                    icon="microphone"
-                    onPress={() => {
-                      setMicInfoVisible(true);
-                    }}
-                  />
+                  {/* Input buttons */}
+                  <View style={{ flexDirection: "row" }}>
+                    {/* Audio input button */}
+                    <IconButton
+                      style={{ marginTop: 0, marginRight: 0 }}
+                      icon="microphone"
+                      onPress={() => {
+                        setMicInfoVisible(true);
+                      }}
+                    />
+
+                    {/* Clear text input button */}
+                    {translationInput !== "" ? (
+                      <IconButton
+                        style={{ marginTop: 0, marginRight: 0, marginLeft: -5 }}
+                        icon="close"
+                        onPress={() => {
+                          setTranslationInput("");
+                        }}
+                      />
+                    ) : null}
+                  </View>
                 </View>
 
                 <Divider style={{ marginTop: -10 }} />
