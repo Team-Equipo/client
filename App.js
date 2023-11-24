@@ -107,60 +107,94 @@ export default function App({ navigation }) {
     // <UserProp />
     // <UserPropFood />
     // <TripInfo />
-    <AllSetScreen />
-    // <PaperProvider theme={{ version: 3 }}>
-    //   <AuthContext.Provider value={authContext}>
-    //     <Stack.Screen name="Home" component={HomeScreen} />
-    //     <NavigationContainer>
-    //       <Stack.Navigator
-    //         screenOptions={{
-    //           header: (props) => <AppBar {...props} />,
-    //         }}
-    //       >
-    //         {state.isLoading ? (
-    //           // We haven't finished checking for the token yet
-    //           <Stack.Screen name="Splash" component={SplashScreen} />
-    //         ) : state.userToken == null ? (
-    //           // No token found, user isn't signed in
-    //           <Stack.Screen
-    //             name="SignIn"
-    //             component={SignInScreen}
-    //             options={{
-    //               title: "Sign in",
-    //               // When logging out, a pop animation feels intuitive
-    //               animationTypeForReplace: state.isSignout ? "pop" : "push",
-    //             }}
-    //           />
-    //         ) : state.userToken === "signup" ? (
-    //           <>
-    //             <Stack.Screen
-    //               name="SignUp"
-    //               component={UserInfo}
-    //               options={{
-    //                 title: "Sign up",
-    //                 // When logging out, a pop animation feels intuitive
-    //                 animationTypeForReplace: state.isSignout ? "pop" : "push",
-    //               }}
-    //             />
-    //             <Stack.Screen
-    //               name="TripInfo"
-    //               component={TripInfo}
-    //               options={{
-    //                 title: "Trip Info",
-    //                 // When logging out, a pop animation feels intuitive
-    //                 animationTypeForReplace: state.isSignout ? "pop" : "push",
-    //               }}
-    //             />
-    //           </>
-    //         ) : (
-    //           // User is signed in
-    //           <>
-    //             <Stack.Screen name="Home" component={HomeScreen} />
-    //           </>
-    //         )}
-    //       </Stack.Navigator>
-    //     </NavigationContainer>
-    //   </AuthContext.Provider>
-    // </PaperProvider>
+    // <AllSetScreen />
+    <AuthContext.Provider value={authContext}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            header: (props) => <AppBar {...props} />,
+          }}
+        >
+          {state.isLoading ? (
+            // We haven't finished checking for the token yet
+            <Stack.Screen name="Splash" component={SplashScreen} />
+          ) : state.userToken == null ? (
+            // No token found, user isn't signed in
+            <Stack.Screen
+              name="SignIn"
+              component={SignInScreen}
+              options={{
+                title: "Sign in",
+                // When logging out, a pop animation feels intuitive
+                animationTypeForReplace: state.isSignout ? "pop" : "push",
+              }}
+            />
+          ) : state.userToken === "signup" ? (
+            <>
+              <Stack.Screen
+                name="SignUp"
+                component={SignUpScreen}
+                options={{
+                  title: "Sign Up",
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? "pop" : "push",
+                }}
+              />
+              <Stack.Screen
+                name="UserInfo"
+                component={UserInfo}
+                options={{
+                  title: "Your Name",
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? "pop" : "push",
+                }}
+              />
+              <Stack.Screen
+                name="UserProp"
+                component={UserProp}
+                options={{
+                  title: "Your Interests",
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? "pop" : "push",
+                }}
+              />
+              <Stack.Screen
+                name="UserPropFood"
+                component={UserPropFood}
+                options={{
+                  title: "Food",
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? "pop" : "push",
+                }}
+              />
+              <Stack.Screen
+                name="TripInfo"
+                component={TripInfo}
+                options={{
+                  title: "Your Trip",
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? "pop" : "push",
+                }}
+              />
+              <Stack.Screen
+                name="AllSet"
+                component={AllSetScreen}
+                options={{
+                  title: "All Set!",
+                  // When logging out, a pop animation feels intuitive
+                  animationTypeForReplace: state.isSignout ? "pop" : "push",
+                }}
+              />
+            </>
+          ) : (
+            // User is signed in
+            <>
+              <Stack.Screen name="Home" component={HomeScreen} />
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }

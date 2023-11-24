@@ -21,7 +21,7 @@ const TripInfo = ({ navigation }) => {
   const handleUserSubmit = () => {
     if (destination != "") {
       storeData(["Destination"], [destination]);
-      // navigation.navigate("TripInfo");
+      navigation.navigate("AllSet");
     }
   };
 

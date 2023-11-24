@@ -28,7 +28,7 @@ const UserInfo = ({ navigation }) => {
   const handleUserSubmit = () => {
     if (interests != "") {
       storeData(["Hobbies"], [interests]);
-      // navigation.navigate("UserPropFood");
+      navigation.navigate("UserPropFood");
     }
   };
 

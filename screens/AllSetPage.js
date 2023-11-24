@@ -1,14 +1,20 @@
 import * as Font from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
-import * as React from "react";
+import React, { useContext } from "react";
 import { View, Animated } from "react-native";
 import { Button, PaperProvider, Text } from "react-native-paper";
 
+import { AuthContext } from "../contexts/AuthContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
-export default function AllSetScreen() {
+const AllSetScreen = ({ navigation }) => {
+  const { signIn } = useContext(AuthContext);
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
+
+  const handleSignIn = () => {
+    signIn();
+  };
 
   React.useEffect(() => {
     Animated.loop(
@@ -77,14 +83,15 @@ export default function AllSetScreen() {
               textColor="white"
               labelStyle={{ fontWeight: "bold" }}
               style={allSetStyle.button}
+              onPress={handleSignIn}
             >
-              <Text style={allSetStyle.buttonText}>
-                Take me to the next step!
-              </Text>
+              <Text style={allSetStyle.buttonText}>Onward!</Text>
             </Button>
           </View>
         </LinearGradient>
       </View>
     </PaperProvider>
   );
-}
+};
+
+export default AllSetScreen;

@@ -13,7 +13,7 @@ import HideKeyboard from "../components/HideKeyboard";
 // import { AuthContext } from "../contexts/AuthContext";
 import { signupStyles, signinTheme, fonts } from "../styles/globalStyles";
 
-export default function SignInScreen() {
+const SignUpScreen = ({ navigation }) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [cfpassword, setCfpassword] = React.useState("");
@@ -123,7 +123,7 @@ export default function SignInScreen() {
                 <View style={signupStyles.buttonWrapper}>
                   <Button
                     mode="elevated"
-                    onPress={() => signIn({ username, password })}
+                    onPress={() => navigation.navigate("UserInfo")}
                     textColor="white"
                     labelStyle={{ fontWeight: "bold" }}
                     style={signupStyles.button}
@@ -152,4 +152,6 @@ export default function SignInScreen() {
       </KeyboardAvoidingView>
     </PaperProvider>
   );
-}
+};
+
+export default SignUpScreen;
