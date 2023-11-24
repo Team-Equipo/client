@@ -1,6 +1,6 @@
 import * as Font from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
-import * as React from "react";
+import React, { useContext } from "react";
 import {
   Image,
   View,
@@ -10,17 +10,18 @@ import {
 import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-// import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { signupStyles, signinTheme, fonts } from "../styles/globalStyles";
 
 const SignUpScreen = ({ navigation }) => {
+  const { signOut } = useContext(AuthContext);
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [cfpassword, setCfpassword] = React.useState("");
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
   const [isCfpasswordHidden, setIsCfpasswordHidden] = React.useState(true);
 
-  const handleSignup = async () => {
+  const handleSignup = () => {
     // Check if passwords match
     if (password !== cfpassword) {
       alert("Password does not match!");
@@ -28,9 +29,14 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     // Check if the email is from @calvin.edu domain
-    if (!username.endsWith("@calvin.edu") || !username.endsWith("@gmail.com")) {
+    if (
+      !(username.endsWith("@calvin.edu") || username.endsWith("@gmail.com"))
+    ) {
       alert("Enter valid email address.");
+      return;
     }
+
+    navigation.navigate("UserInfo");
   };
 
   const [fontLoaded, setFontLoaded] = React.useState(false);
@@ -123,7 +129,7 @@ const SignUpScreen = ({ navigation }) => {
                 <View style={signupStyles.buttonWrapper}>
                   <Button
                     mode="elevated"
-                    onPress={() => navigation.navigate("UserInfo")}
+                    onPress={handleSignup}
                     textColor="white"
                     labelStyle={{ fontWeight: "bold" }}
                     style={signupStyles.button}
@@ -138,7 +144,7 @@ const SignUpScreen = ({ navigation }) => {
                     <TouchableOpacity>
                       <Text
                         style={signupStyles.signinTouchable}
-                        onPress={() => signIn()}
+                        onPress={() => signOut()}
                       >
                         Sign In
                       </Text>

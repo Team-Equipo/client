@@ -88,7 +88,7 @@ export default function App({ navigation }) {
 
         dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
       },
-      signOut: () => dispatch({ type: "SIGN_OUT" }),
+      signOut: () => dispatch({ type: "SIGN_OUT", token: "signedout" }),
       signUp: async (data) => {
         // In a production app, we need to send user data to server and get a token
         // We will also need to handle errors if sign up failed
@@ -119,7 +119,7 @@ export default function App({ navigation }) {
           {state.isLoading ? (
             // We haven't finished checking for the token yet
             <Stack.Screen name="Splash" component={SplashScreen} />
-          ) : state.userToken == null ? (
+          ) : state.userToken == null || state.userToken === "signedout" ? (
             // No token found, user isn't signed in
             <Stack.Screen
               name="SignIn"
