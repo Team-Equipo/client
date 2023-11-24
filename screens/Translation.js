@@ -20,7 +20,7 @@ import {
   TouchableRipple,
 } from "react-native-paper";
 
-import FormattedWebView from "../components/FormattedWebView";
+import WordSearchWebView from "../components/WordSearchWebView";
 import HideKeyboard from "../components/HideKeyboard";
 import SelectableWordList from "../components/SelectableWordList";
 import {
@@ -41,7 +41,6 @@ const Translation = ({ navigation }) => {
   const [wordRefEndpoint, setWordRefEndpoint] = React.useState(
     "https://www.wordreference.com/es/en/translation.asp?spen=",
   );
-  const [wordRefLoading, setWordRefLoading] = React.useState(false);
   const [wordRefVisible, setWordRefVisible] = useState(false);
   const [micInfoVisible, setMicInfoVisible] = useState(false);
 
@@ -134,10 +133,10 @@ const Translation = ({ navigation }) => {
 
   // Function to filter punctuation out of selected word, pull up dictionary
   // modal for selected word
-  function selectWord(word) {
+  const selectWord = (word) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefVisible(true);
-  }
+  };
 
   return (
     <PaperProvider theme={translationTheme}>
@@ -184,7 +183,7 @@ const Translation = ({ navigation }) => {
                 onDismiss={() => setWordRefVisible(false)}
                 contentContainerStyle={translateStyles.modalContainer}
               >
-                <FormattedWebView
+                <WordSearchWebView
                   endpoint={wordRefEndpoint}
                   searchedWord={searchedWord}
                 />

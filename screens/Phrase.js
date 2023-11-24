@@ -1,13 +1,28 @@
-import { StyleSheet, View, SafeAreaView, Text } from "react-native";
 import { useState, useEffect } from "react";
+import { StyleSheet, View, SafeAreaView, Text } from "react-native";
+import { Portal, Modal } from "react-native-paper";
 
+import FormattedWebView from "../components/FormattedWebView";
 import PhraseCard from "../components/PhraseCard";
+import { translateStyles } from "../styles/globalStyles";
 
 const USER = 1;
 
 export default function Phrase() {
   const [isLoading, setIsLoading] = useState(true);
   const [generatedPhrases, setGeneratedPhrases] = useState([]);
+  const [searchedWord, setSearchedWord] = React.useState("");
+  const [wordRefEndpoint, setWordRefEndpoint] = useState(
+    "https://www.wordreference.com/es/en/translation.asp?spen=",
+  );
+  const [wordRefVisible, setWordRefVisible] = useState(false);
+
+  // Function to filter punctuation out of selected word, pull up dictionary
+  // modal for selected word
+  const selectWord = (word) => {
+    setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
+    setWordRefVisible(true);
+  };
 
   const fetchGeneratedPhrases = async () => {
     try {
@@ -69,14 +84,30 @@ export default function Phrase() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {generatedPhrases.map((phrase, index) => (
-        <PhraseCard
-          key={index}
-          phrase={phrase}
-          isLoading={isLoading}
-          updateGeneratedPhrase={updateGeneratedPhrase}
-        />
-      ))}
+      <Portal>
+        {/* Wordreference popup */}
+        <Modal
+          visible={true}
+          onDismiss={() => setWordRefVisible(false)}
+          contentContainerStyle={translateStyles.modalContainer}
+        >
+          <FormattedWebView
+            endpoint={wordRefEndpoint}
+            searchedWord={searchedWord}
+          />
+        </Modal>
+      </Portal>
+      <View>
+        {generatedPhrases.map((phrase, index) => (
+          <PhraseCard
+            key={index}
+            phrase={phrase}
+            isLoading={isLoading}
+            updateGeneratedPhrase={updateGeneratedPhrase}
+            onSelectWord={selectWord}
+          />
+        ))}
+      </View>
     </SafeAreaView>
   );
 }

@@ -1,10 +1,10 @@
-// FormattedWebView.js
+// WordSearchWebView.js
 import React, { useState } from "react";
 import { View, useWindowDimensions } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { WebView } from "react-native-webview";
 
-const FormattedWebView = ({ endpoint, searchedWord }) => {
+const WordSearchWebView = ({ endpoint, searchedWord }) => {
   const [siteLoading, setSiteLoading] = useState(false);
 
   return (
@@ -35,4 +35,4 @@ const FormattedWebView = ({ endpoint, searchedWord }) => {
   );
 };
 
-export default FormattedWebView;
+export default WordSearchWebView;

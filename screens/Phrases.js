@@ -3,94 +3,90 @@ import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
 import {
-  TextInput,
-  StyleSheet,
   View,
   SafeAreaView,
   FlatList,
-  TouchableOpacity,
   TouchableWithoutFeedback,
-  useWindowDimensions,
 } from "react-native";
 import {
-  Text,
   Modal,
   Portal,
-  Button,
   Chip,
   withTheme,
-  useTheme,
   PaperProvider,
-  Divider,
 } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { phraseStyles, shadows, phraseTheme } from "../styles/globalStyles";
-
 import PhraseCard from "../components/PhraseCard";
+import WordSearchWebView from "../components/WordSearchWebView";
+import { usePhraseStorageTracker } from "../contexts/PhraseStorageTracker";
+import {
+  phraseStyles,
+  shadows,
+  phraseTheme,
+  translateStyles,
+} from "../styles/globalStyles";
 
 const USER = 1;
 
 const Phrases = ({ navigation }) => {
   const [searchedTopic, setSearchedTopic] = useState("Select a topic...");
-  const [phrases, setPhrases] = useState([]);
-  const [selectedPhrase, setSelectedPhrase] = useState();
-  const [selectedPhraseText, setSelectedPhraseText] = useState("");
-  const [translation, setTranslation] = useState("");
   const [topicsExpanded, setTopicsExpanded] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [generatedPhrases, setGeneratedPhrases] = useState([]);
+  const [searchedWord, setSearchedWord] = React.useState("");
+  const [wordRefEndpoint, setWordRefEndpoint] = useState(
+    "https://www.wordreference.com/es/en/translation.asp?spen=",
+  );
+  const [wordRefVisible, setWordRefVisible] = useState(false);
+  const { storageChange, setStorageChange } = usePhraseStorageTracker();
+
+  // Function to filter punctuation out of selected English word, pull up
+  // dictionary modal for selected word
+  const selectEnglishWord = (word, inputLang) => {
+    setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
+    setWordRefEndpoint(
+      "https://www.wordreference.com/es/translation.asp?tranword=",
+    );
+    setWordRefVisible(true);
+  };
+
+  // Function to filter punctuation out of selected Spanish word, pull up
+  // dictionary modal for selected word
+  const selectSpanishWord = (word, inputLang) => {
+    setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
+    setWordRefEndpoint(
+      "https://www.wordreference.com/es/en/translation.asp?spen=",
+    );
+    setWordRefVisible(true);
+  };
 
   function handleTopicSelect(item) {
     setTopicsExpanded(false);
     setSearchedTopic("Topic: " + item.text);
-    setPhrases([
-      {
-        id: Date.now(),
-        text: 'Spanish phrase 1 for topic "' + item.text + '"',
-      },
-      {
-        id: Date.now() - 1,
-        text: 'Spanish phrase 2 for topic "' + item.text + '"',
-      },
-      {
-        id: Date.now() - 2,
-        text: 'Spanish phrase 3 for topic "' + item.text + '"',
-      },
-    ]);
-  }
-
-  function showModal(item) {
-    setModalVisible(true);
-  }
-
-  function hideModal() {
-    setModalVisible(false);
   }
 
   function toggleTopicsExpanded() {
-    topicsExpanded == true ? setTopicsExpanded(false) : setTopicsExpanded(true);
+    return topicsExpanded === true
+      ? setTopicsExpanded(false)
+      : setTopicsExpanded(true);
   }
 
-  // function selectPhrase(item) {
-  //   setSelectedPhrase(item);
-  //   setSelectedPhraseText(item.text);
-  //   setTranslation("[Translation of " + item.text + "]");
-  //   showModal();
-  // }
-
   const savePhrase = async (phrase) => {
+    let currentPhrases;
     try {
-      var currentPhrases = JSON.parse(
-        await AsyncStorage.getItem("saved-phrases"),
-      );
+      currentPhrases = JSON.parse(await AsyncStorage.getItem("saved-phrases"));
       if (currentPhrases == null) {
         currentPhrases = [];
       }
-      // conditional to check for duplicate phrases taken from:
+      // Conditional to check for duplicate phrases taken from:
       // https://stackoverflow.com/a/8217584
+      // If currentPhrases does not contain a currentPhrase with text identical
+      // to the one being requested for saving, then push it to currentPhrases.
       if (
         !currentPhrases.some(
-          (existing) => existing.text_original === phrase.text_original,
+          (currentPhrase) =>
+            currentPhrase.text_original === phrase.text_original,
         )
       ) {
         currentPhrases.push(phrase);
@@ -99,10 +95,13 @@ const Phrases = ({ navigation }) => {
       console.log("Error", e);
     }
     try {
+      // Put updated currentPhrases back into JSON for async storage
       await AsyncStorage.setItem(
         "saved-phrases",
         JSON.stringify(currentPhrases),
       );
+      // Signal that a storage change occurred by a simple bit flip
+      setStorageChange((prevStorageChange) => !prevStorageChange);
     } catch (e) {
       console.log("Error", e);
     }
@@ -117,11 +116,6 @@ const Phrases = ({ navigation }) => {
     { text: "Goodbyes", id: 5 },
     { text: "Pleasantries", id: 6 },
   ];
-
-  // Integrate Phrase Card functionality
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [generatedPhrases, setGeneratedPhrases] = useState([]);
 
   const fetchGeneratedPhrases = async () => {
     try {
@@ -186,69 +180,31 @@ const Phrases = ({ navigation }) => {
       <PaperProvider theme={phraseTheme}>
         <View style={phraseStyles.background}>
           <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
-            {/* <Portal>
+            <Portal>
+              {/* Wordreference popup */}
               <Modal
-                visible={modalVisible}
-                onDismiss={hideModal}
-                theme={phraseTheme}
-                contentContainerStyle={phraseStyles.modalStyle}
+                visible={wordRefVisible}
+                onDismiss={() => setWordRefVisible(false)}
+                contentContainerStyle={translateStyles.modalContainer}
               >
-                <View
-                  style={{
-                    width: useWindowDimensions().width * 0.8,
-                    flex: 1,
-                    padding: 10,
-                  }}
-                >
-                  <Text style={{ fontSize: 20, alignItems: "center" }}>
-                    Your Phrase:
-                  </Text>
-                  <Text style={{ fontSize: 18 }}>
-                    {selectedPhraseText + "\n"}
-                  </Text>
-                  <Text style={{ fontSize: 20, alignItems: "center" }}>
-                    Translation:
-                  </Text>
-                  <Text style={{ fontSize: 18 }}>{translation}</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    padding: 8,
-                  }}
-                >
-                  <Button
-                    mode="contained"
-                    onPress={hideModal}
-                    style={{ width: "49%", marginHorizontal: 5 }}
-                    labelStyle={{ marginHorizontal: 0 }}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    mode="contained"
-                    onPress={() => savePhrase(selectedPhrase)}
-                    style={{ width: "49%", marginHorizontal: 5 }}
-                    labelStyle={{ marginHorizontal: 0 }}
-                  >
-                    Save Phrase
-                  </Button>
-                </View>
+                <WordSearchWebView
+                  endpoint={wordRefEndpoint}
+                  searchedWord={searchedWord}
+                />
               </Modal>
-            </Portal> */}
+            </Portal>
             <View
               style={{
                 flex: 1,
               }}
             >
+              {/* Topic select dropdown */}
               <CollapsibleView
                 expanded={topicsExpanded}
                 style={{
                   padding: 0,
                   zIndex: 1,
                   borderColor: "transparent",
-                  //  alignItems: "flex-center"
                 }}
                 title={
                   <Chip
@@ -272,7 +228,7 @@ const Phrases = ({ navigation }) => {
                 titleStyle={{
                   alignItems: "flex-start",
                 }}
-                noArrow={true}
+                noArrow
                 activeOpacityFeedback={1}
                 collapsibleContainerStyle={{
                   ...shadows.shadow4,
@@ -322,6 +278,7 @@ const Phrases = ({ navigation }) => {
                   />
                 </TouchableWithoutFeedback>
               </CollapsibleView>
+              {/* The list of PhraseCards */}
               <FlatList
                 contentContainerStyle={{ alignItems: "center", rowGap: 8 }}
                 data={generatedPhrases}
@@ -331,23 +288,12 @@ const Phrases = ({ navigation }) => {
                     isLoading={isLoading}
                     updateGeneratedPhrase={updateGeneratedPhrase}
                     savePhrase={savePhrase}
-                    mode={"browse"}
+                    mode="browse"
+                    onSelectEnglishWord={selectEnglishWord}
+                    onSelectSpanishWord={selectSpanishWord}
                   />
                 )}
               />
-
-              {/* <View
-                style={{ ...shadows.shadow4, ...phraseStyles.genPhraseBox }}
-              >
-                <FlatList
-                  data={phrases}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => selectPhrase(item)}>
-                      <Text style={phraseStyles.genPhrases}>{item.text}</Text>
-                    </TouchableOpacity>
-                  )}
-                />
-              </View> */}
             </View>
           </SafeAreaView>
         </View>
