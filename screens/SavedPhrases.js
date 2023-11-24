@@ -8,10 +8,17 @@ import {
   SafeAreaView,
   useWindowDimensions,
 } from "react-native";
-import { Button, withTheme, Text, Modal, Portal } from "react-native-paper";
-import PhraseCard from "../components/PhraseCard";
+import {
+  Button,
+  withTheme,
+  Text,
+  Modal,
+  Portal,
+  PaperProvider,
+} from "react-native-paper";
 
-import { savedPhrases } from "../styles/globalStyles";
+import PhraseCard from "../components/PhraseCard";
+import { savedPhrases, phraseTheme } from "../styles/globalStyles";
 
 const SavedPhrases = ({ navigation }) => {
   const [phraseData, setPhraseData] = useState([]);
@@ -30,7 +37,7 @@ const SavedPhrases = ({ navigation }) => {
   const deletePhrase = async (item) => {
     hideModal();
     try {
-      var currentPhrases = JSON.parse(
+      let currentPhrases = JSON.parse(
         await AsyncStorage.getItem("saved-phrases"),
       );
       if (currentPhrases == null) {
@@ -75,54 +82,61 @@ const SavedPhrases = ({ navigation }) => {
   }, [AsyncStorage.getItem("saved-phrases")]);
 
   return (
-    <View style={savedPhrases.background}>
-      <SafeAreaView>
-        <Portal>
-          <Modal
-            visible={modalVisible}
-            onDismiss={() => setModalVisible(false)}
-            contentContainerStyle={savedPhrases.modalContainer}
+    <PaperProvider theme={phraseTheme}>
+      <View style={savedPhrases.background}>
+        <SafeAreaView>
+          <Portal>
+            <Modal
+              visible={modalVisible}
+              onDismiss={() => setModalVisible(false)}
+              contentContainerStyle={savedPhrases.modalContainer}
+            >
+              <View
+                style={{
+                  width: useWindowDimensions().width * 0.8,
+                  flex: 1,
+                  padding: 10,
+                }}
+              >
+                <Text style={{ fontSize: 20 }}>Your Phrase:</Text>
+                <Text style={{ fontSize: 18 }}>
+                  {selectedPhraseText + "\n"}
+                </Text>
+                <Text style={{ fontSize: 20 }}>Translation:</Text>
+                <Text style={{ fontSize: 18 }}>{translation}</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  padding: 8,
+                }}
+              >
+                <Button
+                  mode="contained"
+                  onPress={hideModal}
+                  style={{ width: "49%", marginHorizontal: 5 }}
+                  labelStyle={{ marginHorizontal: 0 }}
+                >
+                  Back
+                </Button>
+                <Button
+                  mode="contained"
+                  onPress={() => deletePhrase(selectedPhrase)}
+                  style={{ width: "49%", marginHorizontal: 5 }}
+                  labelStyle={{ marginHorizontal: 0 }}
+                >
+                  Delete Phrase
+                </Button>
+              </View>
+            </Modal>
+          </Portal>
+          <View
+            style={{ height: "100%" }}
+            paddingRight="0.5%"
+            paddingLeft="0.5%"
           >
-            <View
-              style={{
-                width: useWindowDimensions().width * 0.8,
-                flex: 1,
-                padding: 10,
-              }}
-            >
-              <Text style={{ fontSize: 20 }}>Your Phrase:</Text>
-              <Text style={{ fontSize: 18 }}>{selectedPhraseText + "\n"}</Text>
-              <Text style={{ fontSize: 20 }}>Translation:</Text>
-              <Text style={{ fontSize: 18 }}>{translation}</Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                padding: 8,
-              }}
-            >
-              <Button
-                mode="contained"
-                onPress={hideModal}
-                style={{ width: "49%", marginHorizontal: 5 }}
-                labelStyle={{ marginHorizontal: 0 }}
-              >
-                Back
-              </Button>
-              <Button
-                mode="contained"
-                onPress={() => deletePhrase(selectedPhrase)}
-                style={{ width: "49%", marginHorizontal: 5 }}
-                labelStyle={{ marginHorizontal: 0 }}
-              >
-                Delete Phrase
-              </Button>
-            </View>
-          </Modal>
-        </Portal>
-        <View style={{ height: "100%" }} paddingRight="0.5%" paddingLeft="0.5%">
-          {/* {generatedPhrases.map((phrase, index) => (
+            {/* {generatedPhrases.map((phrase, index) => (
             <PhraseCard
               key={index}
               phrase={phrase}
@@ -132,24 +146,25 @@ const SavedPhrases = ({ navigation }) => {
               mode={"browse"}
             />
           ))} */}
-          <FlatList
-            contentContainerStyle={{
-              alignItems: "center",
-              rowGap: 8,
-              paddingTop: 8,
-            }}
-            data={phraseData}
-            renderItem={({ item }) => (
-              <PhraseCard
-                phrase={item}
-                deletePhrase={deletePhrase}
-                mode={"saved"}
-              />
-            )}
-          />
-        </View>
-      </SafeAreaView>
-    </View>
+            <FlatList
+              contentContainerStyle={{
+                alignItems: "center",
+                rowGap: 8,
+                paddingTop: 8,
+              }}
+              data={phraseData}
+              renderItem={({ item }) => (
+                <PhraseCard
+                  phrase={item}
+                  deletePhrase={deletePhrase}
+                  mode="saved"
+                />
+              )}
+            />
+          </View>
+        </SafeAreaView>
+      </View>
+    </PaperProvider>
   );
 };
 
