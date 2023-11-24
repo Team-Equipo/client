@@ -6,13 +6,9 @@ import {
   TextInput,
   View,
   SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-  useWindowDimensions,
 } from "react-native";
 import {
   Text,
-  Button,
   IconButton,
   withTheme,
   Portal,
@@ -22,12 +18,11 @@ import {
   Divider,
   Surface,
   TouchableRipple,
-  ActivityIndicator,
 } from "react-native-paper";
-import { WebView } from "react-native-webview";
 
 import FormattedWebView from "../components/FormattedWebView";
 import HideKeyboard from "../components/HideKeyboard";
+import SelectableWordList from "../components/SelectableWordList";
 import {
   translationTheme,
   shadows,
@@ -373,22 +368,9 @@ const Translation = ({ navigation }) => {
                 {/* Output section */}
                 <View style={{ marginTop: 3, flex: 1 }}>
                   {translationOutput !== "" ? (
-                    <FlatList
-                      style={{ height: 0 }}
-                      numColumns={1000}
-                      columnWrapperStyle={{
-                        flexWrap: "wrap",
-                      }}
-                      data={translationOutput.split(" ")}
-                      renderItem={({ item }) => (
-                        <TouchableOpacity
-                          onPress={() => {
-                            selectWord(item);
-                          }}
-                        >
-                          <Text style={{ fontSize: 20 }}>{item + " "}</Text>
-                        </TouchableOpacity>
-                      )}
+                    <SelectableWordList
+                      data={translationOutput}
+                      onSelectWord={selectWord}
                     />
                   ) : inputLang === "English" ? (
                     <Text style={{ fontSize: 20, color: "#999" }}>
