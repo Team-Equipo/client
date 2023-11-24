@@ -123,6 +123,7 @@ const Translation = ({ navigation }) => {
     setInputLang(outputLang);
     setOutputLang(temp);
 
+    setLastTranslationInput("");
     setTranslationOutput("");
 
     if (inputLang === "English") {

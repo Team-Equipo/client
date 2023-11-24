@@ -22,7 +22,7 @@ const FormattedWebView = ({ endpoint, searchedWord }) => {
         </View>
       ) : null}
 
-      {/* Wordreference page */}
+      {/* Webpage */}
       <WebView
         originWhitelist={["*"]}
         source={{ uri: endpoint + searchedWord }}
