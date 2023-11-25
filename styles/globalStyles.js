@@ -3,21 +3,21 @@ import * as Font from "expo-font";
 import { StyleSheet } from "react-native";
 import { configureFonts, DefaultTheme } from "react-native-paper";
 
-const customFonts = {
-  "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-  "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
-  "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
-  "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
-  "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
-};
+// const customFonts = {
+//   "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+//   "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
+//   "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
+//   "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+//   "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
+// };
 
-// Load custom fonts asynchronously
-const loadFontsAsync = async () => {
-  await Font.loadAsync(customFonts);
-};
+// // Load custom fonts asynchronously
+// const loadFontsAsync = async () => {
+//   await Font.loadAsync(customFonts);
+// };
 
-// Call the loadFontsAsync function
-loadFontsAsync();
+// // Call the loadFontsAsync function
+// loadFontsAsync();
 
 // STYLES
 // mostly used in Phrases.js
@@ -66,7 +66,7 @@ export const phraseStyles = StyleSheet.create({
   },
 });
 
-// mostly usde in Signin.js
+// mostly used in Signin.js
 export const signinStyles = StyleSheet.create({
   container: {
     marginTop: 10,
@@ -468,14 +468,14 @@ export const translationTheme = {
   },
 };
 
-// Fonts
-const baseFont = {
-  fontFamily: "Poppins-Regular",
-  fontSize: 12,
-  color: "black",
-};
+// // Fonts
+// const baseFont = {
+//   fontFamily: "Poppins-Regular",
+//   fontSize: 12,
+//   color: "black",
+// };
 
-const baseVariants = configureFonts({ config: baseFont });
+// const baseVariants = configureFonts({ config: baseFont });
 
 // const fontConfig = {
 //   default: {
@@ -507,8 +507,8 @@ const baseVariants = configureFonts({ config: baseFont });
 //   },
 // };
 
-export const fonts = configureFonts({
-  config: {
-    ...baseVariants,
-  },
-});
+// export const fonts = configureFonts({
+//   config: {
+//     ...baseVariants,
+//   },
+// });

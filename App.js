@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import * as Font from "expo-font";
+import React, { useEffect } from "react";
 
 import AppBar from "./components/AppBar";
 import { AuthContext } from "./contexts/AuthContext";
@@ -20,6 +21,21 @@ import UserPropFood from "./screens/UserPropFood";
 const Stack = createNativeStackNavigator();
 
 export default function App({ navigation }) {
+  useEffect(() => {
+    // Load custom fonts
+    async function loadFonts() {
+      await Font.loadAsync({
+        "Poppins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
+        "Poppins-Light": require("./assets/fonts/Poppins-Light.ttf"),
+        "Poppins-Thin": require("./assets/fonts/Poppins-Thin.ttf"),
+        "Poppins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
+        "Poppins-ExtraBold": require("./assets/fonts/Poppins-ExtraBold.ttf"),
+      });
+    }
+
+    loadFonts();
+  }, []);
+
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
