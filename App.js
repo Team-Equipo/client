@@ -152,7 +152,7 @@ export default function App({ navigation }) {
                 // No token found, user isn't signed in
                 <Stack.Screen
                   name="SignIn"
-                  component={SignIn}
+                  component={SignInScreen}
                   options={{
                     title: "Sign in",
                     // When logging out, a pop animation feels intuitive

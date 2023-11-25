@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View, SafeAreaView, Text } from "react-native";
 import { Portal, Modal } from "react-native-paper";
 
-import FormattedWebView from "../components/FormattedWebView";
+import WordSearchWebView from "../components/WordSearchWebView";
 import PhraseCard from "../components/PhraseCard";
 import { translateStyles } from "../styles/globalStyles";
 
@@ -91,7 +91,7 @@ export default function Phrase() {
           onDismiss={() => setWordRefVisible(false)}
           contentContainerStyle={translateStyles.modalContainer}
         >
-          <FormattedWebView
+          <WordSearchWebView
             endpoint={wordRefEndpoint}
             searchedWord={searchedWord}
           />

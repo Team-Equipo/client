@@ -13,7 +13,7 @@ const AllSetScreen = ({ navigation }) => {
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
 
   const handleSignIn = () => {
-    signIn();
+    signIn({ emailAdress: "placeholder@calvin.edu", password: "password" });
   };
 
   React.useEffect(() => {
