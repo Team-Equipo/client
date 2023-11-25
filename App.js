@@ -1,17 +1,18 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { PaperProvider } from "react-native-paper";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Base64 from "Base64";
 import React from "react";
+import { PaperProvider } from "react-native-paper";
 
+import AppBar from "./components/AppBar";
 import { AuthContext } from "./contexts/AuthContext";
 import { PhraseStorageTrackerProvider } from "./contexts/PhraseStorageTracker";
-import SplashScreen from "./screens/SplashScreen";
+import EmergencyPhrases from "./screens/EmergencyPhrases";
+import HomeScreen from "./screens/HomeScreen";
 import SignIn from "./screens/SignIn";
+import SplashScreen from "./screens/SplashScreen";
 import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
-import HomeScreen from "./screens/HomeScreen";
-import AppBar from "./components/AppBar";
 
 const Stack = createNativeStackNavigator();
 
@@ -94,7 +95,7 @@ export default function App() {
 
           const response = await fetch(url, {
             method: "GET",
-            headers: headers,
+            headers,
           });
 
           const credentials = await response.json();
@@ -161,6 +162,15 @@ export default function App() {
                 // User is signed in
                 <>
                   <Stack.Screen name="Home" component={HomeScreen} />
+                  <Stack.Screen
+                    name="EmergencyPhrases"
+                    component={EmergencyPhrases}
+                    options={{
+                      title: "Emergency Phrases",
+                      // When logging out, a pop animation feels intuitive
+                      animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    }}
+                  />
                 </>
               )}
             </Stack.Navigator>
