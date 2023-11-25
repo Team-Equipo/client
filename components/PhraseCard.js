@@ -1,4 +1,3 @@
-import * as Speech from "expo-speech";
 import { speak } from "expo-speech";
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, SafeAreaView } from "react-native";
@@ -11,7 +10,6 @@ import {
 } from "react-native-paper";
 
 import SelectableWordList from "../components/SelectableWordList.js";
-import { speak } from "expo-speech";
 
 export default function PhraseCard({
   phrase,
