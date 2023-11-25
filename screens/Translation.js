@@ -6,13 +6,9 @@ import {
   TextInput,
   View,
   SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-  useWindowDimensions,
 } from "react-native";
 import {
   Text,
-  Button,
   IconButton,
   withTheme,
   Portal,
@@ -22,11 +18,11 @@ import {
   Divider,
   Surface,
   TouchableRipple,
-  ActivityIndicator,
 } from "react-native-paper";
-import { WebView } from "react-native-webview";
 
+import WordSearchWebView from "../components/WordSearchWebView";
 import HideKeyboard from "../components/HideKeyboard";
+import SelectableWordList from "../components/SelectableWordList";
 import {
   translationTheme,
   shadows,
@@ -45,7 +41,6 @@ const Translation = ({ navigation }) => {
   const [wordRefEndpoint, setWordRefEndpoint] = React.useState(
     "https://www.wordreference.com/es/en/translation.asp?spen=",
   );
-  const [wordRefLoading, setWordRefLoading] = React.useState(false);
   const [wordRefVisible, setWordRefVisible] = useState(false);
   const [micInfoVisible, setMicInfoVisible] = useState(false);
 
@@ -122,6 +117,7 @@ const Translation = ({ navigation }) => {
     setInputLang(outputLang);
     setOutputLang(temp);
 
+    setLastTranslationInput("");
     setTranslationOutput("");
 
     if (inputLang === "English") {
@@ -137,10 +133,10 @@ const Translation = ({ navigation }) => {
 
   // Function to filter punctuation out of selected word, pull up dictionary
   // modal for selected word
-  function selectWord(word) {
+  const selectWord = (word) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefVisible(true);
-  }
+  };
 
   return (
     <PaperProvider theme={translationTheme}>
@@ -187,30 +183,10 @@ const Translation = ({ navigation }) => {
                 onDismiss={() => setWordRefVisible(false)}
                 contentContainerStyle={translateStyles.modalContainer}
               >
-                <View
-                  style={{
-                    overflow: "hidden",
-                    width: useWindowDimensions().width * 0.9,
-                    flex: 1,
-                  }}
-                >
-                  {/* Loading indicator */}
-                  {wordRefLoading ? (
-                    <View style={{ height: "100%", justifyContent: "center" }}>
-                      <ActivityIndicator />
-                    </View>
-                  ) : null}
-
-                  {/* Wordreference page */}
-                  <WebView
-                    originWhitelist={["*"]}
-                    source={{ uri: wordRefEndpoint + searchedWord }}
-                    style={{ borderRadius: 15, marginTop: -175 }}
-                    containerStyle={{ borderRadius: 15 }}
-                    onLoadStart={() => setWordRefLoading(true)}
-                    onLoadProgress={() => setWordRefLoading(false)}
-                  />
-                </View>
+                <WordSearchWebView
+                  endpoint={wordRefEndpoint}
+                  searchedWord={searchedWord}
+                />
               </Modal>
             </Portal>
 
@@ -391,22 +367,9 @@ const Translation = ({ navigation }) => {
                 {/* Output section */}
                 <View style={{ marginTop: 3, flex: 1 }}>
                   {translationOutput !== "" ? (
-                    <FlatList
-                      style={{ height: 0 }}
-                      numColumns={1000}
-                      columnWrapperStyle={{
-                        flexWrap: "wrap",
-                      }}
-                      data={translationOutput.split(" ")}
-                      renderItem={({ item }) => (
-                        <TouchableOpacity
-                          onPress={() => {
-                            selectWord(item);
-                          }}
-                        >
-                          <Text style={{ fontSize: 20 }}>{item + " "}</Text>
-                        </TouchableOpacity>
-                      )}
+                    <SelectableWordList
+                      data={translationOutput}
+                      onSelectWord={selectWord}
                     />
                   ) : inputLang === "English" ? (
                     <Text style={{ fontSize: 20, color: "#999" }}>

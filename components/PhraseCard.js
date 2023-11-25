@@ -9,6 +9,8 @@ import {
   TouchableRipple,
 } from "react-native-paper";
 
+import SelectableWordList from "../components/SelectableWordList.js";
+
 export default function PhraseCard({
   phrase,
   isLoading,
@@ -16,6 +18,8 @@ export default function PhraseCard({
   savePhrase,
   deletePhrase,
   mode,
+  onSelectEnglishWord,
+  onSelectSpanishWord,
 }) {
   const [isToggled, setIsToggled] = useState(true);
 
@@ -41,7 +45,17 @@ export default function PhraseCard({
             <>
               <Card.Content style={styles.cardContent}>
                 <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                  {isToggled ? phrase.text_translated : phrase.text_original}
+                  {isToggled ? (
+                    <SelectableWordList
+                      data={phrase.text_translated}
+                      onSelectWord={onSelectEnglishWord}
+                    />
+                  ) : (
+                    <SelectableWordList
+                      data={phrase.text_original}
+                      onSelectWord={onSelectSpanishWord}
+                    />
+                  )}
                 </Text>
               </Card.Content>
               <Card.Actions>
