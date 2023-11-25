@@ -98,7 +98,7 @@ export default function App() {
           });
 
           const credentials = await response.json();
-          dispatch({ type: "SIGN_IN", token: "credentials.token" });
+          dispatch({ type: "SIGN_IN", token: credentials.token });
         } catch (error) {
           console.error(error);
         }
