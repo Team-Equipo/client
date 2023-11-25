@@ -1,11 +1,7 @@
-import React from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  SafeAreaView,
-  Pressable,
-  View,
-} from "react-native";
+import * as Speech from "expo-speech";
+import { speak } from "expo-speech";
+import React, { useState } from "react";
+import { Dimensions, StyleSheet, SafeAreaView } from "react-native";
 import {
   IconButton,
   Card,
@@ -13,8 +9,8 @@ import {
   ActivityIndicator,
   TouchableRipple,
 } from "react-native-paper";
-import { useState } from "react";
 
+import SelectableWordList from "../components/SelectableWordList.js";
 import { speak } from "expo-speech";
 
 export default function PhraseCard({
@@ -24,6 +20,8 @@ export default function PhraseCard({
   savePhrase,
   deletePhrase,
   mode,
+  onSelectEnglishWord,
+  onSelectSpanishWord,
 }) {
   const [isToggled, setIsToggled] = useState(true);
 
@@ -50,14 +48,24 @@ export default function PhraseCard({
       ) : (
         <Card style={styles.card}>
           <TouchableRipple
-            borderless={true}
+            borderless
             style={{ borderRadius: 10 }}
             onPress={() => togglePhrase()}
           >
             <>
               <Card.Content style={styles.cardContent}>
                 <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                  {isToggled ? phrase.text_translated : phrase.text_original}
+                  {isToggled ? (
+                    <SelectableWordList
+                      data={phrase.text_translated}
+                      onSelectWord={onSelectEnglishWord}
+                    />
+                  ) : (
+                    <SelectableWordList
+                      data={phrase.text_original}
+                      onSelectWord={onSelectSpanishWord}
+                    />
+                  )}
                 </Text>
               </Card.Content>
               <Card.Actions>
