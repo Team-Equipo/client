@@ -1,9 +1,9 @@
 // Translation.js
-import React, { useEffect, useState } from "react";
+import * as Speech from "expo-speech";
+import React, { useState } from "react";
 import {
-  Text,
+  // Text,
   TextInput,
-  StyleSheet,
   View,
   SafeAreaView,
   FlatList,
@@ -11,16 +11,20 @@ import {
   useWindowDimensions,
 } from "react-native";
 import {
-  Divider,
-  IconButton,
+  Text,
   Button,
+  IconButton,
   withTheme,
   Portal,
   Modal,
+  Dialog,
   PaperProvider,
+  Divider,
+  Surface,
+  TouchableRipple,
+  ActivityIndicator,
 } from "react-native-paper";
 import { WebView } from "react-native-webview";
-import * as Speech from "expo-speech";
 
 import HideKeyboard from "../components/HideKeyboard";
 import {
@@ -30,80 +34,157 @@ import {
 } from "../styles/globalStyles";
 
 const Translation = ({ navigation }) => {
-  const [textToTranslate, setTextToTranslate] = React.useState("");
-  const [translation, setTranslation] = React.useState("");
+  // States for I/O, dictionary loading and displaying dictionary entry,
+  // displaying audio input info
   const [inputLang, setInputLang] = React.useState("English");
   const [outputLang, setOutputLang] = React.useState("Spanish");
-  const [selectedWord, setSelectedWord] = React.useState("");
-  const [wordRefURL, setWordRefURL] = React.useState(
+  const [translationInput, setTranslationInput] = React.useState("");
+  const [translationOutput, setTranslationOutput] = React.useState("");
+  const [lastTranslationInput, setLastTranslationInput] = React.useState("");
+  const [searchedWord, setSearchedWord] = React.useState("");
+  const [wordRefEndpoint, setWordRefEndpoint] = React.useState(
     "https://www.wordreference.com/es/en/translation.asp?spen=",
   );
   const [wordRefLoading, setWordRefLoading] = React.useState(false);
+  const [wordRefVisible, setWordRefVisible] = useState(false);
+  const [micInfoVisible, setMicInfoVisible] = useState(false);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  // To encode/decode ISO language codes used by Microsoft Translate
+  const ISO6391 = require("iso-639-1");
 
-  useEffect(() => {
-    handleTranslationText(textToTranslate, inputLang);
-  }, [inputLang, textToTranslate]);
+  // Function to send text and target language to Microsoft Translator API,
+  // return received translation or error if something went wrong
+  const translateText = async (text, inputLanguage, targetLanguage) => {
+    // apiKey stored in environmental variable to avoid exposure in Github
+    const apiKey = process.env.EXPO_PUBLIC_TRANSLATION_KEY;
+    const endpoint = `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=${inputLanguage}&to=${targetLanguage}`;
 
-  const handleTranslationText = (text) => {
-    setTextToTranslate(text);
-    if (text == "") {
-      setTranslation("");
-    } else if (inputLang == "English") {
-      if (text == "Hello world") {
-        setTranslation("Hola mundo");
-      } else {
-        setTranslation("Esto es una respuesta genérica...");
+    // Fetch translation
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": apiKey,
+          "Ocp-Apim-Subscription-Region": "westcentralus",
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify([{ text }]),
+      });
+
+      // Handle HTTP errors
+      if (!response.ok) {
+        throw new Error(
+          `Translation request failed with status ${response.status}`,
+        );
       }
-    } else if (inputLang == "Spanish") {
-      if (text == "Hola mundo") {
-        setTranslation("Hello world");
+
+      const data = await response.json();
+
+      // Ensure data, data.translations, and data.translations.text contain
+      // something
+      if (!data || !data[0]?.translations || !data[0].translations[0]?.text) {
+        throw new Error("Unexpected response format from translation API");
+      }
+
+      // Return the successful translation if all goes well
+      return data[0].translations[0].text;
+    } catch (error) {
+      // Handle other errors (e.g., network issues, parsing errors)
+      console.error("Translation error:", error.message);
+      return text; // Return the original text as a fallback
+    }
+  };
+
+  // Function to request translation in target language, then output (sets
+  // empty string output if input is empty or does nothing if request is
+  // unchanged from the last)
+  const doTranslation = async (text) => {
+    if (translationInput !== lastTranslationInput) {
+      if (text !== "") {
+        const microsoftTranslation = await translateText(
+          text,
+          ISO6391.getCode(inputLang),
+          ISO6391.getCode(outputLang),
+        );
+        setTranslationOutput(microsoftTranslation);
+        setLastTranslationInput(translationInput);
       } else {
-        setTranslation("This is a generic response...");
+        setTranslationOutput("");
       }
     }
   };
 
+  // Function to switch input and output languages and their corresponding
+  // Wordreference endpoints for the dictionary
   const toggleLang = () => {
-    if (inputLang == "English") {
-      setInputLang("Spanish");
-      setOutputLang("English");
-      setWordRefURL(
+    const temp = inputLang;
+    setInputLang(outputLang);
+    setOutputLang(temp);
+
+    setTranslationOutput("");
+
+    if (inputLang === "English") {
+      setWordRefEndpoint(
         "https://www.wordreference.com/es/translation.asp?tranword=",
       );
-    } else if (inputLang == "Spanish") {
-      setInputLang("English");
-      setOutputLang("Spanish");
-      setWordRefURL(
+    } else if (inputLang === "Spanish") {
+      setWordRefEndpoint(
         "https://www.wordreference.com/es/en/translation.asp?spen=",
       );
     }
-    handleTranslationText(textToTranslate);
   };
 
-  function showModal(item) {
-    setModalVisible(true);
-  }
-
-  function hideModal() {
-    setModalVisible(false);
-  }
-
+  // Function to filter punctuation out of selected word, pull up dictionary
+  // modal for selected word
   function selectWord(word) {
-    setSelectedWord(word.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g, ""));
-    showModal();
+    setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
+    setWordRefVisible(true);
   }
 
   return (
-    <HideKeyboard>
-      <PaperProvider theme={translationTheme}>
+    <PaperProvider theme={translationTheme}>
+      <HideKeyboard>
         <View style={translateStyles.background}>
           <SafeAreaView>
+            {/* Overlay for popups */}
             <Portal>
+              {/* Mic info alert */}
+              <Dialog
+                visible={micInfoVisible}
+                onDismiss={() => setMicInfoVisible(false)}
+              >
+                <Dialog.Content>
+                  <Text>
+                    Your device's built-in transcription functionality can be
+                    used if it is set to record in the correct language(s).
+                  </Text>
+                </Dialog.Content>
+                <Divider />
+                <TouchableRipple
+                  borderless
+                  onPress={() => setMicInfoVisible(false)}
+                  style={{
+                    borderBottomLeftRadius: 25,
+                    borderBottomRightRadius: 25,
+                  }}
+                >
+                  <Dialog.Actions
+                    style={{
+                      justifyContent: "center",
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                    }}
+                  >
+                    <Text>OK</Text>
+                  </Dialog.Actions>
+                </TouchableRipple>
+              </Dialog>
+
+              {/* Wordreference popup */}
               <Modal
-                visible={modalVisible}
-                onDismiss={() => setModalVisible(false)}
+                visible={wordRefVisible}
+                onDismiss={() => setWordRefVisible(false)}
                 contentContainerStyle={translateStyles.modalContainer}
               >
                 <View
@@ -113,156 +194,237 @@ const Translation = ({ navigation }) => {
                     flex: 1,
                   }}
                 >
+                  {/* Loading indicator */}
                   {wordRefLoading ? (
-                    <Text
-                      style={{
-                        width: "100%",
-                        textAlign: "center",
-                        paddingTop: 5,
-                      }}
-                    >
-                      Loading...
-                    </Text>
+                    <View style={{ height: "100%", justifyContent: "center" }}>
+                      <ActivityIndicator />
+                    </View>
                   ) : null}
+
+                  {/* Wordreference page */}
                   <WebView
                     originWhitelist={["*"]}
-                    source={{ uri: wordRefURL + selectedWord }}
+                    source={{ uri: wordRefEndpoint + searchedWord }}
+                    style={{ borderRadius: 15, marginTop: -175 }}
+                    containerStyle={{ borderRadius: 15 }}
                     onLoadStart={() => setWordRefLoading(true)}
                     onLoadProgress={() => setWordRefLoading(false)}
-                    style={{ borderRadius: 15, marginTop: -180 }}
-                    containerStyle={{ borderRadius: 15 }}
                   />
                 </View>
               </Modal>
             </Portal>
+
+            {/* Main screen contents */}
             <View
               style={{
                 height: "100%",
                 flexDirection: "column",
                 justifyContent: "flex-end",
+                padding: 10,
               }}
-              rowGap={4}
-              paddingRight={2}
-              paddingLeft={2}
             >
-              <View
-                style={{
-                  marginBottom: -43,
-                  marginRight: 10,
-                  zIndex: 3,
-                  alignItems: "flex-end",
-                  // marginLeft: "30%",
-                  // marginRight: "30%",
-                }}
-              >
-                <IconButton
-                  onPress={toggleLang}
-                  icon="swap-vertical"
-                  iconColor="gray"
-                  // compact={true}
-                  style={{ width: 25, height: 30, marginTop: 4 }}
-                  // labelStyle={{fontSize: 30, color: "gray", fontWeight: "normal"}}
-                ></IconButton>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  zIndex: 2,
-                  //marginTop: 15,
-                }}
-              >
-                <Text style={translateStyles.languageLabel}>{inputLang}</Text>
-              </View>
-              <View style={{ ...shadows.shadow4, ...translateStyles.textBox }}>
-                <TextInput
-                  style={{
-                    justifyContent: "flex-start",
-                    textAlignVertical: "top",
-                    paddingTop: 0,
-                    height: "100%",
-                    fontSize: 20,
-                    //backgroundColor: "blue",
-                    marginTop: 0,
-                  }}
-                  multiline
-                  value={textToTranslate}
-                  onChangeText={(text) =>
-                    handleTranslationText(text, inputLang)
-                  }
-                />
-              </View>
-              <View
-                style={{
-                  marginTop: -3,
-                  marginRight: 4,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  // backgroundColor: "purple",
-                }}
-              >
-                <Text style={{ ...translateStyles.languageLabel }}>
-                  {outputLang}
-                </Text>
-                <IconButton
-                  style={{ width: 30, height: 30, marginBottom: -3 }}
-                  iconColor="gray"
-                  icon="volume-high"
-                  mode="default"
-                  onPress={() => {
-                    if (outputLang === "Spanish") {
-                      Speech.speak(translation, { language: "es" });
-                    } else if (outputLang === "English") {
-                      Speech.speak(translation, { language: "en" });
-                    }
-                  }}
-                />
-              </View>
+              {/* Top input box */}
               <View
                 style={{
                   ...shadows.shadow4,
                   ...translateStyles.textBox,
-                  flex: 1,
+                  backgroundColor: "white",
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
+                }}
+              >
+                {/* Top bar */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  {/* Input language label */}
+                  <Text style={translateStyles.languageLabel}>{inputLang}</Text>
+
+                  {/* Input buttons */}
+                  <View style={{ flexDirection: "row" }}>
+                    {/* Audio input button */}
+                    <IconButton
+                      style={{ marginTop: 0, marginRight: 0 }}
+                      icon="microphone"
+                      onPress={() => {
+                        setMicInfoVisible(true);
+                      }}
+                    />
+
+                    {/* Clear text input button */}
+                    {translationInput !== "" ? (
+                      <IconButton
+                        style={{ marginTop: 0, marginRight: 0, marginLeft: -5 }}
+                        icon="close"
+                        onPress={() => {
+                          setTranslationInput("");
+                        }}
+                      />
+                    ) : null}
+                  </View>
+                </View>
+
+                <Divider style={{ marginTop: -10 }} />
+
+                {/* Input section */}
+                <TextInput
+                  style={{
+                    justifyContent: "flex-start",
+                    textAlignVertical: "top",
+                    flex: 1,
+                    fontSize: 20,
+                  }}
+                  multiline
+                  value={translationInput}
+                  onChangeText={(text) => setTranslationInput(text)}
+                  placeholder={
+                    inputLang === "English"
+                      ? "Text to translate..."
+                      : inputLang === "Spanish"
+                      ? "Texto para traducir..."
+                      : null
+                  }
+                  placeholderTextColor="#999"
+                />
+
+                {/* Submit button */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    paddingBottom: 8,
+                  }}
+                >
+                  <Surface
+                    style={{
+                      borderRadius: 100,
+                      marginTop: -30,
+                      opacity: 0.5,
+                      backgroundColor: "transparent",
+                    }}
+                    elevation={2}
+                  >
+                    <IconButton
+                      mode="outlined"
+                      iconColor="#000"
+                      containerColor="#F5F5F9"
+                      style={{ margin: 0, marginTop: 0 }}
+                      icon="send"
+                      onPress={() => {
+                        doTranslation(translationInput, outputLang);
+                      }}
+                    />
+                  </Surface>
+                </View>
+              </View>
+
+              {/* Button to swap languages */}
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  marginTop: -18,
+                  marginBottom: -18,
+                  zIndex: 5,
+                }}
+              >
+                <Surface
+                  style={{
+                    borderRadius: 100,
+                    padding: -20,
+                    backgroundColor: "white",
+                  }}
+                  elevation={2}
+                >
+                  <IconButton
+                    mode="outlined"
+                    containerColor="#F5F5F9"
+                    style={{ margin: 0 }}
+                    icon="swap-vertical-variant"
+                    onPress={toggleLang}
+                  />
+                </Surface>
+              </View>
+
+              {/* Bottom output box */}
+              <View
+                style={{
+                  ...shadows.shadow4,
+                  ...translateStyles.textBox,
+                  backgroundColor: "#F5F5F9",
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
                 }}
                 elevation={3}
               >
-                <FlatList
-                  style={{ height: 0 }}
-                  numColumns={1000}
-                  columnWrapperStyle={{
-                    flexWrap: "wrap",
+                {/* Top bar */}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
                   }}
-                  data={translation.split(" ")}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      onPress={() => {
-                        selectWord(item);
+                >
+                  {/* Output language label */}
+                  <Text style={translateStyles.languageLabel}>
+                    {outputLang}
+                  </Text>
+
+                  {/* TTS button */}
+                  <IconButton
+                    style={{ marginTop: 0, marginRight: 0 }}
+                    icon="volume-high"
+                    onPress={() => {
+                      if (outputLang === "Spanish") {
+                        Speech.speak(translationOutput, { language: "es" });
+                      } else if (outputLang === "English") {
+                        Speech.speak(translationOutput, { language: "en" });
+                      }
+                    }}
+                  />
+                </View>
+
+                <Divider style={{ marginTop: -10 }} />
+
+                {/* Output section */}
+                <View style={{ marginTop: 3, flex: 1 }}>
+                  {translationOutput !== "" ? (
+                    <FlatList
+                      style={{ height: 0 }}
+                      numColumns={1000}
+                      columnWrapperStyle={{
+                        flexWrap: "wrap",
                       }}
-                    >
-                      <Text style={{ fontSize: 20 }}>{item + " "}</Text>
-                    </TouchableOpacity>
-                  )}
-                />
+                      data={translationOutput.split(" ")}
+                      renderItem={({ item }) => (
+                        <TouchableOpacity
+                          onPress={() => {
+                            selectWord(item);
+                          }}
+                        >
+                          <Text style={{ fontSize: 20 }}>{item + " "}</Text>
+                        </TouchableOpacity>
+                      )}
+                    />
+                  ) : inputLang === "English" ? (
+                    <Text style={{ fontSize: 20, color: "#999" }}>
+                      Tap on a translated word to view its dictionary definition
+                    </Text>
+                  ) : inputLang === "Spanish" ? (
+                    <Text style={{ fontSize: 20, color: "#999" }}>
+                      Tocar una palabra traducida para ver su definición en el
+                      diccionario
+                    </Text>
+                  ) : null}
+                </View>
               </View>
-              <Text
-                style={[
-                  translateStyles.languageLabel,
-                  {
-                    textDecorationLine: "underline",
-                    fontSize: 12,
-                    width: "100%",
-                    textAlign: "center",
-                    marginTop: -7,
-                  },
-                ]}
-              >
-                Tap a translated word for the dictionary definition
-              </Text>
             </View>
           </SafeAreaView>
         </View>
-      </PaperProvider>
-    </HideKeyboard>
+      </HideKeyboard>
+    </PaperProvider>
   );
 };
 

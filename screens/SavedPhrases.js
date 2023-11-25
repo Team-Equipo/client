@@ -26,8 +26,9 @@ const SavedPhrases = ({ navigation }) => {
   }
 
   const deletePhrase = async (item) => {
+    let updatedPhrases;
     try {
-      var currentPhrases = JSON.parse(
+      let currentPhrases = JSON.parse(
         await AsyncStorage.getItem("saved-phrases"),
       );
       if (currentPhrases == null) {
@@ -78,7 +79,7 @@ const SavedPhrases = ({ navigation }) => {
               <PhraseCard
                 phrase={item}
                 deletePhrase={deletePhrase}
-                mode={"saved"}
+                mode="saved"
               />
             )}
           />
