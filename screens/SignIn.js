@@ -1,11 +1,11 @@
-import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
-import { Image, View } from "react-native";
 import React, { useState, useContext } from "react";
+import { Image, View } from "react-native";
+import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
+import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
 import { signinStyles, signinTheme } from "../styles/globalStyles";
-import HideKeyboard from "../components/HideKeyboard";
 
 export default function SignIn() {
   const [emailAddress, setEmailAddress] = useState("");
