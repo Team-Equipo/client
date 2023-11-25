@@ -19,15 +19,15 @@ import {
 
 import HideKeyboard from "../components/HideKeyboard";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
+import { useRegistrationContext } from "../contexts/RegistrationContext";
 
 const UserInfo = ({ navigation }) => {
-  const [foods, setFoods] = React.useState("");
-  const [userData, setUserdata] = React.useState({});
+  const { userData, setFoods } = useRegistrationContext();
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
-    if (foods != "") {
-      storeData(["Foods"], [foods]);
+    if (userData.foods != "") {
+      storeData(["Foods"], [userData.foods]);
       navigation.navigate("TripInfo");
     }
   };
@@ -59,19 +59,6 @@ const UserInfo = ({ navigation }) => {
     }
   };
 
-  // read user info from storage
-  const getUserData = async () => {
-    try {
-      setUserdata(JSON.parse(await AsyncStorage.getItem("user-info")));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  React.useEffect(() => {
-    getUserData();
-  }, [AsyncStorage.getItem("user-info")]);
-
   return (
     <PaperProvider theme={settingsTheme}>
       <KeyboardAvoidingView behavior="position">
@@ -87,7 +74,7 @@ const UserInfo = ({ navigation }) => {
               Interesting, {"\n"}
               <Text style={settingsStyle.titleText2}>so you enjoy</Text> {"\n"}
               <Text style={settingsStyle.titleText3}>
-                {userData.Hobbies ? userData.Hobbies : "doing something"}!
+                {userData.interests}!
               </Text>
             </Text>
             <Image
@@ -103,7 +90,7 @@ const UserInfo = ({ navigation }) => {
               mode="outlined"
               label="Favorite Food(s)"
               multiline
-              value={foods}
+              value={userData.foods}
               right={<TextInput.Icon icon="food" color="#3BC4E2" />}
               outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}

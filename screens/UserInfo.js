@@ -18,16 +18,19 @@ import {
 } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
+import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
 const UserInfo = ({ navigation }) => {
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
+  const { userData, setFirstName, setLastName } = useRegistrationContext();
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
-    if (firstName !== "" && lastName !== "") {
-      storeData(["firstName", "lastName"], [firstName, lastName]);
+    if (userData.firstName !== "" && userData.lastName !== "") {
+      storeData(
+        ["firstName", "lastName"],
+        [userData.firstName, userData.lastName],
+      );
       navigation.navigate("UserProp");
     }
   };
@@ -82,7 +85,7 @@ const UserInfo = ({ navigation }) => {
             <TextInput
               mode="outlined"
               label="First Name"
-              value={firstName}
+              value={userData.firstName}
               right={<TextInput.Icon icon="account" color="#3BC4E2" />}
               outlineStyle={{
                 borderRadius: 24,
@@ -97,7 +100,7 @@ const UserInfo = ({ navigation }) => {
             <TextInput
               mode="outlined"
               label="Last Name"
-              value={lastName}
+              value={userData.lastName}
               right={<TextInput.Icon icon="account" color="#3BC4E2" />}
               outlineStyle={{
                 borderRadius: 24,

@@ -9,6 +9,7 @@ import AllSetScreen from "./screens/AllSetPage";
 import HomeScreen from "./screens/HomeScreen";
 import Phrase from "./screens/Phrase";
 import Phrases from "./screens/Phrases";
+import { RegistrationProvider } from "./contexts/RegistrationContext";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import SplashScreen from "./screens/SplashScreen";
@@ -125,92 +126,94 @@ export default function App({ navigation }) {
     // <TripInfo />
     // <AllSetScreen />
     <AuthContext.Provider value={authContext}>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            header: (props) => <AppBar {...props} />,
-          }}
-        >
-          {state.isLoading ? (
-            // We haven't finished checking for the token yet
-            <Stack.Screen name="Splash" component={SplashScreen} />
-          ) : state.userToken == null || state.userToken === "signedout" ? (
-            // No token found, user isn't signed in
-            <Stack.Screen
-              name="SignIn"
-              component={SignInScreen}
-              options={{
-                title: "Sign in",
-                // When logging out, a pop animation feels intuitive
-                animationTypeForReplace: state.isSignout ? "pop" : "push",
-              }}
-            />
-          ) : state.userToken === "signup" ? (
-            <>
+      <RegistrationProvider>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              header: (props) => <AppBar {...props} />,
+            }}
+          >
+            {state.isLoading ? (
+              // We haven't finished checking for the token yet
+              <Stack.Screen name="Splash" component={SplashScreen} />
+            ) : state.userToken == null || state.userToken === "signedout" ? (
+              // No token found, user isn't signed in
               <Stack.Screen
-                name="SignUp"
-                component={SignUpScreen}
+                name="SignIn"
+                component={SignInScreen}
                 options={{
-                  title: "Sign Up",
+                  title: "Sign in",
                   // When logging out, a pop animation feels intuitive
                   animationTypeForReplace: state.isSignout ? "pop" : "push",
                 }}
               />
-              <Stack.Screen
-                name="UserInfo"
-                component={UserInfo}
-                options={{
-                  title: "Your Name",
-                  // When logging out, a pop animation feels intuitive
-                  animationTypeForReplace: state.isSignout ? "pop" : "push",
-                }}
-              />
-              <Stack.Screen
-                name="UserProp"
-                component={UserProp}
-                options={{
-                  title: "Your Interests",
-                  // When logging out, a pop animation feels intuitive
-                  animationTypeForReplace: state.isSignout ? "pop" : "push",
-                }}
-              />
-              <Stack.Screen
-                name="UserPropFood"
-                component={UserPropFood}
-                options={{
-                  title: "Food",
-                  // When logging out, a pop animation feels intuitive
-                  animationTypeForReplace: state.isSignout ? "pop" : "push",
-                }}
-              />
-              <Stack.Screen
-                name="TripInfo"
-                component={TripInfo}
-                options={{
-                  title: "Your Trip",
-                  // When logging out, a pop animation feels intuitive
-                  animationTypeForReplace: state.isSignout ? "pop" : "push",
-                }}
-              />
-              <Stack.Screen
-                name="AllSet"
-                component={AllSetScreen}
-                options={{
-                  title: "All Set!",
-                  // When logging out, a pop animation feels intuitive
-                  animationTypeForReplace: state.isSignout ? "pop" : "push",
-                }}
-              />
-            </>
-          ) : (
-            // User is signed in
-            <>
-              <Stack.Screen name="Home" component={HomeScreen} />
-            </>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+            ) : state.userToken === "signup" ? (
+              <>
+                <Stack.Screen
+                  name="SignUp"
+                  component={SignUpScreen}
+                  options={{
+                    title: "Sign Up",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+                <Stack.Screen
+                  name="UserInfo"
+                  component={UserInfo}
+                  options={{
+                    title: "Your Name",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+                <Stack.Screen
+                  name="UserProp"
+                  component={UserProp}
+                  options={{
+                    title: "Your Interests",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+                <Stack.Screen
+                  name="UserPropFood"
+                  component={UserPropFood}
+                  options={{
+                    title: "Food",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+                <Stack.Screen
+                  name="TripInfo"
+                  component={TripInfo}
+                  options={{
+                    title: "Your Trip",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+                <Stack.Screen
+                  name="AllSet"
+                  component={AllSetScreen}
+                  options={{
+                    title: "All Set!",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+              </>
+            ) : (
+              // User is signed in
+              <>
+                <Stack.Screen name="Home" component={HomeScreen} />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </RegistrationProvider>
     </AuthContext.Provider>
   );
 }

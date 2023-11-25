@@ -13,14 +13,14 @@ import {
 
 import HideKeyboard from "../components/HideKeyboard";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
+import { useRegistrationContext } from "../contexts/RegistrationContext";
 
 const TripInfo = ({ navigation }) => {
-  const [destination, setRegion] = React.useState("");
-  const [userData, setUserdata] = React.useState({});
+  const { userData, setDestination } = useRegistrationContext();
 
   const handleUserSubmit = () => {
-    if (destination != "") {
-      storeData(["Destination"], [destination]);
+    if (userData.destination != "") {
+      storeData(["Destination"], [userData.destination]);
       navigation.navigate("AllSet");
     }
   };
@@ -52,19 +52,6 @@ const TripInfo = ({ navigation }) => {
     }
   };
 
-  // read user info from storage
-  const getUserData = async () => {
-    try {
-      setUserdata(JSON.parse(await AsyncStorage.getItem("user-info")));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  React.useEffect(() => {
-    getUserData();
-  }, [AsyncStorage.getItem("user-info")]);
-
   return (
     <PaperProvider theme={settingsTheme}>
       <KeyboardAvoidingView behavior="position">
@@ -78,7 +65,7 @@ const TripInfo = ({ navigation }) => {
             <Text style={[settingsStyle.titleText, { paddingTop: "36%" }]}>
               Where do you plan to travel,{" "}
               <Text style={settingsStyle.titleText2}>
-                {userData.firstName ? userData.firstName : "User"}?
+                {userData.firstName}?
               </Text>
             </Text>
             <Image
@@ -90,11 +77,11 @@ const TripInfo = ({ navigation }) => {
             <TextInput
               mode="outlined"
               label="Destination"
-              value={destination}
+              value={userData.destination}
               right={<TextInput.Icon icon="map-marker" color="#3BC4E2" />}
               outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}
-              onChangeText={(text) => setRegion(text)}
+              onChangeText={(text) => setDestination(text)}
             />
             <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
               <Button

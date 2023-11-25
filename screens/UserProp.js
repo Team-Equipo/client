@@ -19,15 +19,15 @@ import {
 
 import HideKeyboard from "../components/HideKeyboard";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
+import { useRegistrationContext } from "../contexts/RegistrationContext";
 
 const UserInfo = ({ navigation }) => {
-  const [interests, setInterests] = React.useState("");
-  const [userData, setUserdata] = React.useState({});
+  const { userData, setInterests } = useRegistrationContext();
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
-    if (interests != "") {
-      storeData(["Hobbies"], [interests]);
+    if (userData.interests != "") {
+      storeData(["Hobbies"], [userData.interests]);
       navigation.navigate("UserPropFood");
     }
   };
@@ -59,19 +59,6 @@ const UserInfo = ({ navigation }) => {
     }
   };
 
-  // read user info from storage
-  const getUserData = async () => {
-    try {
-      setUserdata(JSON.parse(await AsyncStorage.getItem("user-info")));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  React.useEffect(() => {
-    getUserData();
-  }, [AsyncStorage.getItem("user-info")]);
-
   return (
     <PaperProvider theme={settingsTheme}>
       <KeyboardAvoidingView behavior="position">
@@ -84,9 +71,9 @@ const UserInfo = ({ navigation }) => {
             style={settingsStyle.textInputWrapper}
           >
             <Text style={settingsStyle.titleText}>
-              Nice to see you,{" "}
+              Nice to meet you,{" "}
               <Text style={settingsStyle.titleText2}>
-                {userData.firstName ? userData.firstName : "User"}!
+                {userData.firstName}!
               </Text>
             </Text>
             <Image
@@ -102,7 +89,7 @@ const UserInfo = ({ navigation }) => {
               mode="outlined"
               label="Interests/Hobbies"
               multiline
-              value={interests}
+              value={userData.interests}
               right={
                 <TextInput.Icon icon="toy-brick-outline" color="#3BC4E2" />
               }
