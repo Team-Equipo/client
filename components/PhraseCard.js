@@ -1,13 +1,15 @@
-import React from "react";
+import { speak } from "expo-speech";
+import React, { useState } from "react";
+import { Dimensions, StyleSheet, SafeAreaView } from "react-native";
 import {
-  Dimensions,
-  StyleSheet,
-  SafeAreaView,
-  Pressable,
-  View,
-} from "react-native";
-import { IconButton, Card, Text, ActivityIndicator } from "react-native-paper";
-import { useState } from "react";
+  IconButton,
+  Card,
+  Text,
+  ActivityIndicator,
+  TouchableRipple,
+} from "react-native-paper";
+
+import SelectableWordList from "../components/SelectableWordList.js";
 
 export default function PhraseCard({
   phrase,
@@ -16,6 +18,8 @@ export default function PhraseCard({
   savePhrase,
   deletePhrase,
   mode,
+  onSelectEnglishWord,
+  onSelectSpanishWord,
 }) {
   const [isToggled, setIsToggled] = useState(true);
 
@@ -23,69 +27,87 @@ export default function PhraseCard({
     setIsToggled(!isToggled);
   };
 
+  const speakPhrase = async () => {
+    try {
+      await speak(phrase.text_original, { language: "es" });
+    } catch (error) {
+      console.error("Error speaking phrase:", error);
+    }
+  };
+
   return (
     <SafeAreaView>
-      {mode === "browse" ? (
-        <>
-          {isLoading || phrase.isloading ? (
-            <Card style={styles.card}>
-              <Card.Content style={styles.cardContent}>
-                <ActivityIndicator />
-              </Card.Content>
-            </Card>
-          ) : (
-            <Card style={styles.card}>
-              <Pressable onPress={() => togglePhrase()}>
-                <Card.Content style={styles.cardContent}>
-                  <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                    {isToggled ? phrase.text_original : phrase.text_translated}
-                  </Text>
-                </Card.Content>
-                <Card.Actions>
-                  <IconButton
-                    icon="bookmark-box-multiple-outline"
-                    mode="default"
-                    onPress={() => {
-                      savePhrase(phrase);
-                    }}
-                  />
-                  <IconButton
-                    icon="cached"
-                    mode="default"
-                    onPress={() => {
-                      updateGeneratedPhrase(
-                        phrase.userid,
-                        phrase.generated_phrases_id,
-                      );
-                    }}
-                  />
-                </Card.Actions>
-              </Pressable>
-            </Card>
-          )}
-        </>
-      ) : mode === "saved" ? (
-        <>
-          <Card style={styles.card}>
-            <Pressable onPress={() => togglePhrase()}>
+      {isLoading || phrase.isloading ? (
+        <Card style={styles.card}>
+          <Card.Content style={styles.cardContent}>
+            <ActivityIndicator />
+          </Card.Content>
+        </Card>
+      ) : (
+        <Card style={styles.card}>
+          <TouchableRipple
+            borderless
+            style={{ borderRadius: 10 }}
+            onPress={() => togglePhrase()}
+          >
+            <>
               <Card.Content style={styles.cardContent}>
                 <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                  {isToggled ? phrase.text_original : phrase.text_translated}
+                  {isToggled ? (
+                    <SelectableWordList
+                      data={phrase.text_translated}
+                      onSelectWord={onSelectEnglishWord}
+                    />
+                  ) : (
+                    <SelectableWordList
+                      data={phrase.text_original}
+                      onSelectWord={onSelectSpanishWord}
+                    />
+                  )}
                 </Text>
               </Card.Content>
               <Card.Actions>
                 <IconButton
-                  icon="delete"
+                  icon="volume-high"
                   mode="default"
-                  onPress={() => {
-                    deletePhrase(phrase);
-                  }}
+                  onPress={speakPhrase}
                 />
+                {mode !== "saved" ? (
+                  <>
+                    <IconButton
+                      icon="bookmark-box-multiple-outline"
+                      mode="default"
+                      onPress={() => {
+                        savePhrase(phrase);
+                      }}
+                    />
+                    <IconButton
+                      icon="cached"
+                      mode="default"
+                      onPress={() => {
+                        updateGeneratedPhrase(
+                          phrase.userid,
+                          phrase.generated_phrases_id,
+                        );
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <IconButton
+                      icon="delete"
+                      mode="default"
+                      onPress={() => {
+                        deletePhrase(phrase);
+                      }}
+                    />
+                  </>
+                )}
               </Card.Actions>
-            </Pressable>
-          </Card>
-        </>
-      ) : null}
+            </>
+          </TouchableRipple>
+        </Card>
+      )}
     </SafeAreaView>
   );
 }

@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import * as React from "react";
+import React, { useState, useContext } from "react";
 import { Image, View } from "react-native";
 import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
@@ -7,19 +7,16 @@ import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
 import { signinStyles, signinTheme } from "../styles/globalStyles";
 
-export default function SignInScreen() {
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
-  const { signIn } = React.useContext(AuthContext);
-  const { signUp } = React.useContext(AuthContext);
+export default function SignIn() {
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const { signIn } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
 
   return (
     <PaperProvider theme={signinTheme}>
       <HideKeyboard>
         <LinearGradient
-          // colors={["#0014FF", "#00A9FF", "#A0E9FF", "#FFFFFF"]}
-          // locations={[0.01, 0.2, 0.5, 0.7]}
           colors={["#0014FF", "#A0E9FF", "#FFFFFF"]}
           locations={[0.01, 0.2, 0.7]}
         >
@@ -34,9 +31,9 @@ export default function SignInScreen() {
               <View style={signinStyles.textInputWrapper}>
                 <TextInput
                   mode="outlined"
-                  label="Username"
-                  value={username}
-                  onChangeText={setUsername}
+                  label="Email Address"
+                  value={emailAddress}
+                  onChangeText={setEmailAddress}
                   style={signinStyles.textInput}
                   outlineStyle={{ borderRadius: 24 }}
                 />
@@ -53,7 +50,7 @@ export default function SignInScreen() {
               <View style={signinStyles.button}>
                 <Button
                   mode="elevated"
-                  onPress={() => signIn({ username, password })}
+                  onPress={() => signIn({ emailAddress, password })}
                   textColor="white"
                   labelStyle={{ fontWeight: "bold" }}
                 >
