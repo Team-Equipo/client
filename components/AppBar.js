@@ -1,11 +1,29 @@
 import { getHeaderTitle } from "@react-navigation/elements";
-import * as React from "react";
-import { Appbar } from "react-native-paper";
+import React, { useState, useContext } from "react";
+import { Appbar, Menu } from "react-native-paper";
 
+import { AuthContext } from "../contexts/AuthContext";
 import { signinTheme } from "../styles/globalStyles";
 
 export default function AppBar({ navigation, route, options, back }) {
+  const { signOut } = useContext(AuthContext);
   const title = getHeaderTitle(options, route.name);
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const openMenu = () => setMenuVisible(true);
+  const closeMenu = () => setMenuVisible(false);
+
+  const handleMenuPress = (action) => {
+    closeMenu();
+    switch (action) {
+      case "editProfile":
+        // Handle "Edit Profile" action
+        alert("Edit Profile");
+        break;
+      case "signOut":
+        signOut();
+    }
+  };
 
   if (route.name === "Home") {
     return (
@@ -28,14 +46,33 @@ export default function AppBar({ navigation, route, options, back }) {
           style={{ alignItems: "center" }}
           color="white"
         />
-        <Appbar.Action
-          icon="account"
-          style={{ borderWidth: 1, borderColor: "darkgray" }}
-          containerColor="white"
-          color="darkgray"
-          size={20}
-          onPress={() => alert("User profile")}
-        />
+        <Menu
+          visible={menuVisible}
+          onDismiss={closeMenu}
+          style={{ borderRadius: 50 }}
+          anchor={
+            <Appbar.Action
+              icon="account"
+              style={{ borderWidth: 1, borderColor: "darkgray" }}
+              containerColor="white"
+              color="darkgray"
+              size={20}
+              onPress={openMenu}
+            />
+          }
+          anchorPosition="bottom"
+        >
+          <Menu.Item
+            trailingIcon="account-edit" // Edit icon
+            onPress={() => handleMenuPress("editProfile")}
+            title="Edit Profile"
+          />
+          <Menu.Item
+            trailingIcon="logout" // Sign out icon
+            onPress={() => handleMenuPress("signOut")}
+            title="Sign Out"
+          />
+        </Menu>
       </Appbar.Header>
     );
   } else if (route.name === "SignIn") {
