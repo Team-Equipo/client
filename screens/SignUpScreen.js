@@ -11,7 +11,7 @@ import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
-import { signupStyles, signinTheme, fonts } from "../styles/globalStyles";
+import { signupStyles, signinTheme } from "../styles/globalStyles";
 
 const SignUpScreen = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
@@ -39,26 +39,8 @@ const SignUpScreen = ({ navigation }) => {
     navigation.navigate("UserInfo");
   };
 
-  const [fontLoaded, setFontLoaded] = React.useState(false);
-
-  React.useEffect(() => {
-    const loadFont = async () => {
-      await Font.loadAsync({
-        "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-        "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
-        "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
-        "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
-        "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
-      });
-      setFontLoaded(true);
-    };
-    loadFont();
-  }, []);
-
-  if (!fontLoaded) return null;
-
   return (
-    <PaperProvider theme={{ ...signinTheme, fonts }}>
+    <PaperProvider theme={{ ...signinTheme }}>
       <KeyboardAvoidingView behavior="position">
         <HideKeyboard>
           <LinearGradient

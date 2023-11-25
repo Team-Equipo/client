@@ -72,24 +72,6 @@ const UserInfo = ({ navigation }) => {
     getUserData();
   }, [AsyncStorage.getItem("user-info")]);
 
-  const [fontLoaded, setFontLoaded] = React.useState(false);
-
-  React.useEffect(() => {
-    const loadFont = async () => {
-      await Font.loadAsync({
-        "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-        "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
-        "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
-        "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
-        "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
-      });
-      setFontLoaded(true);
-    };
-    loadFont();
-  }, []);
-
-  if (!fontLoaded) return null;
-
   return (
     <PaperProvider theme={settingsTheme}>
       <KeyboardAvoidingView behavior="position">

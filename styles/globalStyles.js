@@ -161,7 +161,7 @@ export const signupStyles = StyleSheet.create({
     paddingVertical: 5,
   },
   buttonText: {
-    fontFamily: "Poppins-Bold",
+    //fontFamily: "Poppins-Bold",
     fontSize: 15,
     color: "white",
   },
@@ -173,18 +173,18 @@ export const signupStyles = StyleSheet.create({
     alignItems: "center",
   },
   divText: {
-    fontFamily: "Poppins-Light",
+    //fontFamily: "Poppins-Light",
     textAlign: "center",
     color: "#ADC4CE",
     margin: 3,
   },
   bottomText: {
-    fontFamily: "Poppins-Regular",
+    //fontFamily: "Poppins-Regular",
     color: "gray",
     fontSize: 13,
   },
   signinTouchable: {
-    fontFamily: "Poppins-Bold",
+    //fontFamily: "Poppins-Bold",
     color: "#3BC4E2",
     fontSize: 13,
   },
