@@ -15,7 +15,7 @@ import {
 } from "react-native-paper";
 import { useState } from "react";
 
-import * as Speech from "expo-speech";
+import { speak } from "expo-speech";
 
 export default function PhraseCard({
   phrase,
@@ -29,6 +29,14 @@ export default function PhraseCard({
 
   const togglePhrase = () => {
     setIsToggled(!isToggled);
+  };
+
+  const speakPhrase = async () => {
+    try {
+      await speak(phrase.text_original, { language: "es" });
+    } catch (error) {
+      console.error("Error speaking phrase:", error);
+    }
   };
 
   return (
@@ -56,9 +64,7 @@ export default function PhraseCard({
                 <IconButton
                   icon="volume-high"
                   mode="default"
-                  onPress={() => {
-                    Speech.speak(phrase.text_original, { language: "es" });
-                  }}
+                  onPress={speakPhrase}
                 />
                 {mode !== "saved" ? (
                   <>

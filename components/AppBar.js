@@ -1,6 +1,6 @@
 import { getHeaderTitle } from "@react-navigation/elements";
 import * as React from "react";
-import { Appbar, PaperProvider } from "react-native-paper";
+import { Appbar } from "react-native-paper";
 
 import { signinTheme } from "../styles/globalStyles";
 
@@ -18,10 +18,10 @@ export default function AppBar({ navigation, route, options, back }) {
         }}
       >
         <Appbar.Action
-          icon="menu"
+          icon="chat-alert"
+          color="firebrick"
           size={33}
-          color="white"
-          onPress={() => alert("Drawer Menu should show up")}
+          onPress={() => navigation.navigate("EmergencyPhrases")}
         />
         <Appbar.Content
           title="Lingucidity"
@@ -29,9 +29,11 @@ export default function AppBar({ navigation, route, options, back }) {
           color="white"
         />
         <Appbar.Action
-          icon="account-circle"
-          color="white"
-          size={37}
+          icon="account"
+          style={{ borderWidth: 1, borderColor: "darkgray" }}
+          containerColor="white"
+          color="darkgray"
+          size={20}
           onPress={() => alert("User profile")}
         />
       </Appbar.Header>
@@ -40,16 +42,23 @@ export default function AppBar({ navigation, route, options, back }) {
     return null; // hide the header
   } else {
     return (
-      <PaperProvider theme={signinTheme}>
-        <Appbar.Header>
-          {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-          <Appbar.Content
-            title={title}
-            color="white"
-            style={{ alignItems: "center" }}
-          />
-        </Appbar.Header>
-      </PaperProvider>
+      <Appbar.Header
+        style={{
+          backgroundColor: signinTheme.colors.primary,
+          marginTop: 5,
+          marginBottom: 15,
+          height: 35,
+        }}
+      >
+        {back ? (
+          <Appbar.BackAction color="white" onPress={navigation.goBack} />
+        ) : null}
+        <Appbar.Content
+          title={title}
+          color="white"
+          style={{ alignItems: "center" }}
+        />
+      </Appbar.Header>
     );
   }
 }

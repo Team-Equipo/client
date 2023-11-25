@@ -10,6 +10,7 @@ import SignIn from "./screens/SignIn";
 import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
 import HomeScreen from "./screens/HomeScreen";
+import EmergencyPhrases from "./screens/EmergencyPhrases";
 import AppBar from "./components/AppBar";
 
 const Stack = createNativeStackNavigator();
@@ -97,7 +98,7 @@ export default function App() {
           });
 
           const credentials = await response.json();
-          dispatch({ type: "SIGN_IN", token: credentials.token });
+          dispatch({ type: "SIGN_IN", token: "credentials.token" });
         } catch (error) {
           console.error(error);
         }
@@ -159,6 +160,15 @@ export default function App() {
               // User is signed in
               <>
                 <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen
+                  name="EmergencyPhrases"
+                  component={EmergencyPhrases}
+                  options={{
+                    title: "Emergency Phrases",
+                    // When logging out, a pop animation feels intuitive
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
               </>
             )}
           </Stack.Navigator>
