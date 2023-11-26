@@ -10,7 +10,7 @@ import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
-import { signupStyles, signinTheme } from "../styles/globalStyles";
+import { signStyles, signTheme } from "../styles/globalStyles";
 
 const SignUpScreen = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
@@ -39,8 +39,8 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   return (
-    <PaperProvider theme={{ ...signinTheme }}>
-      <KeyboardAvoidingView behavior="position" style={signupStyles.page}>
+    <PaperProvider theme={{ ...signTheme }}>
+      <KeyboardAvoidingView behavior="position" style={signStyles.page}>
         <HideKeyboard>
           <LinearGradient
             colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
@@ -48,18 +48,18 @@ const SignUpScreen = ({ navigation }) => {
           >
             <Image
               source={require("../assets/images/accountPhone.png")}
-              style={signupStyles.image}
+              style={signStyles.image}
               resizeMode="contain"
             />
-            <View style={signupStyles.totalWrapper}>
-              <View style={signupStyles.container}>
-                <View style={signupStyles.textInputWrapper}>
+            <View style={signStyles.totalWrapper}>
+              <View style={signStyles.container}>
+                <View style={signStyles.textInputWrapper}>
                   <TextInput
                     mode="outlined"
                     label="Email"
                     value={username}
                     onChangeText={setUsername}
-                    style={signupStyles.textInput}
+                    style={signStyles.textInput}
                     right={
                       <TextInput.Icon
                         onPress={() =>
@@ -76,7 +76,7 @@ const SignUpScreen = ({ navigation }) => {
                     label="Password"
                     value={password}
                     onChangeText={setPassword}
-                    style={signupStyles.textInput}
+                    style={signStyles.textInput}
                     right={
                       <TextInput.Icon
                         onPress={() => setIsPasswordHidden(!isPasswordHidden)}
@@ -92,7 +92,7 @@ const SignUpScreen = ({ navigation }) => {
                     label="Confirm Password"
                     value={cfpassword}
                     onChangeText={setCfpassword}
-                    style={signupStyles.textInput}
+                    style={signStyles.textInput}
                     right={
                       <TextInput.Icon
                         onPress={() =>
@@ -106,24 +106,24 @@ const SignUpScreen = ({ navigation }) => {
                     secureTextEntry={isCfpasswordHidden}
                   />
                 </View>
-                <View style={signupStyles.buttonWrapper}>
+                <View style={signStyles.buttonWrapper}>
                   <Button
                     mode="elevated"
                     onPress={handleSignup}
                     textColor="white"
                     labelStyle={{ fontWeight: "bold" }}
-                    style={signupStyles.button}
+                    style={signStyles.button}
                   >
-                    <Text style={signupStyles.buttonText}>Sign Up</Text>
+                    <Text style={signStyles.buttonText}>Sign Up</Text>
                   </Button>
-                  <Text style={signupStyles.divText}>- OR -</Text>
-                  <View style={signupStyles.signupText}>
-                    <Text style={signupStyles.bottomText}>
+                  <Text style={signStyles.divText}>- OR -</Text>
+                  <View style={signStyles.signupText}>
+                    <Text style={signStyles.bottomText}>
                       Already have an account?{" "}
                     </Text>
                     <TouchableOpacity>
                       <Text
-                        style={signupStyles.signinTouchable}
+                        style={signStyles.signinTouchable}
                         onPress={() => signOut()}
                       >
                         Sign In

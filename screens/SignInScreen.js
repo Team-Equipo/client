@@ -10,7 +10,7 @@ import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
-import { signupStyles, signinTheme } from "../styles/globalStyles";
+import { signStyles, signTheme } from "../styles/globalStyles";
 
 export default function SignIn() {
   const [emailAddress, setEmailAddress] = useState("");
@@ -20,8 +20,8 @@ export default function SignIn() {
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
 
   return (
-    <PaperProvider theme={{ ...signinTheme }}>
-      <KeyboardAvoidingView behavior="position" style={signupStyles.page}>
+    <PaperProvider theme={{ ...signTheme }}>
+      <KeyboardAvoidingView behavior="position" style={signStyles.page}>
         <HideKeyboard>
           <LinearGradient
             colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
@@ -29,17 +29,17 @@ export default function SignIn() {
           >
             <Image
               source={require("../assets/images/girl1.png")}
-              style={signupStyles.imageGirl}
+              style={signStyles.imageGirl}
             />
-            <View style={signupStyles.totalWrapper}>
-              <View style={signupStyles.container}>
-                <View style={signupStyles.textInputWrapper}>
+            <View style={signStyles.totalWrapper}>
+              <View style={signStyles.container}>
+                <View style={signStyles.textInputWrapper}>
                   <TextInput
                     mode="outlined"
                     label="Email Address"
                     value={emailAddress}
                     onChangeText={setEmailAddress}
-                    style={signupStyles.textInput}
+                    style={signStyles.textInput}
                     right={
                       <TextInput.Icon
                         onPress={() =>
@@ -56,7 +56,7 @@ export default function SignIn() {
                     label="Password"
                     value={password}
                     onChangeText={setPassword}
-                    style={signupStyles.textInput}
+                    style={signStyles.textInput}
                     right={
                       <TextInput.Icon
                         onPress={() => setIsPasswordHidden(!isPasswordHidden)}
@@ -68,24 +68,24 @@ export default function SignIn() {
                     secureTextEntry={isPasswordHidden}
                   />
                 </View>
-                <View style={signupStyles.buttonWrapper}>
+                <View style={signStyles.buttonWrapper}>
                   <Button
                     mode="elevated"
                     onPress={() => signIn({ emailAddress, password })}
                     textColor="white"
                     labelStyle={{ fontWeight: "bold" }}
-                    style={signupStyles.button}
+                    style={signStyles.button}
                   >
-                    <Text style={signupStyles.buttonText}>Sign In</Text>
+                    <Text style={signStyles.buttonText}>Sign In</Text>
                   </Button>
-                  <Text style={signupStyles.divText}>- OR -</Text>
-                  <View style={signupStyles.signupText}>
-                    <Text style={signupStyles.bottomText}>
+                  <Text style={signStyles.divText}>- OR -</Text>
+                  <View style={signStyles.signupText}>
+                    <Text style={signStyles.bottomText}>
                       Don't have an account?{" "}
                     </Text>
                     <TouchableOpacity>
                       <Text
-                        style={signupStyles.signinTouchable}
+                        style={signStyles.signinTouchable}
                         onPress={() => signUp()}
                       >
                         Sign Up

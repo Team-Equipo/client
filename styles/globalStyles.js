@@ -66,81 +66,8 @@ export const phraseStyles = StyleSheet.create({
   },
 });
 
-// mostly used in Signin.js
-export const signinStyles = StyleSheet.create({
-  container: {
-    marginTop: 10,
-    flex: 1,
-    alignItems: "center",
-  },
-  image: {
-    display: "flex",
-    width: "60%",
-    height: "40%",
-    marginTop: "28%",
-    marginBottom: "2%",
-    alignSelf: "center",
-  },
-  imageContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  textInputWrapper: {
-    width: "80%",
-    display: "flex",
-  },
-  textInput: {
-    display: "flex",
-    marginBottom: 10,
-    backgroundColor: "#F5F7F8",
-    fontSize: 14,
-  },
-  buttonWrapper: {
-    width: "80%",
-    display: "flex",
-    gap: 10,
-    alignItems: "center",
-  },
-  button: {
-    borderRadius: 10,
-    marginTop: 10,
-    width: "88%",
-    display: "flex",
-    paddingVertical: 5,
-  },
-  buttonText: {
-    //fontFamily: "Poppins-Bold",
-    fontSize: 15,
-    color: "white",
-  },
-  signinText: {
-    display: "flex",
-    flexDirection: "row",
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  divText: {
-    textAlign: "center",
-    color: "#ADC4CE",
-    margin: 10,
-  },
-  totalWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    // backgroundColor: "#CDF5FD",
-    backgroundColor: "white",
-    width: "85%",
-    // paddingBottom: "50%",
-  },
-});
-
-export const signupStyles = StyleSheet.create({
+// used in SignInScreen.js and SignUpScreen.js
+export const signStyles = StyleSheet.create({
   page: {
     flex: 1,
     backgroundColor: "#FFFFFF",
@@ -417,7 +344,7 @@ export const shadows = StyleSheet.create({
 });
 
 // THEMES
-export const signinTheme = {
+export const signTheme = {
   ...DefaultTheme,
   myOwnProperty: true,
   colors: {
@@ -426,10 +353,8 @@ export const signinTheme = {
     secondary: "#5272F2",
     text: "black",
     outline: "#FFBDD4",
-    // backgroundColor: "#5272F2",
     backgroundColor: "#FFFFFF",
     elevation: {
-      // level1: "#39A7FF",
       level1: "#3BC4E2",
     },
   },
@@ -444,10 +369,8 @@ export const settingsTheme = {
     secondary: "#5272F2",
     text: "black",
     outline: "#FFBDD4",
-    // backgroundColor: "#5272F2",
     backgroundColor: "#FFFFFF",
     elevation: {
-      // level1: "#39A7FF",
       level1: "#3BC4E2",
     },
   },
@@ -458,12 +381,9 @@ export const phraseTheme = {
   myOwnProperty: true,
   colors: {
     ...DefaultTheme.colors,
-    // primary: "#51c3f5",
     primary: "#5272F2",
-    // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
-    // outline: "#51c3f5",
     outline: "#FFBDD4",
     backgroundColor: "#5272F2",
     elevation: {
@@ -477,12 +397,9 @@ export const translationTheme = {
   myOwnProperty: true,
   colors: {
     ...DefaultTheme.colors,
-    // primary: "#51c3f5",
     primary: "#5272F2",
-    // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
-    // outline: "#51c3f5",
     outline: "#FFBDD4",
     backgroundColor: "#5272F2",
     elevation: {
