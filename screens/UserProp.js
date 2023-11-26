@@ -1,4 +1,4 @@
-// UserInfo.js
+// UserProp.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { View, KeyboardAvoidingView, Image } from "react-native";
@@ -15,16 +15,13 @@ import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
 const UserInfo = ({ navigation }) => {
-  const { userData, setFirstName, setLastName } = useRegistrationContext();
+  const { userData, setInterests } = useRegistrationContext();
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
-    if (userData.firstName !== "" && userData.lastName !== "") {
-      storeData(
-        ["firstName", "lastName"],
-        [userData.firstName, userData.lastName],
-      );
-      navigation.navigate("UserProp");
+    if (userData.interests !== "") {
+      storeData(["Hobbies"], [userData.interests]);
+      navigation.navigate("UserPropFood");
     }
   };
 
@@ -56,7 +53,7 @@ const UserInfo = ({ navigation }) => {
   };
 
   return (
-    <PaperProvider theme={{ ...settingsTheme }}>
+    <PaperProvider theme={settingsTheme}>
       <KeyboardAvoidingView behavior="position">
         <HideKeyboard>
           {/* <SafeAreaView style={{ flexDirection: "column", flex: 1 }}> */}
@@ -67,42 +64,31 @@ const UserInfo = ({ navigation }) => {
             style={settingsStyle.textInputWrapper}
           >
             <Text style={settingsStyle.titleText}>
-              What should we call you?
+              Nice to meet you,{" "}
+              <Text style={settingsStyle.titleText2}>
+                {userData.firstName}!
+              </Text>
             </Text>
             <Image
+              // source={require("../assets/girl1.png")}
               source={require("../assets/images/myselfGirl.png")}
               style={settingsStyle.image}
               resizeMode="contain"
             />
             <Text style={settingsStyle.textInputDescription}>
-              What is your First Name?
+              What do you do in your free time?
             </Text>
             <TextInput
               mode="outlined"
-              label="First Name"
-              value={userData.firstName}
-              right={<TextInput.Icon icon="account" color="#3BC4E2" />}
-              outlineStyle={{
-                borderRadius: 24,
-                borderColor: "#CDF5FD",
-              }}
+              label="Interests/Hobbies"
+              multiline
+              value={userData.interests}
+              right={
+                <TextInput.Icon icon="toy-brick-outline" color="#3BC4E2" />
+              }
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
               style={settingsStyle.textInput}
-              onChangeText={(text) => setFirstName(text)}
-            />
-            <Text style={settingsStyle.textInputDescription}>
-              What is your Last Name?
-            </Text>
-            <TextInput
-              mode="outlined"
-              label="Last Name"
-              value={userData.lastName}
-              right={<TextInput.Icon icon="account" color="#3BC4E2" />}
-              outlineStyle={{
-                borderRadius: 24,
-                borderColor: "#CDF5FD",
-              }}
-              style={settingsStyle.textInput}
-              onChangeText={(text) => setLastName(text)}
+              onChangeText={(text) => setInterests(text)}
             />
             <View
               paddingTop="1%"

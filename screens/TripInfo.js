@@ -1,174 +1,104 @@
 // TripInfo.js
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Font from "expo-font";
 import React from "react";
-import { StyleSheet, View, SafeAreaView } from "react-native";
-import { TextInput, Button, withTheme } from "react-native-paper";
-import { DatePickerInput } from "react-native-paper-dates";
-import DropDown from "react-native-paper-dropdown";
+import { View, KeyboardAvoidingView, Image } from "react-native";
+import {
+  TextInput,
+  Button,
+  withTheme,
+  PaperProvider,
+  Text,
+} from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { AuthContext } from "../contexts/AuthContext";
+import { settingsStyle, settingsTheme } from "../styles/globalStyles";
+import { useRegistrationContext } from "../contexts/RegistrationContext";
 
 const TripInfo = ({ navigation }) => {
-  const [country, setCountry] = React.useState("");
-  const [region, setRegion] = React.useState("");
-  const [dest, setDest] = React.useState("");
-  const [dates, setDates] = React.useState("");
-  const [plan, setPlan] = React.useState("");
-  const [planDetails, setPlanDetails] = React.useState("");
-  const [dropVisible, setDropVisibility] = React.useState(false); // open/close dropdown
-  const [planPromptVisible, setPlanPromptVisible] = React.useState(false); // open/close travel plan input box
-  const [planPrompt, setPlanPrompt] = React.useState("");
-  const [startDate, setStartDate] = React.useState(null);
-  const [endDate, setEndDate] = React.useState(null);
+  const { userData, setDestination } = useRegistrationContext();
 
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const { signIn } = React.useContext(AuthContext);
-
-  // list of choices for travel plan dropdown
-  const planList = [
-    {
-      label: "School",
-      value: "school",
-    },
-    {
-      label: "Work",
-      value: "work",
-    },
-    {
-      label: "Family",
-      value: "family",
-    },
-    {
-      label: "Recreational",
-      value: "recreational",
-    },
-    {
-      label: "Other",
-      value: "other",
-    },
-  ];
-
-  // list of prompts in response to dropdown selection
-  const planPrompts = {
-    school: "Describe your school's program.",
-    work: "Describe your work.",
-    family: "What will you be doing with your family?",
-    recreational: "What do you see yourself doing?",
-    other: "Please describe your plans.",
+  const handleUserSubmit = () => {
+    if (userData.destination != "") {
+      storeData(["Destination"], [userData.destination]);
+      navigation.navigate("AllSet");
+    }
   };
 
-  // display the right text prompt in response to dropdown
-  const handleSetPlan = (text) => {
-    setPlan(text);
-    if (text != null) {
-      setPlanPromptVisible(true);
-      setPlanPrompt(planPrompts[text]);
-    } else {
-      setPlanPromptVisible(false);
+  const storeData = async (keys, values) => {
+    let userData;
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      if (userData == null) {
+        userData = {};
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    for (let i = 0; i < keys.length; i++) {
+      userData[keys[i]] = values[i];
+    }
+    // console.log("User data with insertion:", userData);
+    try {
+      await AsyncStorage.setItem("user-info", JSON.stringify(userData));
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      console.log(userData);
+    } catch (e) {
+      console.log(e);
     }
   };
 
   return (
-    <HideKeyboard>
-      <SafeAreaView>
-        <View
-          style={{ height: "100%" }}
-          rowGap={2}
-          paddingRight={2}
-          paddingLeft={2}
-        >
-          <TextInput
-            mode="outlined"
-            label="Country of Destination"
-            dense={true}
-            value={country}
-            outlineColor="lightgray"
-            onChangeText={(text) => setCountry(text)}
-          />
-          <TextInput
-            mode="outlined"
-            label="Region of Destination"
-            dense={true}
-            value={region}
-            outlineColor="lightgray"
-            onChangeText={(text) => setRegion(text)}
-          />
-          <TextInput
-            mode="outlined"
-            label="City/Municipality"
-            dense={true}
-            value={dest}
-            outlineColor="lightgray"
-            onChangeText={(text) => setDest(text)}
-          />
-          <View style={{ height: "6%" }}>
-            <DatePickerInput
-              locale="en"
-              label="Select Start Date"
-              mode="outlined"
-              presentationStyle="formsheet"
-              value={startDate}
-              onChange={setStartDate}
+    <PaperProvider theme={settingsTheme}>
+      <KeyboardAvoidingView behavior="position">
+        <HideKeyboard>
+          <View
+            rowGap={2}
+            paddingRight={2}
+            paddingLeft={2}
+            style={settingsStyle.textInputWrapper}
+          >
+            <Text style={[settingsStyle.titleText, { paddingTop: "36%" }]}>
+              Where do you plan to travel,{" "}
+              <Text style={settingsStyle.titleText2}>
+                {userData.firstName}?
+              </Text>
+            </Text>
+            <Image
+              // source={require("../assets/girl1.png")}
+              source={require("../assets/images/airplane.png")}
+              style={settingsStyle.image}
+              resizeMode="contain"
             />
-          </View>
-          <View style={{ height: "6%" }}>
-            <DatePickerInput
-              locale="en"
-              label="Select End Date"
+            <TextInput
               mode="outlined"
-              presentationStyle="formsheet"
-              value={endDate}
-              onChange={setEndDate}
+              label="Destination"
+              value={userData.destination}
+              right={<TextInput.Icon icon="map-marker" color="#3BC4E2" />}
+              outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
+              style={settingsStyle.textInput}
+              onChangeText={(text) => setDestination(text)}
             />
+            <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
+              <Button
+                mode="elevated"
+                textColor="white"
+                onPress={handleUserSubmit}
+                labelStyle={{ fontWeight: "bold" }}
+                style={settingsStyle.button}
+              >
+                <Text style={settingsStyle.buttonText}>Submit</Text>
+              </Button>
+            </View>
           </View>
-          <DropDown
-            label="Purpose of Trip"
-            list={planList}
-            mode="outlined"
-            value={plan}
-            setValue={handleSetPlan}
-            visible={dropVisible}
-            multiSelect={false}
-            showDropDown={() => setDropVisibility(true)}
-            onDismiss={() => setDropVisibility(false)}
-            dropDownStyle={{ paddingLeft: "1%", paddingRight: "60%" }}
-          />
-          <View>
-            {planPromptVisible ? (
-              <View paddingTop="1%" paddingLeft="1%" paddingRight="1%">
-                <TextInput
-                  label={planPrompt}
-                  mode="flat"
-                  dense={true}
-                  underlineColor="lightgray"
-                  onChangeText={(text) => setPlanDetails(text)}
-                />
-              </View>
-            ) : null}
-          </View>
-
-          <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
-            <Button
-              mode="contained"
-              onPress={() => signIn({ username, password })}
-            >
-              Submit
-            </Button>
-          </View>
-        </View>
-      </SafeAreaView>
-    </HideKeyboard>
+        </HideKeyboard>
+      </KeyboardAvoidingView>
+    </PaperProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    color: "white",
-    fontSize: 20,
-    justifyContent: "space-around",
-    textAlign: "center",
-  },
-});
 
 export default withTheme(TripInfo);

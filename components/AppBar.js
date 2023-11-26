@@ -1,6 +1,6 @@
 import { getHeaderTitle } from "@react-navigation/elements";
 import React, { useState, useContext } from "react";
-import { Appbar, Menu } from "react-native-paper";
+import { Appbar, Menu, IconButton } from "react-native-paper";
 
 import { AuthContext } from "../contexts/AuthContext";
 import { signinTheme } from "../styles/globalStyles";
@@ -30,9 +30,9 @@ export default function AppBar({ navigation, route, options, back }) {
       <Appbar.Header
         style={{
           backgroundColor: signinTheme.colors.primary,
-          marginTop: 5,
-          marginBottom: 15,
-          height: 35,
+          // marginTop: 5,
+          // marginBottom: 15,
+          // height: 35,
         }}
       >
         <Appbar.Action
@@ -46,9 +46,11 @@ export default function AppBar({ navigation, route, options, back }) {
           style={{ alignItems: "center" }}
           color="white"
         />
+
         <Menu
           visible={menuVisible}
           onDismiss={closeMenu}
+          dismissable
           style={{ borderRadius: 50 }}
           anchor={
             <Appbar.Action
@@ -75,16 +77,14 @@ export default function AppBar({ navigation, route, options, back }) {
         </Menu>
       </Appbar.Header>
     );
-  } else if (route.name === "SignIn") {
-    return null; // hide the header
-  } else {
+  } else if (route.name === "EmergencyPhrases") {
     return (
       <Appbar.Header
         style={{
           backgroundColor: signinTheme.colors.primary,
-          marginTop: 5,
-          marginBottom: 15,
-          height: 35,
+          // marginTop: 5,
+          // marginBottom: 15,
+          // height: 35,
         }}
       >
         {back ? (
@@ -96,6 +96,36 @@ export default function AppBar({ navigation, route, options, back }) {
           style={{ alignItems: "center" }}
         />
       </Appbar.Header>
+    );
+  } else if (route.name === "SignIn") {
+    return null; // hide the header
+  } else {
+    return (
+      <>
+        {back ? (
+          <IconButton
+            style={{
+              position: "absolute",
+              top: 10,
+              left: 0,
+              right: 0,
+              zIndex: 1,
+            }}
+            icon="chevron-left"
+            iconColor="black"
+            size={30}
+            onPress={navigation.goBack}
+          />
+        ) : null}
+      </>
+
+      // <Appbar.Header
+      //   style={{ backgroundColor: "transparent", position: "absolute", top: 0, left: 0, right: 0, zIndex: 1 }}
+      // >
+      //   {back ? (
+      //     <Appbar.BackAction color="black" onPress={navigation.goBack} />
+      //   ) : null}
+      // </Appbar.Header>
     );
   }
 }

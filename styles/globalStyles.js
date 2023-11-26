@@ -1,16 +1,23 @@
 // import * as Font from "expo-font";
+import * as Font from "expo-font";
 import { StyleSheet } from "react-native";
-import { DefaultTheme } from "react-native-paper";
+import { configureFonts, DefaultTheme } from "react-native-paper";
 
 // const customFonts = {
 //   "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-//   "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
 //   "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
 //   "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
 //   "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+//   "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
 // };
 
-// await Font.loadAsync(customFonts);
+// // Load custom fonts asynchronously
+// const loadFontsAsync = async () => {
+//   await Font.loadAsync(customFonts);
+// };
+
+// // Call the loadFontsAsync function
+// loadFontsAsync();
 
 // STYLES
 // mostly used in Phrases.js
@@ -59,7 +66,7 @@ export const phraseStyles = StyleSheet.create({
   },
 });
 
-// mostly usde in Signin.js
+// mostly used in Signin.js
 export const signinStyles = StyleSheet.create({
   container: {
     marginTop: 10,
@@ -78,11 +85,6 @@ export const signinStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "white",
-    // marginHorizontal: 15,
-    // marginTop: 10,
-    // padding: 10,
-    // borderRadius: 32,
   },
   textInputWrapper: {
     width: "80%",
@@ -91,6 +93,7 @@ export const signinStyles = StyleSheet.create({
   textInput: {
     display: "flex",
     marginBottom: 20,
+    fontSize: 14,
   },
   button: {
     marginTop: 10,
@@ -98,9 +101,12 @@ export const signinStyles = StyleSheet.create({
     display: "flex",
     gap: 10,
   },
+  buttonText: {
+    fontFamily: "Poppins-Bold",
+  },
   divText: {
     textAlign: "center",
-    color: "gray",
+    color: "#ADC4CE",
     margin: 10,
   },
   totalWrapper: {
@@ -114,6 +120,193 @@ export const signinStyles = StyleSheet.create({
     paddingBottom: "80%",
     paddingTop: "8%",
     borderRadius: 32,
+  },
+});
+
+export const signupStyles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+    flex: 1,
+    alignItems: "center",
+  },
+  image: {
+    display: "flex",
+    width: "60%",
+    height: "40%",
+    marginTop: "28%",
+    marginBottom: "2%",
+    alignSelf: "center",
+  },
+  textInputWrapper: {
+    width: "80%",
+    display: "flex",
+  },
+  textInput: {
+    display: "flex",
+    marginBottom: 10,
+    backgroundColor: "#F5F7F8",
+    fontSize: 14,
+  },
+  buttonWrapper: {
+    width: "80%",
+    display: "flex",
+    gap: 10,
+    alignItems: "center",
+  },
+  button: {
+    borderRadius: 10,
+    marginTop: 10,
+    width: "88%",
+    display: "flex",
+    paddingVertical: 5,
+  },
+  buttonText: {
+    //fontFamily: "Poppins-Bold",
+    fontSize: 15,
+    color: "white",
+  },
+  signupText: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  divText: {
+    //fontFamily: "Poppins-Light",
+    textAlign: "center",
+    color: "#ADC4CE",
+    margin: 3,
+  },
+  bottomText: {
+    //fontFamily: "Poppins-Regular",
+    color: "gray",
+    fontSize: 13,
+  },
+  signinTouchable: {
+    //fontFamily: "Poppins-Bold",
+    color: "#3BC4E2",
+    fontSize: 13,
+  },
+  totalWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    // backgroundColor: "#CDF5FD",
+    backgroundColor: "white",
+    width: "85%",
+  },
+});
+
+export const settingsStyle = StyleSheet.create({
+  titleText: {
+    fontFamily: "Poppins-ExtraBold",
+    fontSize: 25,
+    alignSelf: "center",
+    paddingVertical: 20,
+    paddingTop: "22%",
+  },
+  titleText2: {
+    fontFamily: "Poppins-ExtraBold",
+    fontSize: 25,
+    alignSelf: "center",
+    paddingVertical: 20,
+    paddingTop: "22%",
+    color: "#2C3333",
+  },
+  titleText3: {
+    fontFamily: "Poppins-ExtraBold",
+    fontSize: 25,
+    alignSelf: "center",
+    paddingVertical: 20,
+    paddingTop: "22%",
+    color: "#2E4F4F",
+  },
+  image: {
+    display: "flex",
+    width: "66%",
+    height: "34%",
+    marginTop: "6%",
+    marginBottom: "12%",
+    alignSelf: "center",
+  },
+  textInput: {
+    display: "flex",
+    marginBottom: 10,
+    backgroundColor: "#F5F7F8",
+    fontSize: 14,
+  },
+  button: {
+    borderRadius: 10,
+    marginTop: 10,
+    width: "88%",
+    display: "flex",
+    paddingVertical: 5,
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+  textInputWrapper: {
+    width: "80%",
+    display: "flex",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+  textInputDescription: {
+    fontFamily: "Poppins-Bold",
+    color: "#83A2FF",
+    marginTop: "1%",
+  },
+  buttonText: {
+    fontFamily: "Poppins-Bold",
+    fontSize: 15,
+    color: "white",
+  },
+});
+
+// used by "All Set Screen"
+export const allSetStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  titleText: {
+    fontFamily: "Poppins-ExtraBold",
+    fontSize: 32,
+    fontWeight: "bold",
+    alignSelf: "center",
+    paddingVertical: 20,
+    paddingTop: "40%",
+  },
+  image: {
+    // display: "flex",
+    width: "49%",
+    height: "50%",
+    marginTop: "28%",
+    marginBottom: "2%",
+    alignSelf: "center",
+  },
+  button: {
+    borderRadius: 10,
+    marginTop: 10,
+    width: "66%",
+    display: "flex",
+    paddingVertical: 5,
+    alignSelf: "center",
+  },
+  buttonText: {
+    fontFamily: "Poppins-Bold",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+  },
+  animationContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  animation: {
+    width: "100%",
+    aspectRatio: 1,
   },
 });
 
@@ -195,7 +388,7 @@ export const signinTheme = {
   colors: {
     ...DefaultTheme.colors,
     // primary: "#51c3f5",
-    primary: "#5272F2",
+    primary: "#87C4FF",
     // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
@@ -203,7 +396,28 @@ export const signinTheme = {
     outline: "#FFBDD4",
     backgroundColor: "#5272F2",
     elevation: {
-      level1: "#39A7FF",
+      // level1: "#39A7FF",
+      level1: "#3BC4E2",
+    },
+  },
+};
+
+export const settingsTheme = {
+  ...DefaultTheme,
+  myOwnProperty: true,
+  colors: {
+    ...DefaultTheme.colors,
+    // primary: "#51c3f5",
+    primary: "#87C4FF",
+    // primary: "#F5587B",
+    secondary: "#5272F2",
+    text: "black",
+    // outline: "#51c3f5",
+    outline: "#FFBDD4",
+    backgroundColor: "#5272F2",
+    elevation: {
+      // level1: "#39A7FF",
+      level1: "#3BC4E2",
     },
   },
 };
@@ -245,3 +459,48 @@ export const translationTheme = {
     },
   },
 };
+
+// // Fonts
+// const baseFont = {
+//   fontFamily: "Poppins-Regular",
+//   fontSize: 12,
+//   color: "black",
+// };
+
+// const baseVariants = configureFonts({ config: baseFont });
+
+// const fontConfig = {
+//   default: {
+//     regular: {
+//       fontFamily: "Poppins-Regular",
+//       fontSize: 14,
+//       fontWeight: "normal",
+//     },
+//     bold: {
+//       fontFamily: "Poppins-Bold",
+//       fontSize: 14,
+//       fontWeight: "normal",
+//     },
+//     extraBold: {
+//       fontFamily: "Poppins-ExtraBold",
+//       fontSize: 14,
+//       fontWeight: "normal",
+//     },
+//     light: {
+//       fontFamily: "Poppins-Light",
+//       fontSize: 14,
+//       fontWeight: "normal",
+//     },
+//     thin: {
+//       fontFamily: "Poppins-Thin",
+//       fontSize: 14,
+//       fontWeight: "normal",
+//     },
+//   },
+// };
+
+// export const fonts = configureFonts({
+//   config: {
+//     ...baseVariants,
+//   },
+// });
