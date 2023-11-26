@@ -1,6 +1,6 @@
 import { speak } from "expo-speech";
 import React, { useState } from "react";
-import { Dimensions, StyleSheet, SafeAreaView } from "react-native";
+import { Dimensions, StyleSheet, View, SafeAreaView } from "react-native";
 import {
   IconButton,
   Card,
@@ -52,19 +52,17 @@ export default function PhraseCard({
           >
             <>
               <Card.Content style={styles.cardContent}>
-                <Text variant="titleLarge" style={{ marginTop: 10 }}>
-                  {isToggled ? (
-                    <SelectableWordList
-                      data={phrase.text_translated}
-                      onSelectWord={onSelectEnglishWord}
-                    />
-                  ) : (
-                    <SelectableWordList
-                      data={phrase.text_original}
-                      onSelectWord={onSelectSpanishWord}
-                    />
-                  )}
-                </Text>
+                {isToggled ? (
+                  <SelectableWordList
+                    data={phrase.text_translated}
+                    onSelectWord={onSelectEnglishWord}
+                  />
+                ) : (
+                  <SelectableWordList
+                    data={phrase.text_original}
+                    onSelectWord={onSelectSpanishWord}
+                  />
+                )}
               </Card.Content>
               <Card.Actions>
                 <IconButton
@@ -121,6 +119,7 @@ const styles = StyleSheet.create({
     height: 30,
   },
   cardContent: {
+    paddingTop: 10,
     justifyContent: "center",
   },
 });

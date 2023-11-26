@@ -45,7 +45,8 @@ const Phrases = ({ navigation }) => {
     {
       generated_phrases_id: 1,
       userid: 123,
-      text_translated: "Hello, how are you?",
+      text_translated:
+        "Hello, how are you? long text long text long text long text",
       text_original: "Hola, ¿cómo estás?",
       isloading: false,
     },

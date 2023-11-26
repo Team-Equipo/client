@@ -54,7 +54,7 @@ const TripInfo = ({ navigation }) => {
 
   return (
     <PaperProvider theme={settingsTheme}>
-      <KeyboardAvoidingView behavior="position" style={settingsStyle.page}>
+      <KeyboardAvoidingView behavior="height" style={settingsStyle.page}>
         <HideKeyboard>
           <View
             rowGap={2}

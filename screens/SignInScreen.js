@@ -21,7 +21,7 @@ export default function SignIn() {
 
   return (
     <PaperProvider theme={{ ...signinTheme }}>
-      <KeyboardAvoidingView behavior="position" style={signStyles.page}>
+      <KeyboardAvoidingView behavior="height" style={signStyles.page}>
         <HideKeyboard>
           <LinearGradient
             colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
