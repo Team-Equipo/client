@@ -6,13 +6,23 @@ import { View, Animated } from "react-native";
 import { Button, PaperProvider, Text } from "react-native-paper";
 
 import { AuthContext } from "../contexts/AuthContext";
+import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
 const AllSetScreen = ({ navigation }) => {
   const { signIn } = useContext(AuthContext);
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
+  const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
+    useRegistrationContext();
 
   const handleSignIn = () => {
+    // Reset locally stored inputs
+    setFirstName("");
+    setLastName("");
+    setInterests("");
+    setFoods("");
+    setDestination("");
+
     signIn({ emailAdress: "placeholder@calvin.edu", password: "password" });
   };
 
@@ -50,7 +60,7 @@ const AllSetScreen = ({ navigation }) => {
             <Animated.Text
               style={[allSetStyle.titleText, { color: textColor }]}
             >
-              You are All Set!
+              All Set!
             </Animated.Text>
             <View style={allSetStyle.animationContainer}>
               <LottieView

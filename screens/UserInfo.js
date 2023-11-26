@@ -1,14 +1,7 @@
 // UserInfo.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Font from "expo-font";
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Image,
-} from "react-native";
+import { View, KeyboardAvoidingView, Image } from "react-native";
 import {
   TextInput,
   Button,
@@ -73,7 +66,9 @@ const UserInfo = ({ navigation }) => {
             paddingLeft={2}
             style={settingsStyle.textInputWrapper}
           >
-            <Text style={settingsStyle.titleText}>How can we call you?</Text>
+            <Text style={settingsStyle.titleText}>
+              What should we call you?
+            </Text>
             <Image
               source={require("../assets/images/myselfGirl.png")}
               style={settingsStyle.image}
@@ -132,19 +127,5 @@ const UserInfo = ({ navigation }) => {
     </PaperProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  appbar: {
-    flex: 0,
-    backgroundColor: "cornflowerblue",
-    marginTop: "-2%",
-  },
-  title: {
-    color: "white",
-    fontSize: 20,
-    justifyContent: "space-around",
-    textAlign: "center",
-  },
-});
 
 export default withTheme(UserInfo);

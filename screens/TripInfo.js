@@ -2,7 +2,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
 import React from "react";
-import { View, SafeAreaView, KeyboardAvoidingView, Image } from "react-native";
+import { View, KeyboardAvoidingView, Image } from "react-native";
 import {
   TextInput,
   Button,

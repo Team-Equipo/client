@@ -1,14 +1,7 @@
 // UserProp.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Font from "expo-font";
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Image,
-} from "react-native";
+import { View, KeyboardAvoidingView, Image } from "react-native";
 import {
   TextInput,
   Button,
@@ -18,15 +11,15 @@ import {
 } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
+import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
 const UserInfo = ({ navigation }) => {
   const { userData, setFoods } = useRegistrationContext();
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
-    if (userData.foods != "") {
+    if (userData.foods !== "") {
       storeData(["Foods"], [userData.foods]);
       navigation.navigate("TripInfo");
     }
@@ -71,11 +64,8 @@ const UserInfo = ({ navigation }) => {
             style={settingsStyle.textInputWrapper}
           >
             <Text style={settingsStyle.titleText}>
-              Interesting, {"\n"}
-              <Text style={settingsStyle.titleText2}>so you enjoy</Text> {"\n"}
-              <Text style={settingsStyle.titleText3}>
-                {userData.interests}!
-              </Text>
+              {userData.interests}? {"\n"}
+              <Text style={settingsStyle.titleText3}>Nice!</Text>
             </Text>
             <Image
               // source={require("../assets/girl1.png")}
@@ -120,19 +110,5 @@ const UserInfo = ({ navigation }) => {
     </PaperProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  appbar: {
-    flex: 0,
-    backgroundColor: "cornflowerblue",
-    marginTop: "-2%",
-  },
-  title: {
-    color: "white",
-    fontSize: 20,
-    justifyContent: "space-around",
-    textAlign: "center",
-  },
-});
 
 export default withTheme(UserInfo);

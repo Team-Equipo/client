@@ -1,4 +1,3 @@
-import * as Font from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext } from "react";
 import {

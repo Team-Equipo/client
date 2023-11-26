@@ -1,14 +1,7 @@
 // UserProp.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Font from "expo-font";
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Image,
-} from "react-native";
+import { View, KeyboardAvoidingView, Image } from "react-native";
 import {
   TextInput,
   Button,
@@ -18,15 +11,15 @@ import {
 } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
+import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
 const UserInfo = ({ navigation }) => {
   const { userData, setInterests } = useRegistrationContext();
 
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
-    if (userData.interests != "") {
+    if (userData.interests !== "") {
       storeData(["Hobbies"], [userData.interests]);
       navigation.navigate("UserPropFood");
     }
@@ -120,19 +113,5 @@ const UserInfo = ({ navigation }) => {
     </PaperProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  appbar: {
-    flex: 0,
-    backgroundColor: "cornflowerblue",
-    marginTop: "-2%",
-  },
-  title: {
-    color: "white",
-    fontSize: 20,
-    justifyContent: "space-around",
-    textAlign: "center",
-  },
-});
 
 export default withTheme(UserInfo);
