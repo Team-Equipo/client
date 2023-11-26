@@ -66,64 +66,13 @@ export const phraseStyles = StyleSheet.create({
   },
 });
 
-// mostly used in Signin.js
-export const signinStyles = StyleSheet.create({
-  container: {
-    marginTop: 10,
+// used in SignInScreen.js and SignUpScreen.js
+export const signStyles = StyleSheet.create({
+  page: {
     flex: 1,
-    alignItems: "center",
-  },
-  image: {
-    width: 196,
-    height: 196,
-    marginTop: 100,
-    marginBottom: 32,
-    alignSelf: "center",
-  },
-  imageContainer: {
-    display: "flex",
-    flexDirection: "row",
+    backgroundColor: "#FFFFFF",
     justifyContent: "center",
-    alignItems: "center",
   },
-  textInputWrapper: {
-    width: "80%",
-    display: "flex",
-  },
-  textInput: {
-    display: "flex",
-    marginBottom: 20,
-    fontSize: 14,
-  },
-  button: {
-    marginTop: 10,
-    width: "80%",
-    display: "flex",
-    gap: 10,
-  },
-  buttonText: {
-    fontFamily: "Poppins-Bold",
-  },
-  divText: {
-    textAlign: "center",
-    color: "#ADC4CE",
-    margin: 10,
-  },
-  totalWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    // backgroundColor: "#CDF5FD",
-    backgroundColor: "white",
-    paddingBottom: "80%",
-    paddingTop: "8%",
-    borderRadius: 32,
-  },
-});
-
-export const signupStyles = StyleSheet.create({
   container: {
     marginTop: 10,
     flex: 1,
@@ -131,10 +80,18 @@ export const signupStyles = StyleSheet.create({
   },
   image: {
     display: "flex",
-    width: "60%",
-    height: "40%",
-    marginTop: "28%",
-    marginBottom: "2%",
+    width: "50%",
+    height: "32%",
+    marginTop: "15%",
+    marginBottom: "3%",
+    alignSelf: "center",
+  },
+  imageGirl: {
+    display: "flex",
+    width: "50%",
+    height: "45.3%",
+    marginTop: "15%",
+    marginBottom: "3%",
     alignSelf: "center",
   },
   textInputWrapper: {
@@ -164,6 +121,7 @@ export const signupStyles = StyleSheet.create({
     //fontFamily: "Poppins-Bold",
     fontSize: 15,
     color: "white",
+    fontWeight: "bold",
   },
   signupText: {
     display: "flex",
@@ -187,6 +145,7 @@ export const signupStyles = StyleSheet.create({
     //fontFamily: "Poppins-Bold",
     color: "#3BC4E2",
     fontSize: 13,
+    fontWeight: "bold",
   },
   totalWrapper: {
     display: "flex",
@@ -201,35 +160,40 @@ export const signupStyles = StyleSheet.create({
 });
 
 export const settingsStyle = StyleSheet.create({
+  page: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+  },
   titleText: {
     fontFamily: "Poppins-ExtraBold",
-    fontSize: 25,
+    fontSize: 23,
     alignSelf: "center",
-    paddingVertical: 20,
-    paddingTop: "22%",
+    paddingVertical: 10,
+    paddingTop: "20%",
   },
   titleText2: {
     fontFamily: "Poppins-ExtraBold",
-    fontSize: 25,
+    fontSize: 23,
     alignSelf: "center",
-    paddingVertical: 20,
-    paddingTop: "22%",
+    paddingVertical: 10,
+    paddingTop: "20%",
     color: "#2C3333",
   },
   titleText3: {
     fontFamily: "Poppins-ExtraBold",
-    fontSize: 25,
+    fontSize: 23,
     alignSelf: "center",
-    paddingVertical: 20,
-    paddingTop: "22%",
+    paddingVertical: 10,
+    paddingTop: "20%",
     color: "#2E4F4F",
   },
   image: {
     display: "flex",
-    width: "66%",
-    height: "34%",
-    marginTop: "6%",
-    marginBottom: "12%",
+    width: "60%",
+    height: "30%",
+    marginTop: "2%",
+    marginBottom: "8%",
     alignSelf: "center",
   },
   textInput: {
@@ -276,7 +240,7 @@ export const allSetStyle = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     paddingVertical: 20,
-    paddingTop: "40%",
+    paddingTop: "24%",
   },
   image: {
     // display: "flex",
@@ -387,16 +351,12 @@ export const signinTheme = {
   myOwnProperty: true,
   colors: {
     ...DefaultTheme.colors,
-    // primary: "#51c3f5",
     primary: "#87C4FF",
-    // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
-    // outline: "#51c3f5",
     outline: "#FFBDD4",
-    backgroundColor: "#5272F2",
+    backgroundColor: "#FFFFFF",
     elevation: {
-      // level1: "#39A7FF",
       level1: "#3BC4E2",
     },
   },
@@ -407,16 +367,12 @@ export const settingsTheme = {
   myOwnProperty: true,
   colors: {
     ...DefaultTheme.colors,
-    // primary: "#51c3f5",
     primary: "#87C4FF",
-    // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
-    // outline: "#51c3f5",
     outline: "#FFBDD4",
-    backgroundColor: "#5272F2",
+    backgroundColor: "#FFFFFF",
     elevation: {
-      // level1: "#39A7FF",
       level1: "#3BC4E2",
     },
   },
@@ -427,12 +383,9 @@ export const phraseTheme = {
   myOwnProperty: true,
   colors: {
     ...DefaultTheme.colors,
-    // primary: "#51c3f5",
     primary: "#5272F2",
-    // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
-    // outline: "#51c3f5",
     outline: "#FFBDD4",
     backgroundColor: "#5272F2",
     elevation: {
@@ -446,12 +399,9 @@ export const translationTheme = {
   myOwnProperty: true,
   colors: {
     ...DefaultTheme.colors,
-    // primary: "#51c3f5",
     primary: "#5272F2",
-    // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
-    // outline: "#51c3f5",
     outline: "#FFBDD4",
     backgroundColor: "#5272F2",
     elevation: {

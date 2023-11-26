@@ -10,17 +10,20 @@ import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
-import { signupStyles, signinTheme } from "../styles/globalStyles";
+import { useRegistrationContext } from "../contexts/RegistrationContext";
+import { signStyles, signinTheme } from "../styles/globalStyles";
 
 const SignUpScreen = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
+  const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
+    useRegistrationContext();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [cfpassword, setCfpassword] = React.useState("");
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
   const [isCfpasswordHidden, setIsCfpasswordHidden] = React.useState(true);
 
-  const handleSignup = () => {
+  const handleSignUp = () => {
     // Check if passwords match
     if (password !== cfpassword) {
       alert("Password does not match!");
@@ -38,29 +41,37 @@ const SignUpScreen = ({ navigation }) => {
     navigation.navigate("UserInfo");
   };
 
+  const cancelSignUp = () => {
+    setFirstName("");
+    setLastName("");
+    setInterests("");
+    setFoods("");
+    setDestination("");
+    signOut();
+  };
+
   return (
     <PaperProvider theme={{ ...signinTheme }}>
-      <KeyboardAvoidingView behavior="position">
+      <KeyboardAvoidingView behavior="position" style={signStyles.page}>
         <HideKeyboard>
           <LinearGradient
             colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
             locations={[0.01, 0.2, 0.7]}
           >
             <Image
-              // source={require("../assets/girl1.png")}
               source={require("../assets/images/accountPhone.png")}
-              style={signupStyles.image}
+              style={signStyles.image}
               resizeMode="contain"
             />
-            <View style={signupStyles.totalWrapper}>
-              <View style={signupStyles.container}>
-                <View style={signupStyles.textInputWrapper}>
+            <View style={signStyles.totalWrapper}>
+              <View style={signStyles.container}>
+                <View style={signStyles.textInputWrapper}>
                   <TextInput
                     mode="outlined"
                     label="Email"
                     value={username}
                     onChangeText={setUsername}
-                    style={signupStyles.textInput}
+                    style={signStyles.textInput}
                     right={
                       <TextInput.Icon
                         onPress={() =>
@@ -77,7 +88,7 @@ const SignUpScreen = ({ navigation }) => {
                     label="Password"
                     value={password}
                     onChangeText={setPassword}
-                    style={signupStyles.textInput}
+                    style={signStyles.textInput}
                     right={
                       <TextInput.Icon
                         onPress={() => setIsPasswordHidden(!isPasswordHidden)}
@@ -93,7 +104,7 @@ const SignUpScreen = ({ navigation }) => {
                     label="Confirm Password"
                     value={cfpassword}
                     onChangeText={setCfpassword}
-                    style={signupStyles.textInput}
+                    style={signStyles.textInput}
                     right={
                       <TextInput.Icon
                         onPress={() =>
@@ -107,25 +118,25 @@ const SignUpScreen = ({ navigation }) => {
                     secureTextEntry={isCfpasswordHidden}
                   />
                 </View>
-                <View style={signupStyles.buttonWrapper}>
+                <View style={signStyles.buttonWrapper}>
                   <Button
                     mode="elevated"
-                    onPress={handleSignup}
+                    onPress={handleSignUp}
                     textColor="white"
                     labelStyle={{ fontWeight: "bold" }}
-                    style={signupStyles.button}
+                    style={signStyles.button}
                   >
-                    <Text style={signupStyles.buttonText}>Sign Up</Text>
+                    <Text style={signStyles.buttonText}>Sign Up</Text>
                   </Button>
-                  <Text style={signupStyles.divText}>- OR -</Text>
-                  <View style={signupStyles.signupText}>
-                    <Text style={signupStyles.bottomText}>
+                  <Text style={signStyles.divText}>- OR -</Text>
+                  <View style={signStyles.signupText}>
+                    <Text style={signStyles.bottomText}>
                       Already have an account?{" "}
                     </Text>
                     <TouchableOpacity>
                       <Text
-                        style={signupStyles.signinTouchable}
-                        onPress={() => signOut()}
+                        style={signStyles.signinTouchable}
+                        onPress={cancelSignUp}
                       >
                         Sign In
                       </Text>
