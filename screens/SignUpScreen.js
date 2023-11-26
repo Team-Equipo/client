@@ -40,14 +40,13 @@ const SignUpScreen = ({ navigation }) => {
 
   return (
     <PaperProvider theme={{ ...signinTheme }}>
-      <KeyboardAvoidingView behavior="position">
+      <KeyboardAvoidingView behavior="position" style={signupStyles.page}>
         <HideKeyboard>
           <LinearGradient
             colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
             locations={[0.01, 0.2, 0.7]}
           >
             <Image
-              // source={require("../assets/girl1.png")}
               source={require("../assets/images/accountPhone.png")}
               style={signupStyles.image}
               resizeMode="contain"

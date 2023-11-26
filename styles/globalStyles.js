@@ -74,10 +74,11 @@ export const signinStyles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 196,
-    height: 196,
-    marginTop: 100,
-    marginBottom: 32,
+    display: "flex",
+    width: "60%",
+    height: "40%",
+    marginTop: "28%",
+    marginBottom: "2%",
     alignSelf: "center",
   },
   imageContainer: {
@@ -85,57 +86,6 @@ export const signinStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-  },
-  textInputWrapper: {
-    width: "80%",
-    display: "flex",
-  },
-  textInput: {
-    display: "flex",
-    marginBottom: 20,
-    fontSize: 14,
-  },
-  button: {
-    marginTop: 10,
-    width: "80%",
-    display: "flex",
-    gap: 10,
-  },
-  buttonText: {
-    fontFamily: "Poppins-Bold",
-  },
-  divText: {
-    textAlign: "center",
-    color: "#ADC4CE",
-    margin: 10,
-  },
-  totalWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    // backgroundColor: "#CDF5FD",
-    backgroundColor: "white",
-    paddingBottom: "80%",
-    paddingTop: "8%",
-    borderRadius: 32,
-  },
-});
-
-export const signupStyles = StyleSheet.create({
-  container: {
-    marginTop: 10,
-    flex: 1,
-    alignItems: "center",
-  },
-  image: {
-    display: "flex",
-    width: "60%",
-    height: "40%",
-    marginTop: "28%",
-    marginBottom: "2%",
-    alignSelf: "center",
   },
   textInputWrapper: {
     width: "80%",
@@ -165,6 +115,86 @@ export const signupStyles = StyleSheet.create({
     fontSize: 15,
     color: "white",
   },
+  signinText: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  divText: {
+    textAlign: "center",
+    color: "#ADC4CE",
+    margin: 10,
+  },
+  totalWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    // backgroundColor: "#CDF5FD",
+    backgroundColor: "white",
+    width: "85%",
+    // paddingBottom: "50%",
+  },
+});
+
+export const signupStyles = StyleSheet.create({
+  page: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+  container: {
+    marginTop: 10,
+    flex: 1,
+    alignItems: "center",
+  },
+  image: {
+    display: "flex",
+    width: "55%",
+    height: "36%",
+    marginTop: "24%",
+    marginBottom: "5%",
+    alignSelf: "center",
+  },
+  imageGirl: {
+    display: "flex",
+    width: "54%",
+    height: "45%",
+    marginTop: "24%",
+    marginBottom: "5%",
+    alignSelf: "center",
+  },
+  textInputWrapper: {
+    width: "80%",
+    display: "flex",
+  },
+  textInput: {
+    display: "flex",
+    marginBottom: 10,
+    backgroundColor: "#F5F7F8",
+    fontSize: 14,
+  },
+  buttonWrapper: {
+    width: "80%",
+    display: "flex",
+    gap: 10,
+    alignItems: "center",
+  },
+  button: {
+    borderRadius: 10,
+    marginTop: 10,
+    width: "88%",
+    display: "flex",
+    paddingVertical: 5,
+  },
+  buttonText: {
+    //fontFamily: "Poppins-Bold",
+    fontSize: 15,
+    color: "white",
+    fontWeight: "bold",
+  },
   signupText: {
     display: "flex",
     flexDirection: "row",
@@ -187,6 +217,7 @@ export const signupStyles = StyleSheet.create({
     //fontFamily: "Poppins-Bold",
     color: "#3BC4E2",
     fontSize: 13,
+    fontWeight: "bold",
   },
   totalWrapper: {
     display: "flex",
@@ -201,6 +232,10 @@ export const signupStyles = StyleSheet.create({
 });
 
 export const settingsStyle = StyleSheet.create({
+  page: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
   titleText: {
     fontFamily: "Poppins-ExtraBold",
     fontSize: 25,
@@ -228,7 +263,7 @@ export const settingsStyle = StyleSheet.create({
     display: "flex",
     width: "66%",
     height: "34%",
-    marginTop: "6%",
+    marginTop: "2%",
     marginBottom: "12%",
     alignSelf: "center",
   },
@@ -387,14 +422,12 @@ export const signinTheme = {
   myOwnProperty: true,
   colors: {
     ...DefaultTheme.colors,
-    // primary: "#51c3f5",
     primary: "#87C4FF",
-    // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
-    // outline: "#51c3f5",
     outline: "#FFBDD4",
-    backgroundColor: "#5272F2",
+    // backgroundColor: "#5272F2",
+    backgroundColor: "#FFFFFF",
     elevation: {
       // level1: "#39A7FF",
       level1: "#3BC4E2",
@@ -407,14 +440,12 @@ export const settingsTheme = {
   myOwnProperty: true,
   colors: {
     ...DefaultTheme.colors,
-    // primary: "#51c3f5",
     primary: "#87C4FF",
-    // primary: "#F5587B",
     secondary: "#5272F2",
     text: "black",
-    // outline: "#51c3f5",
     outline: "#FFBDD4",
-    backgroundColor: "#5272F2",
+    // backgroundColor: "#5272F2",
+    backgroundColor: "#FFFFFF",
     elevation: {
       // level1: "#39A7FF",
       level1: "#3BC4E2",
