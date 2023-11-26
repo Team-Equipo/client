@@ -10,17 +10,20 @@ import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
+import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { signStyles, signinTheme } from "../styles/globalStyles";
 
 const SignUpScreen = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
+  const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
+    useRegistrationContext();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [cfpassword, setCfpassword] = React.useState("");
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
   const [isCfpasswordHidden, setIsCfpasswordHidden] = React.useState(true);
 
-  const handleSignup = () => {
+  const handleSignUp = () => {
     // Check if passwords match
     if (password !== cfpassword) {
       alert("Password does not match!");
@@ -36,6 +39,15 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     navigation.navigate("UserInfo");
+  };
+
+  const cancelSignUp = () => {
+    setFirstName("");
+    setLastName("");
+    setInterests("");
+    setFoods("");
+    setDestination("");
+    signOut();
   };
 
   return (
@@ -109,7 +121,7 @@ const SignUpScreen = ({ navigation }) => {
                 <View style={signStyles.buttonWrapper}>
                   <Button
                     mode="elevated"
-                    onPress={handleSignup}
+                    onPress={handleSignUp}
                     textColor="white"
                     labelStyle={{ fontWeight: "bold" }}
                     style={signStyles.button}
@@ -124,7 +136,7 @@ const SignUpScreen = ({ navigation }) => {
                     <TouchableOpacity>
                       <Text
                         style={signStyles.signinTouchable}
-                        onPress={() => signOut()}
+                        onPress={cancelSignUp}
                       >
                         Sign In
                       </Text>
