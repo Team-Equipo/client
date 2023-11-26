@@ -10,7 +10,7 @@ import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
-import { signStyles, signTheme } from "../styles/globalStyles";
+import { signStyles, signinTheme } from "../styles/globalStyles";
 
 export default function SignIn() {
   const [emailAddress, setEmailAddress] = useState("");
@@ -20,7 +20,7 @@ export default function SignIn() {
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
 
   return (
-    <PaperProvider theme={{ ...signTheme }}>
+    <PaperProvider theme={{ ...signinTheme }}>
       <KeyboardAvoidingView behavior="position" style={signStyles.page}>
         <HideKeyboard>
           <LinearGradient

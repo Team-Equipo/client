@@ -346,7 +346,7 @@ export const shadows = StyleSheet.create({
 });
 
 // THEMES
-export const signTheme = {
+export const signinTheme = {
   ...DefaultTheme,
   myOwnProperty: true,
   colors: {

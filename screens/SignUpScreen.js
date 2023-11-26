@@ -10,7 +10,7 @@ import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
-import { signStyles, signTheme } from "../styles/globalStyles";
+import { signStyles, signinTheme } from "../styles/globalStyles";
 
 const SignUpScreen = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
@@ -39,7 +39,7 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   return (
-    <PaperProvider theme={{ ...signTheme }}>
+    <PaperProvider theme={{ ...signinTheme }}>
       <KeyboardAvoidingView behavior="position" style={signStyles.page}>
         <HideKeyboard>
           <LinearGradient
