@@ -41,24 +41,23 @@ const Phrases = ({ navigation }) => {
   const [wordRefVisible, setWordRefVisible] = useState(false);
   const { storageChange, setStorageChange } = usePhraseStorageTracker();
 
-  const samplePhrases = [
-    {
-      generated_phrases_id: 1,
-      userid: 123,
-      text_translated:
-        "Hello, how are you? long text long text long text long text",
-      text_original: "Hola, ¿cómo estás?",
-      isloading: false,
-    },
-    {
-      generated_phrases_id: 2,
-      userid: 456,
-      text_translated: "Good morning!",
-      text_original: "¡Buenos días!",
-      isloading: false,
-    },
-    // Add more test phrases as needed
-  ];
+  // const samplePhrases = [
+  //   {
+  //     generated_phrases_id: 1,
+  //     userid: 123,
+  //     text_translated:
+  //       "Hello, how are you? long text long text long text long text",
+  //     text_original: "Hola, ¿cómo estás?",
+  //     isloading: false,
+  //   },
+  //   {
+  //     generated_phrases_id: 2,
+  //     userid: 456,
+  //     text_translated: "Good morning!",
+  //     text_original: "¡Buenos días!",
+  //     isloading: false,
+  //   },
+  // ];
 
   // Function to filter punctuation out of selected English word, pull up
   // dictionary modal for selected word
@@ -300,7 +299,8 @@ const Phrases = ({ navigation }) => {
               {/* The list of PhraseCards */}
               <FlatList
                 contentContainerStyle={{ alignItems: "center", rowGap: 8 }}
-                data={samplePhrases}
+                // data={samplePhrases}
+                data={generatedPhrases}
                 renderItem={({ item }) => (
                   <PhraseCard
                     phrase={item}

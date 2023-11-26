@@ -1,11 +1,13 @@
 import { getHeaderTitle } from "@react-navigation/elements";
 import React, { useState, useContext } from "react";
+import { useWindowDimensions } from "react-native";
 import { Appbar, Menu, IconButton } from "react-native-paper";
 
 import { AuthContext } from "../contexts/AuthContext";
 import { signinTheme } from "../styles/globalStyles";
 
 export default function AppBar({ navigation, route, options, back }) {
+  const windowDimensions = useWindowDimensions();
   const { signOut } = useContext(AuthContext);
   const title = getHeaderTitle(options, route.name);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -91,16 +93,16 @@ export default function AppBar({ navigation, route, options, back }) {
         }}
       >
         {back ? (
-          <Appbar.BackAction
-            style={{ position: "absolute" }}
-            color="white"
-            onPress={navigation.goBack}
-          />
+          <Appbar.BackAction color="white" onPress={navigation.goBack} />
         ) : null}
         <Appbar.Content
           title={title}
           color="white"
-          style={{ alignItems: "center" }}
+          style={{
+            position: "absolute",
+            alignItems: "center",
+            width: windowDimensions.width,
+          }}
         />
       </Appbar.Header>
     );
