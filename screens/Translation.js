@@ -149,6 +149,7 @@ const Translation = ({ navigation }) => {
               <Dialog
                 visible={micInfoVisible}
                 onDismiss={() => setMicInfoVisible(false)}
+                style={{ backgroundColor: "white" }}
               >
                 <Dialog.Content>
                   <Text>
