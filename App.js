@@ -102,7 +102,7 @@ export default function App({ navigation }) {
   useEffect(() => {
     const hideSplashTimeout = setTimeout(() => {
       setShowSplash(false);
-    }, 3000);
+    }, 3000); //setted to 3 secs
 
     return () => {
       clearTimeout(hideSplashTimeout);
