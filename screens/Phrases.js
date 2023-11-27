@@ -138,7 +138,7 @@ const Phrases = ({ navigation }) => {
   const fetchGeneratedPhrases = async () => {
     try {
       const response = await fetch(
-        `https://lingucidity.azurewebsites.net/user/${USER}/phrase`,
+        `https://jk249.azurewebsites.net/user/${USER}/phrase`,
       );
       const json = await response.json();
       setGeneratedPhrases(json);
@@ -152,7 +152,7 @@ const Phrases = ({ navigation }) => {
   const fetchPhrase = async (userID, phraseID, index) => {
     try {
       const response = await fetch(
-        `https://lingucidity.azurewebsites.net/user/${userID}/phrase/${phraseID}`,
+        `https://jk249.azurewebsites.net/user/${userID}/phrase/${phraseID}`,
       );
       const json = await response.json();
       const updatedPhrases = [...generatedPhrases];

@@ -109,7 +109,7 @@ export default function App({ navigation }) {
         //       "Basic " + Base64.btoa(data.emailAddress + ":" + data.password),
         //   });
         // try {
-        //   const url = "https://lingucidity.azurewebsites.net/user";
+        //   const url = "https://jk249.azurewebsites.net/user";
         //   const headers = new Headers({
         //     Authorization:
         //       "Basic " + Base64.btoa(data.emailAddress + ":" + data.password),
