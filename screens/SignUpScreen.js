@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
@@ -52,102 +53,115 @@ const SignUpScreen = ({ navigation }) => {
 
   return (
     <PaperProvider theme={{ ...signinTheme }}>
-      <KeyboardAvoidingView behavior="position" style={signStyles.page}>
-        <HideKeyboard>
-          <LinearGradient
-            colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
-            locations={[0.01, 0.2, 0.7]}
-          >
-            <Image
-              source={require("../assets/images/accountPhone.png")}
-              style={signStyles.image}
-              resizeMode="contain"
-            />
-            <View style={signStyles.totalWrapper}>
-              <View style={signStyles.container}>
-                <View style={signStyles.textInputWrapper}>
-                  <TextInput
-                    mode="outlined"
-                    label="Email"
-                    value={username}
-                    onChangeText={setUsername}
-                    style={signStyles.textInput}
-                    right={
-                      <TextInput.Icon
-                        onPress={() =>
-                          alert("Accepted email types: gmail.com, calvin.edu")
-                        }
-                        icon="email-outline"
-                        color="#3BC4E2"
-                      />
-                    }
-                    outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
-                  />
-                  <TextInput
-                    mode="outlined"
-                    label="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    style={signStyles.textInput}
-                    right={
-                      <TextInput.Icon
-                        onPress={() => setIsPasswordHidden(!isPasswordHidden)}
-                        icon={isPasswordHidden ? "eye-off" : "eye"}
-                        color={isPasswordHidden ? "#FFB7B7" : "#3BC4E2"}
-                      />
-                    }
-                    outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
-                    secureTextEntry={isPasswordHidden}
-                  />
-                  <TextInput
-                    mode="outlined"
-                    label="Confirm Password"
-                    value={cfpassword}
-                    onChangeText={setCfpassword}
-                    style={signStyles.textInput}
-                    right={
-                      <TextInput.Icon
-                        onPress={() =>
-                          setIsCfpasswordHidden(!isCfpasswordHidden)
-                        }
-                        icon={isCfpasswordHidden ? "eye-off" : "eye"}
-                        color={isCfpasswordHidden ? "#FFB7B7" : "#3BC4E2"}
-                      />
-                    }
-                    outlineStyle={{ borderRadius: 24, borderColor: "#CDF5FD" }}
-                    secureTextEntry={isCfpasswordHidden}
-                  />
-                </View>
-                <View style={signStyles.buttonWrapper}>
-                  <Button
-                    mode="elevated"
-                    onPress={handleSignUp}
-                    textColor="white"
-                    labelStyle={{ fontWeight: "bold" }}
-                    style={signStyles.button}
-                  >
-                    <Text style={signStyles.buttonText}>Sign Up</Text>
-                  </Button>
-                  <Text style={signStyles.divText}>- OR -</Text>
-                  <View style={signStyles.signupText}>
-                    <Text style={signStyles.bottomText}>
-                      Already have an account?{" "}
-                    </Text>
-                    <TouchableOpacity>
-                      <Text
-                        style={signStyles.signinTouchable}
-                        onPress={cancelSignUp}
-                      >
-                        Sign In
+      <View style={signStyles.page}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "position" : "none"}
+        >
+          <HideKeyboard>
+            <LinearGradient
+              colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
+              locations={[0.01, 0.2, 0.7]}
+            >
+              <Image
+                source={require("../assets/images/accountPhone.png")}
+                style={signStyles.image}
+                resizeMode="contain"
+              />
+              <View style={signStyles.totalWrapper}>
+                <View style={signStyles.container}>
+                  <View style={signStyles.textInputWrapper}>
+                    <TextInput
+                      mode="outlined"
+                      label="Email"
+                      value={username}
+                      onChangeText={setUsername}
+                      style={signStyles.textInput}
+                      right={
+                        <TextInput.Icon
+                          onPress={() =>
+                            alert("Accepted email types: gmail.com, calvin.edu")
+                          }
+                          icon="email-outline"
+                          color="#3BC4E2"
+                        />
+                      }
+                      outlineStyle={{
+                        borderRadius: 24,
+                        borderColor: "#CDF5FD",
+                      }}
+                    />
+                    <TextInput
+                      mode="outlined"
+                      label="Password"
+                      value={password}
+                      onChangeText={setPassword}
+                      style={signStyles.textInput}
+                      right={
+                        <TextInput.Icon
+                          onPress={() => setIsPasswordHidden(!isPasswordHidden)}
+                          icon={isPasswordHidden ? "eye-off" : "eye"}
+                          color={isPasswordHidden ? "#FFB7B7" : "#3BC4E2"}
+                        />
+                      }
+                      outlineStyle={{
+                        borderRadius: 24,
+                        borderColor: "#CDF5FD",
+                      }}
+                      secureTextEntry={isPasswordHidden}
+                    />
+                    <TextInput
+                      mode="outlined"
+                      label="Confirm Password"
+                      value={cfpassword}
+                      onChangeText={setCfpassword}
+                      style={signStyles.textInput}
+                      right={
+                        <TextInput.Icon
+                          onPress={() =>
+                            setIsCfpasswordHidden(!isCfpasswordHidden)
+                          }
+                          icon={isCfpasswordHidden ? "eye-off" : "eye"}
+                          color={isCfpasswordHidden ? "#FFB7B7" : "#3BC4E2"}
+                        />
+                      }
+                      outlineStyle={{
+                        borderRadius: 24,
+                        borderColor: "#CDF5FD",
+                      }}
+                      secureTextEntry={isCfpasswordHidden}
+                    />
+                  </View>
+                  <View style={signStyles.buttonWrapper}>
+                    <Button
+                      mode="elevated"
+                      onPress={handleSignUp}
+                      textColor="white"
+                      labelStyle={{ fontWeight: "bold" }}
+                      style={signStyles.button}
+                    >
+                      <Text style={signStyles.buttonText}>Sign Up</Text>
+                    </Button>
+                    <Text style={signStyles.divText}>- OR -</Text>
+                    <View style={signStyles.signupText}>
+                      <Text style={signStyles.bottomText}>
+                        Already have an account?{" "}
                       </Text>
-                    </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Text
+                          style={signStyles.signinTouchable}
+                          onPress={cancelSignUp}
+                        >
+                          Sign In
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
-          </LinearGradient>
-        </HideKeyboard>
-      </KeyboardAvoidingView>
+            </LinearGradient>
+          </HideKeyboard>
+        </KeyboardAvoidingView>
+      </View>
     </PaperProvider>
   );
 };

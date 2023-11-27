@@ -170,14 +170,14 @@ export const settingsStyle = StyleSheet.create({
     fontSize: 23,
     alignSelf: "center",
     paddingVertical: 10,
-    paddingTop: "20%",
+    // paddingTop: "20%",
   },
   titleText2: {
     fontFamily: "Poppins-ExtraBold",
     fontSize: 23,
     alignSelf: "center",
     paddingVertical: 10,
-    paddingTop: "20%",
+    // paddingTop: "20%",
     color: "#2C3333",
   },
   titleText3: {
@@ -185,7 +185,7 @@ export const settingsStyle = StyleSheet.create({
     fontSize: 23,
     alignSelf: "center",
     paddingVertical: 10,
-    paddingTop: "20%",
+    // paddingTop: "20%",
     color: "#2E4F4F",
   },
   image: {

@@ -1,11 +1,13 @@
 import { getHeaderTitle } from "@react-navigation/elements";
 import React, { useState, useContext } from "react";
+import { useWindowDimensions } from "react-native";
 import { Appbar, Menu, IconButton } from "react-native-paper";
 
 import { AuthContext } from "../contexts/AuthContext";
 import { signinTheme } from "../styles/globalStyles";
 
 export default function AppBar({ navigation, route, options, back }) {
+  const windowDimensions = useWindowDimensions();
   const { signOut } = useContext(AuthContext);
   const title = getHeaderTitle(options, route.name);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -30,6 +32,8 @@ export default function AppBar({ navigation, route, options, back }) {
       <Appbar.Header
         style={{
           backgroundColor: signinTheme.colors.primary,
+          flexDirection: "row",
+          justifyContent: "space-between",
           // marginTop: 5,
           // marginBottom: 15,
           // height: 35,
@@ -38,12 +42,13 @@ export default function AppBar({ navigation, route, options, back }) {
         <Appbar.Action
           icon="chat-alert"
           color="firebrick"
-          size={33}
+          size={35}
+          style={{ margin: 0 }}
           onPress={() => navigation.navigate("EmergencyPhrases")}
         />
         <Appbar.Content
           title="Lingucidity"
-          style={{ alignItems: "center" }}
+          style={{ alignItems: "center", flexGrow: 1 }}
           color="white"
         />
 
@@ -93,7 +98,11 @@ export default function AppBar({ navigation, route, options, back }) {
         <Appbar.Content
           title={title}
           color="white"
-          style={{ alignItems: "center" }}
+          style={{
+            position: "absolute",
+            alignItems: "center",
+            width: windowDimensions.width,
+          }}
         />
       </Appbar.Header>
     );
@@ -106,14 +115,14 @@ export default function AppBar({ navigation, route, options, back }) {
           <IconButton
             style={{
               position: "absolute",
-              top: 10,
+              top: 20,
               left: 0,
               right: 0,
               zIndex: 1,
             }}
             icon="chevron-left"
             iconColor="black"
-            size={30}
+            size={40}
             onPress={navigation.goBack}
           />
         ) : null}
