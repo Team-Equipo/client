@@ -100,7 +100,6 @@ export default function App({ navigation }) {
   }, []);
 
   useEffect(() => {
-    // Place this useEffect below the other useEffects
     const hideSplashTimeout = setTimeout(() => {
       setShowSplash(false);
     }, 3000);
