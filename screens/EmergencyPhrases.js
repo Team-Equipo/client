@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     marginBottom: 8,
+    fontFamily: "Poppins-Bold",
   },
   phraseContainer: {
     flexDirection: "row",
@@ -129,10 +130,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#e74c3c",
     marginBottom: 8,
+    fontFamily: "Poppins-Bold",
   },
   english: {
-    fontSize: 16,
+    fontSize: 15,
     color: "#3498db",
+    fontFamily: "Poppins-Regular",
   },
 });
 

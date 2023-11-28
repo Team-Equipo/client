@@ -252,7 +252,8 @@ const Translation = ({ navigation }) => {
                     justifyContent: "flex-start",
                     textAlignVertical: "top",
                     flex: 1,
-                    fontSize: 20,
+                    fontSize: 18,
+                    fontFamily: "Poppins-Regular",
                   }}
                   multiline
                   value={translationInput}
@@ -373,11 +374,11 @@ const Translation = ({ navigation }) => {
                       onSelectWord={selectWord}
                     />
                   ) : inputLang === "English" ? (
-                    <Text style={{ fontSize: 20, color: "#999" }}>
+                    <Text style={{ fontSize: 18, color: "#999" }}>
                       Tap on a translated word to view its dictionary definition
                     </Text>
                   ) : inputLang === "Spanish" ? (
-                    <Text style={{ fontSize: 20, color: "#999" }}>
+                    <Text style={{ fontSize: 18, color: "#999" }}>
                       Tocar una palabra traducida para ver su definición en el
                       diccionario
                     </Text>

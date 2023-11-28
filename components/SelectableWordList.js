@@ -6,7 +6,9 @@ const SelectableWordList = ({ data, onSelectWord }) => {
   const renderItem = useCallback(
     ({ item }) => (
       <TouchableOpacity onPress={() => onSelectWord(item)}>
-        <Text style={{ fontSize: 20 }}>{item + " "}</Text>
+        <Text style={{ fontSize: 18, fontFamily: "Poppins-Regular" }}>
+          {item + " "}
+        </Text>
       </TouchableOpacity>
     ),
     [],

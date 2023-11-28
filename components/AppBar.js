@@ -4,7 +4,7 @@ import { useWindowDimensions } from "react-native";
 import { Appbar, Menu, IconButton } from "react-native-paper";
 
 import { AuthContext } from "../contexts/AuthContext";
-import { signinTheme } from "../styles/globalStyles";
+import { headerTheme } from "../styles/globalStyles";
 
 export default function AppBar({ navigation, route, options, back }) {
   const windowDimensions = useWindowDimensions();
@@ -31,12 +31,9 @@ export default function AppBar({ navigation, route, options, back }) {
     return (
       <Appbar.Header
         style={{
-          backgroundColor: signinTheme.colors.primary,
+          backgroundColor: headerTheme.colors.primary,
           flexDirection: "row",
           justifyContent: "space-between",
-          // marginTop: 5,
-          // marginBottom: 15,
-          // height: 35,
         }}
       >
         <Appbar.Action
@@ -48,7 +45,8 @@ export default function AppBar({ navigation, route, options, back }) {
         />
         <Appbar.Content
           title="Lingucidity"
-          style={{ alignItems: "center", flexGrow: 1 }}
+          style={{ alignItems: "center", flexGrow: 1, fontSize: 20 }}
+          titleStyle={{ fontSize: 20, color: "white" }}
           color="white"
         />
 
@@ -86,10 +84,7 @@ export default function AppBar({ navigation, route, options, back }) {
     return (
       <Appbar.Header
         style={{
-          backgroundColor: signinTheme.colors.primary,
-          // marginTop: 5,
-          // marginBottom: 15,
-          // height: 35,
+          backgroundColor: headerTheme.colors.primary,
         }}
       >
         {back ? (
@@ -98,6 +93,7 @@ export default function AppBar({ navigation, route, options, back }) {
         <Appbar.Content
           title={title}
           color="white"
+          titleStyle={{ fontSize: 19, color: "white" }}
           style={{
             position: "absolute",
             alignItems: "center",

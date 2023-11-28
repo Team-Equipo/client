@@ -230,11 +230,13 @@ const Phrases = ({ navigation }) => {
                     onPress={() => toggleTopicsExpanded()}
                     mode="elevated"
                     textColor="gray"
+                    textStyle={{ fontSize: 12, color: "white" }}
                     contentStyle={{
                       marginBottom: -7,
                       marginTop: -7,
                       marginLeft: -3,
                       marginRight: -3,
+                      color: "white",
                     }}
                     labelStyle={{
                       fontSize: 14,

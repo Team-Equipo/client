@@ -73,7 +73,7 @@ const TripInfo = ({ navigation }) => {
               </Text>
               <Image
                 // source={require("../assets/girl1.png")}
-                source={require("../assets/images/airplane.png")}
+                source={require("../assets/images/global.png")}
                 style={settingsStyle.image}
                 resizeMode="contain"
               />
