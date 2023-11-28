@@ -73,7 +73,7 @@ export default function PhraseCard({
                 {mode !== "saved" ? (
                   <>
                     <IconButton
-                      icon="bookmark-box-multiple-outline"
+                      icon="bookmark-check-outline"
                       mode="default"
                       onPress={() => {
                         savePhrase(phrase);

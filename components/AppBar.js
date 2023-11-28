@@ -34,9 +34,6 @@ export default function AppBar({ navigation, route, options, back }) {
           backgroundColor: signinTheme.colors.primary,
           flexDirection: "row",
           justifyContent: "space-between",
-          // marginTop: 5,
-          // marginBottom: 15,
-          // height: 35,
         }}
       >
         <Appbar.Action
@@ -48,7 +45,8 @@ export default function AppBar({ navigation, route, options, back }) {
         />
         <Appbar.Content
           title="Lingucidity"
-          style={{ alignItems: "center", flexGrow: 1 }}
+          style={{ alignItems: "center", flexGrow: 1, fontSize: 20 }}
+          titleStyle={{ fontSize: 20, color: "white" }}
           color="white"
         />
 
@@ -87,9 +85,6 @@ export default function AppBar({ navigation, route, options, back }) {
       <Appbar.Header
         style={{
           backgroundColor: signinTheme.colors.primary,
-          // marginTop: 5,
-          // marginBottom: 15,
-          // height: 35,
         }}
       >
         {back ? (
@@ -98,6 +93,7 @@ export default function AppBar({ navigation, route, options, back }) {
         <Appbar.Content
           title={title}
           color="white"
+          titleStyle={{ fontSize: 19, color: "white" }}
           style={{
             position: "absolute",
             alignItems: "center",

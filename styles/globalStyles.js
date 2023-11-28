@@ -1,23 +1,5 @@
-// import * as Font from "expo-font";
-import * as Font from "expo-font";
 import { StyleSheet } from "react-native";
-import { configureFonts, DefaultTheme } from "react-native-paper";
-
-// const customFonts = {
-//   "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-//   "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
-//   "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
-//   "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
-//   "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
-// };
-
-// // Load custom fonts asynchronously
-// const loadFontsAsync = async () => {
-//   await Font.loadAsync(customFonts);
-// };
-
-// // Call the loadFontsAsync function
-// loadFontsAsync();
+import { DefaultTheme, configureFonts } from "react-native-paper";
 
 // STYLES
 // mostly used in Phrases.js
@@ -81,7 +63,7 @@ export const signStyles = StyleSheet.create({
   image: {
     display: "flex",
     width: "50%",
-    height: "32%",
+    height: "36%",
     marginTop: "15%",
     marginBottom: "3%",
     alignSelf: "center",
@@ -89,7 +71,7 @@ export const signStyles = StyleSheet.create({
   imageGirl: {
     display: "flex",
     width: "50%",
-    height: "45.3%",
+    height: "46%",
     marginTop: "15%",
     marginBottom: "3%",
     alignSelf: "center",
@@ -118,7 +100,7 @@ export const signStyles = StyleSheet.create({
     paddingVertical: 5,
   },
   buttonText: {
-    //fontFamily: "Poppins-Bold",
+    fontFamily: "Poppins-Bold",
     fontSize: 15,
     color: "white",
     fontWeight: "bold",
@@ -131,18 +113,18 @@ export const signStyles = StyleSheet.create({
     alignItems: "center",
   },
   divText: {
-    //fontFamily: "Poppins-Light",
+    fontFamily: "Poppins-Light",
     textAlign: "center",
     color: "#ADC4CE",
     margin: 3,
   },
   bottomText: {
-    //fontFamily: "Poppins-Regular",
+    fontFamily: "Poppins-Regular",
     color: "gray",
     fontSize: 13,
   },
   signinTouchable: {
-    //fontFamily: "Poppins-Bold",
+    fontFamily: "Poppins-Bold",
     color: "#3BC4E2",
     fontSize: 13,
     fontWeight: "bold",
@@ -191,7 +173,7 @@ export const settingsStyle = StyleSheet.create({
   image: {
     display: "flex",
     width: "60%",
-    height: "30%",
+    height: "40%",
     marginTop: "2%",
     marginBottom: "8%",
     alignSelf: "center",
@@ -410,47 +392,17 @@ export const translationTheme = {
   },
 };
 
-// // Fonts
-// const baseFont = {
-//   fontFamily: "Poppins-Regular",
-//   fontSize: 12,
-//   color: "black",
-// };
+// Fonts
+const baseFont = {
+  fontFamily: "Poppins-Regular",
+  fontSize: 12,
+  color: "#2C3333",
+};
 
-// const baseVariants = configureFonts({ config: baseFont });
+const baseVariants = configureFonts({ config: baseFont });
 
-// const fontConfig = {
-//   default: {
-//     regular: {
-//       fontFamily: "Poppins-Regular",
-//       fontSize: 14,
-//       fontWeight: "normal",
-//     },
-//     bold: {
-//       fontFamily: "Poppins-Bold",
-//       fontSize: 14,
-//       fontWeight: "normal",
-//     },
-//     extraBold: {
-//       fontFamily: "Poppins-ExtraBold",
-//       fontSize: 14,
-//       fontWeight: "normal",
-//     },
-//     light: {
-//       fontFamily: "Poppins-Light",
-//       fontSize: 14,
-//       fontWeight: "normal",
-//     },
-//     thin: {
-//       fontFamily: "Poppins-Thin",
-//       fontSize: 14,
-//       fontWeight: "normal",
-//     },
-//   },
-// };
-
-// export const fonts = configureFonts({
-//   config: {
-//     ...baseVariants,
-//   },
-// });
+export const fonts = configureFonts({
+  config: {
+    ...baseVariants,
+  },
+});
