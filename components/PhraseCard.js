@@ -73,7 +73,7 @@ export default function PhraseCard({
                 {mode !== "saved" ? (
                   <>
                     <IconButton
-                      icon="download"
+                      icon="bookmark"
                       mode="default"
                       onPress={() => {
                         savePhrase(phrase);
