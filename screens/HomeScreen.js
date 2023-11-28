@@ -1,24 +1,16 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React, { useState } from "react";
-import {
-  BottomNavigation,
-  Button,
-  withTheme,
-  useTheme,
-  Text,
-} from "react-native-paper";
 import { CommonActions } from "@react-navigation/native";
+import React, { useState } from "react";
+import { BottomNavigation, withTheme } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Phrases from "./Phrases";
 import SavedPhrases from "./SavedPhrases";
 import Translation from "./Translation";
-import { signinTheme } from "../styles/globalStyles";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = ({ navigation, route, options, back }) => {
-  const theme = useTheme();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -26,6 +18,7 @@ const HomeScreen = ({ navigation, route, options, back }) => {
       }}
       tabBar={({ navigation, state, descriptors, insets }) => (
         <BottomNavigation.Bar
+          style={{ backgroundColor: "#F0F0F0" }}
           navigationState={state}
           safeAreaInsets={insets}
           onTabPress={({ route, preventDefault }) => {

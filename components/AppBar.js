@@ -4,7 +4,7 @@ import { useWindowDimensions } from "react-native";
 import { Appbar, Menu, IconButton } from "react-native-paper";
 
 import { AuthContext } from "../contexts/AuthContext";
-import { signinTheme } from "../styles/globalStyles";
+import { headerTheme } from "../styles/globalStyles";
 
 export default function AppBar({ navigation, route, options, back }) {
   const windowDimensions = useWindowDimensions();
@@ -31,7 +31,7 @@ export default function AppBar({ navigation, route, options, back }) {
     return (
       <Appbar.Header
         style={{
-          backgroundColor: signinTheme.colors.primary,
+          backgroundColor: headerTheme.colors.primary,
           flexDirection: "row",
           justifyContent: "space-between",
         }}
@@ -84,7 +84,7 @@ export default function AppBar({ navigation, route, options, back }) {
     return (
       <Appbar.Header
         style={{
-          backgroundColor: signinTheme.colors.primary,
+          backgroundColor: headerTheme.colors.primary,
         }}
       >
         {back ? (

@@ -16,6 +16,7 @@ export const phraseStyles = StyleSheet.create({
   topicBox: {
     marginHorizontal: 2,
     marginVertical: 2,
+    backgroundColor: "#F084B4",
   },
   modalStyle: {
     backgroundColor: "white",
@@ -28,7 +29,8 @@ export const phraseStyles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    backgroundColor: "#CDF5FD",
+    // backgroundColor: "#CDF5FD",
+    backgroundColor: "#F0F0F0",
   },
   genPhrases: {
     fontSize: 15,
@@ -259,7 +261,8 @@ export const allSetStyle = StyleSheet.create({
 export const appHeaderBarStyles = StyleSheet.create({
   appbar: {
     flex: 0,
-    backgroundColor: "cornflowerblue",
+    // backgroundColor: "cornflowerblue",
+    backgroundColor: "#F0F0F0",
     marginTop: "-2%",
     justifyContent: "center",
   },
@@ -268,7 +271,8 @@ export const appHeaderBarStyles = StyleSheet.create({
 export const translateStyles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: "#CDF5FD",
+    // backgroundColor: "#CDF5FD",
+    backgroundColor: "#F0F0F0",
   },
   textBox: {
     flex: 1,
@@ -294,7 +298,8 @@ export const translateStyles = StyleSheet.create({
 export const savedPhrases = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: "#CDF5FD",
+    // backgroundColor: "#CDF5FD",
+    backgroundColor: "#F0F0F0",
   },
   modalContainer: {
     backgroundColor: "white",
@@ -344,6 +349,21 @@ export const signinTheme = {
   },
 };
 
+export const headerTheme = {
+  ...DefaultTheme,
+  myOwnProperty: true,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#56CBF4",
+    text: "black",
+    outline: "#FFBDD4",
+    backgroundColor: "#F0F0F0",
+    elevation: {
+      level1: "#3BC4E2",
+    },
+  },
+};
+
 export const settingsTheme = {
   ...DefaultTheme,
   myOwnProperty: true,
@@ -369,7 +389,7 @@ export const phraseTheme = {
     secondary: "#5272F2",
     text: "black",
     outline: "#FFBDD4",
-    backgroundColor: "#5272F2",
+    backgroundColor: "#FFFFFF",
     elevation: {
       level1: "white",
     },
@@ -385,7 +405,7 @@ export const translationTheme = {
     secondary: "#5272F2",
     text: "black",
     outline: "#FFBDD4",
-    backgroundColor: "#5272F2",
+    backgroundColor: "#FFFFFF",
     elevation: {
       level1: "white",
     },
