@@ -80,7 +80,7 @@ export default function PhraseCard({
                       }}
                     />
                     <IconButton
-                      icon="cached"
+                      icon="cloud-refresh"
                       mode="default"
                       onPress={() => {
                         updateGeneratedPhrase(
