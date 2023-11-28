@@ -85,7 +85,7 @@ const HomeScreen = ({ navigation, route, options, back }) => {
         options={{
           tabBarLabel: "Saved",
           tabBarIcon: () => {
-            return <Icon name="bookmark" size={25} />;
+            return <Icon name="download" size={25} />;
           },
         }}
       />
