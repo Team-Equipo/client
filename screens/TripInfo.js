@@ -74,7 +74,7 @@ const TripInfo = ({ navigation }) => {
               <Image
                 // source={require("../assets/girl1.png")}
                 source={require("../assets/images/global.png")}
-                style={settingsStyle.image}
+                style={settingsStyle.squareImage}
                 resizeMode="contain"
               />
               <TextInput
