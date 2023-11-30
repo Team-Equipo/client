@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Font from "expo-font";
 import React from "react";
-import { View, KeyboardAvoidingView, Image, Platform } from "react-native";
+import { View, KeyboardAvoidingView, Platform } from "react-native";
 import {
   TextInput,
   Button,
@@ -48,7 +47,7 @@ const SettingsPage = ({ navigation }) => {
       ];
 
       await storeData(keys, values);
-      navigation.navigate("AllSet");
+      navigation.goBack();
     }
   };
 
@@ -132,8 +131,7 @@ const SettingsPage = ({ navigation }) => {
                 paddingRight="0.5%"
                 paddingLeft="0.5%"
                 style={{ flex: 0 }}
-              ></View>
-
+              />
               <Text style={settingsStyle.textInputDescription}>Trip info</Text>
               <TextInput
                 mode="outlined"
@@ -165,11 +163,10 @@ const SettingsPage = ({ navigation }) => {
                   paddingRight="0.5%"
                   paddingLeft="0.5%"
                   style={{ flex: 0 }}
-                ></View>
+                />
                 <Text style={settingsStyle.textInputDescription}>
                   Favorite Food
                 </Text>
-
                 <TextInput
                   mode="outlined"
                   label="Favorite Food(s)"
@@ -180,7 +177,6 @@ const SettingsPage = ({ navigation }) => {
                   style={settingsStyle.textInput}
                   onChangeText={(text) => setFoods(text)}
                 />
-
                 <Button
                   mode="elevated"
                   textColor="white"

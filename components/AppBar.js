@@ -69,7 +69,7 @@ export default function AppBar({ navigation, route, options, back }) {
         >
           <Menu.Item
             trailingIcon="account-edit" // Edit icon
-            onPress={() => handleMenuPress("editProfile")}
+            onPress={() => navigation.navigate("SettingsPage")}
             title="Edit Profile"
           />
           <Menu.Item

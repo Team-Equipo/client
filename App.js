@@ -209,17 +209,6 @@ export default function App({ navigation }) {
                         }}
                       />
                       <Stack.Screen
-                        name="SettingsPage1"
-                        component={SettingsPage}
-                        options={{
-                          title: "Your Settings",
-                          // When logging out, a pop animation feels intuitive
-                          animationTypeForReplace: state.isSignout
-                            ? "pop"
-                            : "push",
-                        }}
-                      />
-                      <Stack.Screen
                         name="UserProp"
                         component={UserProp}
                         options={{
@@ -273,6 +262,17 @@ export default function App({ navigation }) {
                         component={EmergencyPhrases}
                         options={{
                           title: "Emergency Phrases",
+                          // When logging out, a pop animation feels intuitive
+                          animationTypeForReplace: state.isSignout
+                            ? "pop"
+                            : "push",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="SettingsPage"
+                        component={SettingsPage}
+                        options={{
+                          title: "Your Settings",
                           // When logging out, a pop animation feels intuitive
                           animationTypeForReplace: state.isSignout
                             ? "pop"
