@@ -19,6 +19,7 @@ import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
 import UserProp from "./screens/UserProp";
 import UserPropFood from "./screens/UserPropFood";
+import SettingsPage from "./screens/Settings";
 
 const Stack = createNativeStackNavigator();
 
@@ -201,6 +202,17 @@ export default function App({ navigation }) {
                         component={UserInfo}
                         options={{
                           title: "Your Name",
+                          // When logging out, a pop animation feels intuitive
+                          animationTypeForReplace: state.isSignout
+                            ? "pop"
+                            : "push",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="SettingsPage1"
+                        component={SettingsPage}
+                        options={{
+                          title: "Your Settings",
                           // When logging out, a pop animation feels intuitive
                           animationTypeForReplace: state.isSignout
                             ? "pop"
