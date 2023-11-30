@@ -19,8 +19,7 @@ export default function AppBar({ navigation, route, options, back }) {
     closeMenu();
     switch (action) {
       case "editProfile":
-        // Handle "Edit Profile" action
-        alert("Edit Profile");
+        navigation.navigate("SettingsPage");
         break;
       case "signOut":
         signOut();
