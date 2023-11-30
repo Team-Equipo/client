@@ -138,7 +138,7 @@ const SettingsPage = ({ navigation }) => {
               />
               <View paddingTop="1%" paddingRight="0.5%" paddingLeft="0.5%">
                 <Text style={settingsStyle.textInputDescription}>
-                  Your interest
+                  Your interests
                 </Text>
                 <TextInput
                   mode="outlined"
@@ -158,9 +158,7 @@ const SettingsPage = ({ navigation }) => {
                   paddingLeft="0.5%"
                   style={{ flex: 0 }}
                 />
-                <Text style={settingsStyle.textInputDescription}>
-                  Favorite Food
-                </Text>
+                <Text style={settingsStyle.textInputDescription}>Food</Text>
                 <TextInput
                   mode="outlined"
                   label="Favorite Food(s)"
