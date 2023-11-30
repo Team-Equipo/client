@@ -92,15 +92,9 @@ const SettingsPage = ({ navigation }) => {
               style={settingsStyle.textInputWrapper}
             >
               <Text style={settingsStyle.titleText}>
-                Hi,{" "}
-                <Text style={settingsStyle.titleText2}>
-                  {userData.firstName}?
-                </Text>
-                <Text style={settingsStyle.titleText}>
-                  {" "}
-                  You can change your setting here!
-                </Text>
+                Edit your profile here!
               </Text>
+
               <Text style={settingsStyle.textInputDescription}>User info</Text>
               <TextInput
                 mode="outlined"
