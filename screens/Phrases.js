@@ -11,6 +11,7 @@ import {
   UIManager,
   LayoutAnimation,
   Platform,
+  Dimensions,
 } from "react-native";
 import {
   Modal,
@@ -50,6 +51,8 @@ const Phrases = ({ navigation }) => {
   );
   const [wordRefVisible, setWordRefVisible] = useState(false);
   const { storageChange, setStorageChange } = usePhraseStorageTracker();
+
+  const windowDimensions = Dimensions.get("window");
 
   // const samplePhrases = [
   //   {
@@ -110,6 +113,7 @@ const Phrases = ({ navigation }) => {
   }
 
   function handleTopicDeselect() {
+    setTopicsExpanded(false);
     animateSearchBar();
     setSearchedTopic("");
   }
@@ -291,7 +295,7 @@ const Phrases = ({ navigation }) => {
                           style={{
                             flexDirection: "column",
                             justifyContent: "center",
-                            width: "85%",
+                            // width: "85%",
                           }}
                         >
                           <Text
@@ -300,6 +304,7 @@ const Phrases = ({ navigation }) => {
                               color: "darkgray",
                               fontFamily: "Poppins-Regular",
                               fontSize: 15,
+                              width: windowDimensions.width - 76,
                             }}
                           >
                             Select a topic...
@@ -323,7 +328,7 @@ const Phrases = ({ navigation }) => {
                 collapsibleContainerStyle={{
                   ...shadows.shadow4,
                   width: "100%",
-                  marginTop: 5,
+                  marginTop: 4,
                   borderRadius: 15,
                   backgroundColor: "white",
                   position: "absolute",
@@ -339,7 +344,12 @@ const Phrases = ({ navigation }) => {
                   }}
                 >
                   <FlatList
-                    style={{ padding: 3 }}
+                    style={{
+                      padding: 3,
+                      borderColor: "lightgrey",
+                      borderWidth: 1,
+                      borderRadius: 15,
+                    }}
                     numColumns={100}
                     columnWrapperStyle={{
                       flexWrap: "wrap",

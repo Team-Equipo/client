@@ -17,6 +17,8 @@ export const phraseStyles = StyleSheet.create({
     marginHorizontal: 2,
     marginVertical: 2,
     borderRadius: 40,
+    borderColor: "lightgrey",
+    borderWidth: 1,
     backgroundColor: "#F084B4",
   },
   modalStyle: {
