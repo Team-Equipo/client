@@ -223,6 +223,7 @@ const Phrases = ({ navigation }) => {
                   padding: 0,
                   zIndex: 1,
                   borderColor: "transparent",
+                  marginBottom: -3,
                 }}
                 title={
                   <Chip
@@ -300,7 +301,7 @@ const Phrases = ({ navigation }) => {
               </CollapsibleView>
               {/* The list of PhraseCards */}
               <FlatList
-                contentContainerStyle={{ alignItems: "center", rowGap: 8 }}
+                contentContainerStyle={{ alignItems: "center" }}
                 // data={samplePhrases}
                 data={generatedPhrases}
                 renderItem={({ item }) => (
