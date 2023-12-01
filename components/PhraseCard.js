@@ -1,5 +1,5 @@
-import { speak } from "expo-speech";
-import React, { useState } from "react";
+import { speak, isSpeakingAsync } from "expo-speech";
+import React, { useState, useEffect } from "react";
 import { Dimensions, StyleSheet, View, SafeAreaView } from "react-native";
 import {
   IconButton,
@@ -21,17 +21,31 @@ export default function PhraseCard({
   onSelectEnglishWord,
   onSelectSpanishWord,
 }) {
-  const [isToggled, setIsToggled] = useState(true);
+  const [inUserLang, setInUserLang] = useState(true);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const togglePhrase = () => {
-    setIsToggled(!isToggled);
+    setInUserLang(!inUserLang);
   };
 
   const speakPhrase = async () => {
     try {
-      await speak(phrase.text_original, { language: "es" });
+      setIsSpeaking(true);
+
+      if (inUserLang) {
+        speak(phrase.text_translated, { language: "en" });
+      } else {
+        speak(phrase.text_original, { language: "es" });
+      }
+
+      // Continue checking isSpeakingAsync until it returns false
+      while (await isSpeakingAsync()) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
     } catch (error) {
       console.error("Error speaking phrase:", error);
+    } finally {
+      setIsSpeaking(false);
     }
   };
 
@@ -52,7 +66,7 @@ export default function PhraseCard({
           >
             <>
               <Card.Content style={styles.cardContent}>
-                {isToggled ? (
+                {inUserLang ? (
                   <SelectableWordList
                     data={phrase.text_translated}
                     onSelectWord={onSelectEnglishWord}
@@ -65,42 +79,52 @@ export default function PhraseCard({
                 )}
               </Card.Content>
               <Card.Actions>
-                <IconButton
-                  icon="volume-high"
-                  mode="default"
-                  onPress={speakPhrase}
-                />
-                {mode !== "saved" ? (
-                  <>
-                    <IconButton
-                      icon="download"
-                      mode="default"
-                      onPress={() => {
-                        savePhrase(phrase);
-                      }}
-                    />
-                    <IconButton
-                      icon="cloud-refresh"
-                      mode="default"
-                      onPress={() => {
-                        updateGeneratedPhrase(
-                          phrase.userid,
-                          phrase.generated_phrases_id,
-                        );
-                      }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <IconButton
-                      icon="delete"
-                      mode="default"
-                      onPress={() => {
-                        deletePhrase(phrase);
-                      }}
-                    />
-                  </>
-                )}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    width: "100%",
+                  }}
+                >
+                  <IconButton icon="translate" mode="default" />
+                  <IconButton
+                    icon="volume-high"
+                    mode="default"
+                    disabled={isSpeaking}
+                    onPress={speakPhrase}
+                  />
+                  {mode !== "saved" ? (
+                    <>
+                      <IconButton
+                        icon="download"
+                        mode="default"
+                        onPress={() => {
+                          savePhrase(phrase);
+                        }}
+                      />
+                      <IconButton
+                        icon="shuffle-variant"
+                        mode="default"
+                        onPress={() => {
+                          updateGeneratedPhrase(
+                            phrase.userid,
+                            phrase.generated_phrases_id,
+                          );
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <IconButton
+                        icon="delete"
+                        mode="default"
+                        onPress={() => {
+                          deletePhrase(phrase);
+                        }}
+                      />
+                    </>
+                  )}
+                </View>
               </Card.Actions>
             </>
           </TouchableRipple>
