@@ -1,7 +1,9 @@
 // SavedPhrases.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect, useCallback } from "react";
-import { FlatList, View, SafeAreaView } from "react-native";
+import { View, SafeAreaView } from "react-native";
+import DraggableFlatList from "react-native-draggable-flatlist";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { withTheme, Modal, Portal, PaperProvider } from "react-native-paper";
 
 import PhraseCard from "../components/PhraseCard";
@@ -96,15 +98,28 @@ const SavedPhrases = ({ navigation }) => {
     }
   };
 
+  // Update render data order and async-stored order
+  const onDragEnd = async (data) => {
+    try {
+      // Update the state to re-render the component
+      setPhraseData(data);
+      // Update the order of phrases in async storage
+      await AsyncStorage.setItem("saved-phrases", JSON.stringify(data));
+    } catch (e) {
+      console.log("Error updating order", e);
+    }
+  };
+
   // How to render each phrase as a PhraseCard
   const renderItem = useCallback(
-    ({ item }) => (
+    ({ item, drag }) => (
       <PhraseCard
         phrase={item}
         deletePhrase={deletePhrase}
         mode="saved"
         onSelectEnglishWord={selectEnglishWord}
         onSelectSpanishWord={selectSpanishWord}
+        drag={drag}
       />
     ),
     [],
@@ -112,7 +127,7 @@ const SavedPhrases = ({ navigation }) => {
 
   return (
     <PaperProvider theme={phraseTheme}>
-      <View style={savedPhrases.background}>
+      <GestureHandlerRootView style={savedPhrases.background}>
         <SafeAreaView style={{ flexDirection: "column", flex: 1 }}>
           <Portal>
             {/* Wordreference popup */}
@@ -134,18 +149,19 @@ const SavedPhrases = ({ navigation }) => {
             paddingRight="0.5%"
             paddingLeft="0.5%"
           >
-            <FlatList
+            <DraggableFlatList
               contentContainerStyle={{
                 alignItems: "center",
-                rowGap: 8,
-                paddingTop: 8,
+                marginBottom: 8,
               }}
               data={phraseData}
               renderItem={renderItem}
+              keyExtractor={(item, index) => `phrase-${index}`}
+              onDragEnd={({ data }) => onDragEnd(data)}
             />
           </View>
         </SafeAreaView>
-      </View>
+      </GestureHandlerRootView>
     </PaperProvider>
   );
 };

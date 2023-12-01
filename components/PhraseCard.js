@@ -20,6 +20,7 @@ export default function PhraseCard({
   mode,
   onSelectEnglishWord,
   onSelectSpanishWord,
+  drag,
 }) {
   const [inUserLang, setInUserLang] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -63,6 +64,8 @@ export default function PhraseCard({
             borderless
             style={{ borderRadius: 10 }}
             onPress={() => togglePhrase()}
+            onLongPress={drag}
+            delayLongPress={100}
           >
             <>
               <Card.Content style={styles.cardContent}>
@@ -138,6 +141,7 @@ const styles = StyleSheet.create({
   card: {
     width: Dimensions.get("window").width - 20,
     backgroundColor: "white",
+    marginTop: 8,
   },
   cardCover: {
     height: 30,
