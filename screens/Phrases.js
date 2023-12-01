@@ -7,12 +7,18 @@ import {
   SafeAreaView,
   FlatList,
   TouchableWithoutFeedback,
+  Text,
+  UIManager,
+  LayoutAnimation,
+  Platform,
+  Dimensions,
 } from "react-native";
 import {
   Modal,
   Portal,
   Chip,
   withTheme,
+  IconButton,
   PaperProvider,
 } from "react-native-paper";
 
@@ -29,8 +35,13 @@ import {
 
 const USER = 1;
 
+// Enable LayoutAnimation for Android
+if (Platform.OS === "android") {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 const Phrases = ({ navigation }) => {
-  const [searchedTopic, setSearchedTopic] = useState("Select a topic...");
+  const [searchedTopic, setSearchedTopic] = useState("");
   const [topicsExpanded, setTopicsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [generatedPhrases, setGeneratedPhrases] = useState([]);
@@ -40,6 +51,8 @@ const Phrases = ({ navigation }) => {
   );
   const [wordRefVisible, setWordRefVisible] = useState(false);
   const { storageChange, setStorageChange } = usePhraseStorageTracker();
+
+  const windowDimensions = Dimensions.get("window");
 
   // const samplePhrases = [
   //   {
@@ -79,15 +92,35 @@ const Phrases = ({ navigation }) => {
     setWordRefVisible(true);
   };
 
+  function animateSearchBar() {
+    // Define the animation configuration
+    const config = LayoutAnimation.create(
+      300, // duration in milliseconds
+      LayoutAnimation.Types.easeInEaseOut,
+      LayoutAnimation.Properties.opacity,
+    );
+
+    // Trigger the layout animation
+    LayoutAnimation.configureNext(config);
+  }
+
   function handleTopicSelect(item) {
+    animateSearchBar();
     setTopicsExpanded(false);
-    setSearchedTopic("Topic: " + item.text);
+    const topicLabel =
+      item.text.length === 10 ? " " + item.text + " " : item.text;
+    setSearchedTopic(topicLabel);
+  }
+
+  function handleTopicDeselect() {
+    setTopicsExpanded(false);
+    animateSearchBar();
+    setSearchedTopic("");
   }
 
   function toggleTopicsExpanded() {
-    return topicsExpanded === true
-      ? setTopicsExpanded(false)
-      : setTopicsExpanded(true);
+    // Update the state
+    setTopicsExpanded(!topicsExpanded);
   }
 
   const savePhrase = async (phrase) => {
@@ -128,7 +161,7 @@ const Phrases = ({ navigation }) => {
   /* Hardcode a list of topics. */
   const topics = [
     { text: "Ordering food", id: 1 },
-    { text: "Asking for directions", id: 2 },
+    { text: "Directions", id: 2 },
     { text: "Shopping", id: 3 },
     { text: "Greetings", id: 4 },
     { text: "Goodbyes", id: 5 },
@@ -226,25 +259,67 @@ const Phrases = ({ navigation }) => {
                   marginBottom: -3,
                 }}
                 title={
-                  <Chip
-                    style={phraseStyles.topicBox}
-                    onPress={() => toggleTopicsExpanded()}
-                    mode="elevated"
-                    textColor="gray"
-                    textStyle={{ fontSize: 12, color: "white" }}
-                    contentStyle={{
-                      marginBottom: -7,
-                      marginTop: -7,
-                      marginLeft: -3,
-                      marginRight: -3,
-                      color: "white",
-                    }}
-                    labelStyle={{
-                      fontSize: 14,
-                    }}
-                  >
-                    {searchedTopic}
-                  </Chip>
+                  <TouchableWithoutFeedback onPress={toggleTopicsExpanded}>
+                    <View
+                      style={{
+                        ...(topicsExpanded ? shadows.shadow4 : {}),
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        backgroundColor: "white",
+                        borderRadius: 30,
+                        borderColor: "lightgrey",
+                        borderWidth: 1,
+                      }}
+                    >
+                      {searchedTopic !== "" ? (
+                        <View
+                          style={{
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            marginLeft: 5,
+                          }}
+                        >
+                          <Chip
+                            style={phraseStyles.topicBox}
+                            mode="elevated"
+                            textStyle={{
+                              fontSize: 15,
+                              color: "white",
+                            }}
+                          >
+                            {searchedTopic}
+                          </Chip>
+                        </View>
+                      ) : (
+                        // Display a placeholder text when searchedTopic is empty
+                        <View
+                          style={{
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            // width: "85%",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              marginLeft: 15,
+                              color: "darkgray",
+                              fontFamily: "Poppins-Regular",
+                              fontSize: 15,
+                              width: windowDimensions.width - 76,
+                            }}
+                          >
+                            Select a topic...
+                          </Text>
+                        </View>
+                      )}
+
+                      <IconButton
+                        icon="close"
+                        style={{ margin: 0 }}
+                        onPress={handleTopicDeselect}
+                      />
+                    </View>
+                  </TouchableWithoutFeedback>
                 }
                 titleStyle={{
                   alignItems: "flex-start",
@@ -254,7 +329,7 @@ const Phrases = ({ navigation }) => {
                 collapsibleContainerStyle={{
                   ...shadows.shadow4,
                   width: "100%",
-                  marginTop: 5,
+                  marginTop: 4,
                   borderRadius: 15,
                   backgroundColor: "white",
                   position: "absolute",
@@ -270,11 +345,17 @@ const Phrases = ({ navigation }) => {
                   }}
                 >
                   <FlatList
-                    style={{ padding: 3 }}
-                    numColumns={10}
+                    style={{
+                      padding: 3,
+                      borderColor: "lightgrey",
+                      borderWidth: 1,
+                      borderRadius: 15,
+                    }}
+                    numColumns={100}
                     columnWrapperStyle={{
                       flexWrap: "wrap",
                       justifyContent: "center",
+                      flexDirection: "row",
                     }}
                     data={topics}
                     renderItem={({ item }) => (
@@ -282,18 +363,21 @@ const Phrases = ({ navigation }) => {
                         style={phraseStyles.topicBox}
                         onPress={() => handleTopicSelect(item)}
                         mode="elevated"
-                        textColor="gray"
-                        contentStyle={{
-                          marginBottom: -7,
-                          marginTop: -7,
-                          marginLeft: -3,
-                          marginRight: -3,
-                        }}
-                        labelStyle={{
-                          fontSize: 14,
+                        ellipsizeMode="clip"
+                        // contentStyle={{
+                        //   marginBottom: -7,
+                        //   marginTop: -7,
+                        //   marginLeft: -3,
+                        //   marginRight: -3,
+                        // }}
+                        textStyle={{
+                          fontSize: 15,
+                          color: "white",
                         }}
                       >
-                        {item.text}
+                        {item.text.length === 10
+                          ? " " + item.text + " "
+                          : item.text}
                       </Chip>
                     )}
                   />
