@@ -77,9 +77,9 @@ const InformationScreen = () => {
     );
   };
 
-  const speakPhrase = async (phrase) => {
+  const speakPhrase = (phrase) => {
     try {
-      await speak(phrase.spanish, { language: "es" });
+      speak(phrase.spanish, { language: "es" });
     } catch (error) {
       console.error("Error speaking phrase:", error);
     }
