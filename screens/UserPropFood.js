@@ -73,7 +73,7 @@ const UserInfo = ({ navigation }) => {
               <Image
                 // source={require("../assets/girl1.png")}
                 source={require("../assets/images/myselfGirl.png")}
-                style={settingsStyle.image}
+                style={settingsStyle.squareImage}
                 resizeMode="contain"
               />
               <Text style={settingsStyle.textInputDescription}>

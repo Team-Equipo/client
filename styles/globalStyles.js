@@ -172,10 +172,11 @@ export const settingsStyle = StyleSheet.create({
     // paddingTop: "20%",
     color: "#2E4F4F",
   },
-  image: {
+  squareImage: {
     display: "flex",
     width: "60%",
-    height: "40%",
+    height: "undefined",
+    aspectRatio: "1",
     marginTop: "2%",
     marginBottom: "8%",
     alignSelf: "center",
