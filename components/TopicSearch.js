@@ -24,6 +24,7 @@ const TopicSearch = ({
     <CollapsibleView
       expanded={topicsExpanded}
       style={{
+        ...(topicsExpanded ? shadows.shadow4 : null),
         padding: 0,
         zIndex: 1,
         borderColor: "transparent",
@@ -32,8 +33,6 @@ const TopicSearch = ({
       title={
         <View
           style={{
-            ...shadows.shadow4,
-            ...(topicsExpanded ? shadows.shadow4 : null),
             flexDirection: "row",
             justifyContent: "space-between",
             backgroundColor: "white",
@@ -46,6 +45,7 @@ const TopicSearch = ({
           {selectedTopic ? (
             <View
               style={{
+                ...(topicsExpanded ? shadows.shadow4 : null),
                 flexDirection: "row",
                 alignItems: "center",
                 marginLeft: 5,
@@ -103,6 +103,7 @@ const TopicSearch = ({
       noArrow
       activeOpacityFeedback={1}
       collapsibleContainerStyle={{
+        ...shadows.shadow4,
         width: "101%",
         marginTop: 3,
         position: "absolute",
