@@ -162,7 +162,7 @@ const SavedPhrases = ({ navigation }) => {
   const handleTopicSelect = (item) => {
     animateSearchBar();
     setTopicsExpanded(false);
-    const topicLabel = item.length === 10 ? " " + item + " " : item;
+    const topicLabel = item.length % 5 === 0 ? " " + item + " " : item;
     setSelectedTopic(topicLabel);
 
     // Filter phrases based on the selectedTopic
@@ -222,6 +222,7 @@ const SavedPhrases = ({ navigation }) => {
                   ? [...new Set(phraseData.map((item) => item.topic))]
                   : []
               }
+              navigation={navigation}
             />
             <FlatList
               style={{ marginTop: 8 }}

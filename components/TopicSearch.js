@@ -26,6 +26,7 @@ const TopicSearch = ({
   handleTopicSelect,
   topics,
   textInputEnabled = true,
+  navigation,
 }) => {
   const windowDimensions = Dimensions.get("window");
 
@@ -172,6 +173,28 @@ const TopicSearch = ({
           style={{
             padding: 3,
           }}
+          ListHeaderComponent={
+            <View
+              style={{
+                justifyContent: "center",
+                flexDirection: "row",
+              }}
+            >
+              <Chip
+                style={{ ...phraseStyles.topicBox, backgroundColor: "red" }}
+                onPress={() => navigation.navigate("EmergencyPhrases")}
+                mode="elevated"
+                ellipsizeMode="clip"
+                textStyle={{
+                  fontSize: 15,
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Emergency Phrases
+              </Chip>
+            </View>
+          }
           numColumns={100}
           columnWrapperStyle={{
             flexWrap: "wrap",
@@ -191,7 +214,7 @@ const TopicSearch = ({
                 color: "white",
               }}
             >
-              {item.length === 10 ? " " + item + " " : item}
+              {item.length % 5 === 0 ? " " + item + " " : item}
             </Chip>
           )}
         />
