@@ -68,7 +68,7 @@ const SavedPhrases = ({ navigation }) => {
       // the given function, which checks that the text of the passed
       // currentPhrase does not match the text of the phrase to be deleted.
       updatedPhrases = currentPhrases.filter(
-        (currentPhrase) => currentPhrase.text_original !== phrase.text_original,
+        (currentPhrase) => currentPhrase.originaltext !== phrase.originaltext,
       );
     } catch (e) {
       console.log("Error", e);
