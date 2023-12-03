@@ -109,8 +109,7 @@ const Phrases = ({ navigation }) => {
   const handleTopicSelect = (item) => {
     animateSearchBar();
     setTopicsExpanded(false);
-    const topicLabel =
-      item.text.length === 10 ? " " + item.text + " " : item.text;
+    const topicLabel = item.length === 10 ? " " + item + " " : item;
     setSelectedTopic(topicLabel);
   };
 
@@ -162,12 +161,12 @@ const Phrases = ({ navigation }) => {
 
   /* Hardcode a list of topics. */
   const topics = [
-    { text: "Ordering food", id: 1 },
-    { text: "Directions", id: 2 },
-    { text: "Shopping", id: 3 },
-    { text: "Greetings", id: 4 },
-    { text: "Goodbyes", id: 5 },
-    { text: "Pleasantries", id: 6 },
+    "Ordering food",
+    "Directions",
+    "Shopping",
+    "Greetings",
+    "Goodbyes",
+    "Pleasantries",
   ];
 
   const fetchGeneratedPhrases = async () => {
@@ -264,133 +263,6 @@ const Phrases = ({ navigation }) => {
                 handleTopicSelect={handleTopicSelect}
                 topics={topics}
               />
-              {/* <CollapsibleView
-                expanded={topicsExpanded}
-                style={{
-                  padding: 0,
-                  zIndex: 1,
-                  borderColor: "transparent",
-                  marginBottom: -3,
-                }}
-                title={
-                  <TouchableWithoutFeedback onPress={toggleTopicsExpanded}>
-                    <View
-                      style={{
-                        ...(topicsExpanded ? shadows.shadow4 : {}),
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        backgroundColor: "white",
-                        borderRadius: 30,
-                        borderColor: "lightgrey",
-                        borderWidth: 1,
-                      }}
-                    >
-                      {searchedTopic !== "" ? (
-                        <View
-                          style={{
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            marginLeft: 5,
-                          }}
-                        >
-                          <Chip
-                            style={phraseStyles.topicBox}
-                            mode="elevated"
-                            textStyle={{
-                              fontSize: 15,
-                              color: "white",
-                            }}
-                          >
-                            {searchedTopic}
-                          </Chip>
-                        </View>
-                      ) : (
-                        // Display a placeholder text when searchedTopic is empty
-                        <View
-                          style={{
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            // width: "85%",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              marginLeft: 15,
-                              color: "darkgray",
-                              fontFamily: "Poppins-Regular",
-                              fontSize: 15,
-                              width: windowDimensions.width - 76,
-                            }}
-                          >
-                            Select a topic...
-                          </Text>
-                        </View>
-                      )}
-
-                      <IconButton
-                        icon="close"
-                        style={{ margin: 0 }}
-                        onPress={handleTopicDeselect}
-                      />
-                    </View>
-                  </TouchableWithoutFeedback>
-                }
-                titleStyle={{
-                  alignItems: "flex-start",
-                }}
-                noArrow
-                activeOpacityFeedback={1}
-                collapsibleContainerStyle={{
-                  ...shadows.shadow4,
-                  width: "100%",
-                  marginTop: 4,
-                  borderRadius: 15,
-                  backgroundColor: "white",
-                  position: "absolute",
-                  top: "100%",
-                }}
-              >
-                <TouchableWithoutFeedback
-                  style={{
-                    paddingTop: 5,
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    zIndex: 10,
-                  }}
-                >
-                  <FlatList
-                    style={{
-                      padding: 3,
-                      borderColor: "lightgrey",
-                      borderWidth: 1,
-                      borderRadius: 15,
-                    }}
-                    numColumns={100}
-                    columnWrapperStyle={{
-                      flexWrap: "wrap",
-                      justifyContent: "center",
-                      flexDirection: "row",
-                    }}
-                    data={topics}
-                    renderItem={({ item }) => (
-                      <Chip
-                        style={phraseStyles.topicBox}
-                        onPress={() => handleTopicSelect(item)}
-                        mode="elevated"
-                        ellipsizeMode="clip"
-                        textStyle={{
-                          fontSize: 15,
-                          color: "white",
-                        }}
-                      >
-                        {item.text.length === 10
-                          ? " " + item.text + " "
-                          : item.text}
-                      </Chip>
-                    )}
-                  />
-                </TouchableWithoutFeedback>
-              </CollapsibleView> */}
               {/* The list of PhraseCards */}
               <FlatList
                 style={{ marginTop: 8 }}

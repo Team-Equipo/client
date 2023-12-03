@@ -1,7 +1,14 @@
 // TopicSearch.js
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import React, { useState } from "react";
-import { View, Text, FlatList, TextInput, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TextInput,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Chip, IconButton, Divider } from "react-native-paper";
 
 import { shadows, phraseStyles } from "../styles/globalStyles";
@@ -10,6 +17,7 @@ const TopicSearch = ({
   topicsExpanded,
   onFocus,
   onBlur,
+  onPress,
   typedTopic,
   onChangeText,
   onClear,
@@ -17,6 +25,7 @@ const TopicSearch = ({
   handleTopicDeselect,
   handleTopicSelect,
   topics,
+  textInputEnabled = true,
 }) => {
   const windowDimensions = Dimensions.get("window");
 
@@ -32,71 +41,89 @@ const TopicSearch = ({
         elevation: 0,
       }}
       title={
-        <View
-          style={{
-            ...(topicsExpanded ? shadows.shadow4 : null),
-            flexDirection: "row",
-            justifyContent: "space-between",
-            backgroundColor: "white",
-            borderRadius: 30,
-            borderColor: "lightgrey",
-            borderWidth: 1,
-            overflow: "hidden",
-          }}
-        >
-          {selectedTopic ? (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginLeft: 5,
-              }}
-            >
-              <Chip
-                style={phraseStyles.topicBox}
-                mode="elevated"
-                textStyle={{
-                  fontSize: 15,
-                  color: "white",
+        <TouchableWithoutFeedback onPress={!textInputEnabled ? onPress : null}>
+          <View
+            style={{
+              ...(topicsExpanded ? shadows.shadow4 : null),
+              flexDirection: "row",
+              justifyContent: "space-between",
+              backgroundColor: "white",
+              borderRadius: 30,
+              borderColor: "lightgrey",
+              borderWidth: 1,
+              overflow: "hidden",
+            }}
+          >
+            {selectedTopic ? (
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginLeft: 5,
                 }}
               >
-                {selectedTopic}
-              </Chip>
-              <IconButton
-                icon="close"
-                style={{ margin: 0 }}
-                onPress={handleTopicDeselect}
-              />
-            </View>
-          ) : (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginLeft: 15,
-              }}
-            >
-              <TextInput
+                <Chip
+                  style={phraseStyles.topicBox}
+                  mode="elevated"
+                  textStyle={{
+                    fontSize: 15,
+                    color: "white",
+                  }}
+                >
+                  {selectedTopic}
+                </Chip>
+                <IconButton
+                  icon="close"
+                  style={{ margin: 0 }}
+                  onPress={handleTopicDeselect}
+                />
+              </View>
+            ) : (
+              <View
                 style={{
-                  fontFamily: "Poppins-Regular",
-                  fontSize: 15,
-                  width: windowDimensions.width - 85,
-                  marginRight: 10,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginLeft: 15,
                 }}
-                placeholder="Type a topic..."
-                value={typedTopic}
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onChangeText={onChangeText}
-              />
-              <IconButton
-                icon="close"
-                style={{ margin: 0 }}
-                onPress={onClear}
-              />
-            </View>
-          )}
-        </View>
+              >
+                {!textInputEnabled ? (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      fontSize: 15,
+                      width: windowDimensions.width - 85,
+                      marginRight: 10,
+                      color: "darkgray",
+                    }}
+                  >
+                    Search for a topic...
+                  </Text>
+                ) : (
+                  <TextInput
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      fontSize: 15,
+                      width: windowDimensions.width - 85,
+                      marginRight: 10,
+                    }}
+                    placeholder="Search for a topic..."
+                    placeholderTextColor="darkgray"
+                    editable={textInputEnabled}
+                    value={typedTopic}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    onChangeText={onChangeText}
+                  />
+                )}
+                <IconButton
+                  icon="close"
+                  style={{ margin: 0 }}
+                  onPress={textInputEnabled ? onClear : handleTopicDeselect}
+                />
+              </View>
+            )}
+          </View>
+        </TouchableWithoutFeedback>
       }
       titleStyle={{
         alignItems: "flex-start",
@@ -123,20 +150,24 @@ const TopicSearch = ({
           backgroundColor: "white",
         }}
       >
-        <Text
-          style={{
-            fontFamily: "Poppins-Regular",
-            fontSize: 15,
-            marginTop: 5,
-            marginBottom: 3,
-            color: "darkgrey",
-            width: "100%",
-            textAlign: "center",
-          }}
-        >
-          Pre-Generated Topics
-        </Text>
-        <Divider marginHorizontal={10} />
+        {textInputEnabled ? (
+          <>
+            <Text
+              style={{
+                fontFamily: "Poppins-Regular",
+                fontSize: 15,
+                marginTop: 5,
+                marginBottom: 3,
+                color: "darkgrey",
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              Pre-Generated Topics
+            </Text>
+            <Divider marginHorizontal={10} />
+          </>
+        ) : null}
         <FlatList
           style={{
             padding: 3,
@@ -160,7 +191,7 @@ const TopicSearch = ({
                 color: "white",
               }}
             >
-              {item.text.length === 10 ? " " + item.text + " " : item.text}
+              {item.length === 10 ? " " + item + " " : item}
             </Chip>
           )}
         />

@@ -1,13 +1,13 @@
 import { speak, isSpeakingAsync } from "expo-speech";
 import React, { useState, useEffect } from "react";
-import { Dimensions, StyleSheet, View, SafeAreaView } from "react-native";
 import {
-  IconButton,
-  Card,
-  Text,
-  ActivityIndicator,
-  TouchableRipple,
-} from "react-native-paper";
+  Dimensions,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import { IconButton, Card, Text, ActivityIndicator } from "react-native-paper";
 
 import SelectableWordList from "../components/SelectableWordList.js";
 
@@ -20,7 +20,6 @@ export default function PhraseCard({
   mode,
   onSelectEnglishWord,
   onSelectSpanishWord,
-  drag,
 }) {
   const [inUserLang, setInUserLang] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -41,7 +40,7 @@ export default function PhraseCard({
 
       // Continue checking isSpeakingAsync until it returns false
       while (await isSpeakingAsync()) {
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
     } catch (error) {
       console.error("Error speaking phrase:", error);
@@ -60,12 +59,10 @@ export default function PhraseCard({
         </Card>
       ) : (
         <Card style={styles.card}>
-          <TouchableRipple
+          <TouchableOpacity
             borderless
             style={{ borderRadius: 10 }}
             onPress={() => togglePhrase()}
-            onLongPress={drag}
-            delayLongPress={100}
           >
             <>
               <Card.Content style={styles.cardContent}>
@@ -130,7 +127,7 @@ export default function PhraseCard({
                 </View>
               </Card.Actions>
             </>
-          </TouchableRipple>
+          </TouchableOpacity>
         </Card>
       )}
     </SafeAreaView>
