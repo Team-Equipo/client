@@ -39,8 +39,21 @@ export default function PhraseCard({
       }
 
       // Continue checking isSpeakingAsync until it returns false
-      while (await isSpeakingAsync()) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+      let stopCount = 0;
+
+      while (true) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        if (!(await isSpeakingAsync())) {
+          stopCount++;
+
+          // Check if isSpeakingAsync() has returned false more than two times
+          if (stopCount > 2) {
+            break; // Exit the loop
+          }
+        } else {
+          stopCount = 0; // Reset the counter if isSpeakingAsync() returns true
+        }
       }
     } catch (error) {
       console.error("Error speaking phrase:", error);

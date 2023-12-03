@@ -238,6 +238,7 @@ const Translation = ({ navigation }) => {
                         icon="close"
                         onPress={() => {
                           setTranslationInput("");
+                          setTranslationOutput("");
                         }}
                       />
                     ) : null}
