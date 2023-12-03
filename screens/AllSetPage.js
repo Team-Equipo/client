@@ -1,4 +1,4 @@
-import * as Font from "expo-font";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
 import React, { useContext } from "react";
@@ -12,10 +12,27 @@ import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 const AllSetScreen = ({ navigation }) => {
   const { signIn } = useContext(AuthContext);
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
-  const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
-    useRegistrationContext();
+  const {
+    userData,
+    setFirstName,
+    setLastName,
+    setInterests,
+    setFoods,
+    setDestination,
+  } = useRegistrationContext();
 
   const handleSignIn = () => {
+    storeData(
+      ["FirstName", "LastName", "Hobbies", "Foods", "Destination"],
+      [
+        userData.firstName,
+        userData.lastName,
+        userData.interests,
+        userData.foods,
+        userData.destination,
+      ],
+    );
+
     // Reset locally stored inputs
     setFirstName("");
     setLastName("");
@@ -23,7 +40,34 @@ const AllSetScreen = ({ navigation }) => {
     setFoods("");
     setDestination("");
 
-    signIn({ emailAdress: "placeholder@calvin.edu", password: "password" });
+    signIn({ emailAddress: "placeholder@calvin.edu", password: "password" });
+  };
+
+  const storeData = async (keys, values) => {
+    let userData;
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      if (userData == null) {
+        userData = {};
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    for (let i = 0; i < keys.length; i++) {
+      userData[keys[i]] = values[i];
+    }
+    console.log(userData);
+    try {
+      await AsyncStorage.setItem("user-info", JSON.stringify(userData));
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      console.log(userData);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   React.useEffect(() => {
