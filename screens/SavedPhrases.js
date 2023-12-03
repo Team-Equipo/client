@@ -152,7 +152,8 @@ const SavedPhrases = ({ navigation }) => {
             <DraggableFlatList
               contentContainerStyle={{
                 alignItems: "center",
-                marginBottom: 8,
+                paddingTop: 8,
+                paddingBottom: 1,
               }}
               data={phraseData}
               renderItem={renderItem}

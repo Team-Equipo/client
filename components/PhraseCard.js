@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   card: {
     width: Dimensions.get("window").width - 20,
     backgroundColor: "white",
-    marginTop: 8,
+    marginBottom: 8,
   },
   cardCover: {
     height: 30,

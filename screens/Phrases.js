@@ -24,6 +24,7 @@ import {
 
 import HideKeyboard from "../components/HideKeyboard";
 import PhraseCard from "../components/PhraseCard";
+import TopicSearch from "../components/TopicSearch";
 import WordSearchWebView from "../components/WordSearchWebView";
 import { usePhraseStorageTracker } from "../contexts/PhraseStorageTracker";
 import {
@@ -41,7 +42,8 @@ if (Platform.OS === "android") {
 }
 
 const Phrases = ({ navigation }) => {
-  const [searchedTopic, setSearchedTopic] = useState("");
+  const [typedTopic, setTypedTopic] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState("");
   const [topicsExpanded, setTopicsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [generatedPhrases, setGeneratedPhrases] = useState([]);
@@ -104,18 +106,18 @@ const Phrases = ({ navigation }) => {
     LayoutAnimation.configureNext(config);
   }
 
-  function handleTopicSelect(item) {
+  const handleTopicSelect = (item) => {
     animateSearchBar();
     setTopicsExpanded(false);
     const topicLabel =
       item.text.length === 10 ? " " + item.text + " " : item.text;
-    setSearchedTopic(topicLabel);
-  }
+    setSelectedTopic(topicLabel);
+  };
 
   function handleTopicDeselect() {
     setTopicsExpanded(false);
     animateSearchBar();
-    setSearchedTopic("");
+    setSelectedTopic("");
   }
 
   function toggleTopicsExpanded() {
@@ -250,7 +252,19 @@ const Phrases = ({ navigation }) => {
               }}
             >
               {/* Topic select dropdown */}
-              <CollapsibleView
+              <TopicSearch
+                topicsExpanded={topicsExpanded}
+                onFocus={() => setTopicsExpanded(true)}
+                onBlur={() => setTopicsExpanded(false)}
+                typedTopic={typedTopic}
+                onChangeText={(text) => setTypedTopic(text)}
+                onClear={() => setTypedTopic("")}
+                selectedTopic={selectedTopic}
+                handleTopicDeselect={handleTopicDeselect}
+                handleTopicSelect={handleTopicSelect}
+                topics={topics}
+              />
+              {/* <CollapsibleView
                 expanded={topicsExpanded}
                 style={{
                   padding: 0,
@@ -364,12 +378,6 @@ const Phrases = ({ navigation }) => {
                         onPress={() => handleTopicSelect(item)}
                         mode="elevated"
                         ellipsizeMode="clip"
-                        // contentStyle={{
-                        //   marginBottom: -7,
-                        //   marginTop: -7,
-                        //   marginLeft: -3,
-                        //   marginRight: -3,
-                        // }}
                         textStyle={{
                           fontSize: 15,
                           color: "white",
@@ -382,11 +390,14 @@ const Phrases = ({ navigation }) => {
                     )}
                   />
                 </TouchableWithoutFeedback>
-              </CollapsibleView>
+              </CollapsibleView> */}
               {/* The list of PhraseCards */}
               <FlatList
-                contentContainerStyle={{ alignItems: "center" }}
-                // data={samplePhrases}
+                style={{ marginTop: 8 }}
+                contentContainerStyle={{
+                  alignItems: "center",
+                  paddingBottom: 1,
+                }}
                 data={generatedPhrases}
                 renderItem={({ item }) => (
                   <PhraseCard
