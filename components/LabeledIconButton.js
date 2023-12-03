@@ -6,7 +6,7 @@ import { IconButton, Text } from "react-native-paper";
 const LabeledIconButton = ({ icon, label, ...props }) => {
   return (
     <View style={styles.container}>
-      <IconButton {...props} icon={icon} />
+      <IconButton style={styles.button} {...props} icon={icon} />
       <Text style={styles.label}>{label}</Text>
     </View>
   );
@@ -17,6 +17,9 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     width: 60,
+  },
+  button: {
+    zIndex: 0,
   },
   label: {
     marginTop: -15,
