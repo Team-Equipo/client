@@ -23,7 +23,7 @@ const AllSetScreen = ({ navigation }) => {
 
   const handleSignIn = () => {
     storeData(
-      ["FirstName", "LastName", "Hobbies", "Foods", "Destination"],
+      ["FirstName", "LastName", "Interests", "Foods", "Destination"],
       [
         userData.firstName,
         userData.lastName,
