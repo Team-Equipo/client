@@ -29,10 +29,12 @@ const TopicSearch = ({
         zIndex: 1,
         borderColor: "transparent",
         marginBottom: -3,
+        elevation: 0,
       }}
       title={
         <View
           style={{
+            ...(topicsExpanded ? shadows.shadow4 : null),
             flexDirection: "row",
             justifyContent: "space-between",
             backgroundColor: "white",
@@ -45,7 +47,6 @@ const TopicSearch = ({
           {selectedTopic ? (
             <View
               style={{
-                ...(topicsExpanded ? shadows.shadow4 : null),
                 flexDirection: "row",
                 alignItems: "center",
                 marginLeft: 5,
@@ -103,15 +104,17 @@ const TopicSearch = ({
       noArrow
       activeOpacityFeedback={1}
       collapsibleContainerStyle={{
-        ...shadows.shadow4,
+        elevation: 4,
         width: "101%",
         marginTop: 3,
         position: "absolute",
         top: "100%",
+        borderRadius: 15,
       }}
     >
       <View
         style={{
+          ...(topicsExpanded ? shadows.shadow4 : null),
           flexDirection: "column",
           justifyContent: "center",
           borderRadius: 15,
