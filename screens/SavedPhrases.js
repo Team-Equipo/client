@@ -70,6 +70,7 @@ const SavedPhrases = ({ navigation }) => {
       updatedPhrases = currentPhrases.filter(
         (currentPhrase) => currentPhrase.originaltext !== phrase.originaltext,
       );
+      setPhraseData(updatedPhrases);
     } catch (e) {
       console.log("Error", e);
     }
@@ -80,7 +81,7 @@ const SavedPhrases = ({ navigation }) => {
         JSON.stringify(updatedPhrases),
       );
       // Signal that a storage change occurred by a simple bit flip
-      setStorageChange((prevStorageChange) => !prevStorageChange);
+      // setStorageChange((prevStorageChange) => !prevStorageChange);
     } catch (e) {
       console.log("Error", e);
     }
