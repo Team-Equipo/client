@@ -25,7 +25,6 @@ import {
 import HideKeyboard from "../components/HideKeyboard";
 import PhraseCard from "../components/PhraseCard";
 import WordSearchWebView from "../components/WordSearchWebView";
-import { usePhraseStorageTracker } from "../contexts/PhraseStorageTracker";
 import {
   phraseStyles,
   shadows,
@@ -50,7 +49,6 @@ const Phrases = ({ navigation }) => {
     "https://www.wordreference.com/es/en/translation.asp?spen=",
   );
   const [wordRefVisible, setWordRefVisible] = useState(false);
-  const { storageChange, setStorageChange } = usePhraseStorageTracker();
 
   const windowDimensions = Dimensions.get("window");
 
@@ -124,35 +122,21 @@ const Phrases = ({ navigation }) => {
   }
 
   const savePhrase = async (phrase) => {
-    let currentPhrases;
     try {
-      currentPhrases = JSON.parse(await AsyncStorage.getItem("saved-phrases"));
-      if (currentPhrases == null) {
-        currentPhrases = [];
+      const currentPhrases =
+        JSON.parse(await AsyncStorage.getItem("saved-phrases")) || {};
+
+      // Check for duplicates based on original text
+      if (!currentPhrases[phrase.originaltext]) {
+        currentPhrases[phrase.originaltext] = phrase;
+        await AsyncStorage.setItem(
+          "saved-phrases",
+          JSON.stringify(currentPhrases),
+        );
+
+        // Signal that a storage change occurred by a simple bit flip
+        // setStorageChange((prevStorageChange) => !prevStorageChange);
       }
-      // Conditional to check for duplicate phrases taken from:
-      // https://stackoverflow.com/a/8217584
-      // If currentPhrases does not contain a currentPhrase with text identical
-      // to the one being requested for saving, then push it to currentPhrases.
-      if (
-        !currentPhrases.some(
-          (currentPhrase) =>
-            currentPhrase.text_original === phrase.text_original,
-        )
-      ) {
-        currentPhrases.push(phrase);
-      }
-    } catch (e) {
-      console.log("Error", e);
-    }
-    try {
-      // Put updated currentPhrases back into JSON for async storage
-      await AsyncStorage.setItem(
-        "saved-phrases",
-        JSON.stringify(currentPhrases),
-      );
-      // Signal that a storage change occurred by a simple bit flip
-      setStorageChange((prevStorageChange) => !prevStorageChange);
     } catch (e) {
       console.log("Error", e);
     }
@@ -198,15 +182,13 @@ const Phrases = ({ navigation }) => {
 
   const updateGeneratedPhrase = async (userID, phraseID) => {
     const updatedPhrases = [...generatedPhrases];
-    const index = updatedPhrases.findIndex(
-      (phrase) => phrase.generated_phrases_id === phraseID,
-    );
+    const index = updatedPhrases.findIndex((phrase) => phrase.id === phraseID);
     updatedPhrases[index].isloading = true;
     setGeneratedPhrases(updatedPhrases);
 
     const data = {
-      user_id: userID,
-      phrase_id: phraseID,
+      userid: userID,
+      id: phraseID,
     };
 
     const options = {
