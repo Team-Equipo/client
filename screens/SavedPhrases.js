@@ -102,8 +102,9 @@ const SavedPhrases = ({ navigation }) => {
       // the given function, which checks that the text of the passed
       // currentPhrase does not match the text of the phrase to be deleted.
       updatedPhrases = currentPhrases.filter(
-        (currentPhrase) => currentPhrase.text_original !== phrase.text_original,
+        (currentPhrase) => currentPhrase.originaltext !== phrase.originaltext,
       );
+      setPhraseData(updatedPhrases);
     } catch (e) {
       console.log("Error", e);
     }
@@ -114,7 +115,7 @@ const SavedPhrases = ({ navigation }) => {
         JSON.stringify(updatedPhrases),
       );
       // Signal that a storage change occurred by a simple bit flip
-      setStorageChange((prevStorageChange) => !prevStorageChange);
+      // setStorageChange((prevStorageChange) => !prevStorageChange);
     } catch (e) {
       console.log("Error", e);
     }

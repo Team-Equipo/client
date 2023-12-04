@@ -33,9 +33,9 @@ export default function PhraseCard({
       setIsSpeaking(true);
 
       if (inUserLang) {
-        speak(phrase.text_translated, { language: "en" });
+        speak(phrase.translatedtext, { language: "en" });
       } else {
-        speak(phrase.text_original, { language: "es" });
+        speak(phrase.originaltext, { language: "es" });
       }
 
       // Continue checking isSpeakingAsync until it returns false
@@ -81,12 +81,12 @@ export default function PhraseCard({
               <Card.Content style={styles.cardContent}>
                 {inUserLang ? (
                   <SelectableWordList
-                    data={phrase.text_translated}
+                    data={phrase.translatedtext}
                     onSelectWord={onSelectEnglishWord}
                   />
                 ) : (
                   <SelectableWordList
-                    data={phrase.text_original}
+                    data={phrase.originaltext}
                     onSelectWord={onSelectSpanishWord}
                   />
                 )}
@@ -119,10 +119,7 @@ export default function PhraseCard({
                         icon="shuffle-variant"
                         mode="default"
                         onPress={() => {
-                          updateGeneratedPhrase(
-                            phrase.userid,
-                            phrase.generated_phrases_id,
-                          );
+                          updateGeneratedPhrase(phrase.userid, phrase.id);
                         }}
                       />
                     </>

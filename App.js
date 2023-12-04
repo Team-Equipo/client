@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Base64 from "Base64";
 import * as Font from "expo-font";
 import React, { useEffect } from "react";
+import { LogBox } from "react-native";
 import { PaperProvider } from "react-native-paper";
 
 import AppBar from "./components/AppBar";
@@ -23,6 +24,7 @@ import UserPropFood from "./screens/UserPropFood";
 import SettingsPage from "./screens/Settings";
 
 const Stack = createNativeStackNavigator();
+LogBox.ignoreAllLogs();
 
 export default function App({ navigation }) {
   const [showSplash, setShowSplash] = React.useState(true);

@@ -137,8 +137,7 @@ const Phrases = ({ navigation }) => {
       // to the one being requested for saving, then push it to currentPhrases.
       if (
         !currentPhrases.some(
-          (currentPhrase) =>
-            currentPhrase.text_original === phrase.text_original,
+          (currentPhrase) => currentPhrase.originaltext === phrase.originaltext,
         )
       ) {
         currentPhrases.push(phrase);
@@ -199,15 +198,13 @@ const Phrases = ({ navigation }) => {
 
   const updateGeneratedPhrase = async (userID, phraseID) => {
     const updatedPhrases = [...generatedPhrases];
-    const index = updatedPhrases.findIndex(
-      (phrase) => phrase.generated_phrases_id === phraseID,
-    );
+    const index = updatedPhrases.findIndex((phrase) => phrase.id === phraseID);
     updatedPhrases[index].isloading = true;
     setGeneratedPhrases(updatedPhrases);
 
     const data = {
-      user_id: userID,
-      phrase_id: phraseID,
+      userid: userID,
+      id: phraseID,
     };
 
     const options = {
