@@ -1,5 +1,4 @@
 // UserProp.js
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { View, KeyboardAvoidingView, Image, Platform } from "react-native";
 import {
@@ -20,35 +19,7 @@ const UserInfo = ({ navigation }) => {
   // ensure key info is entered before going to next screen
   const handleUserSubmit = () => {
     if (userData.foods !== "") {
-      storeData(["Foods"], [userData.foods]);
       navigation.navigate("TripInfo");
-    }
-  };
-
-  const storeData = async (keys, values) => {
-    let userData;
-    try {
-      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
-      if (userData == null) {
-        userData = {};
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    for (let i = 0; i < keys.length; i++) {
-      userData[keys[i]] = values[i];
-    }
-    // console.log("User data with insertion:", userData);
-    try {
-      await AsyncStorage.setItem("user-info", JSON.stringify(userData));
-    } catch (e) {
-      console.log(e);
-    }
-    try {
-      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
-      console.log(userData);
-    } catch (e) {
-      console.log(e);
     }
   };
 
