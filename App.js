@@ -123,23 +123,23 @@ export default function App({ navigation }) {
         //     Authorization:
         //       "Basic " + Base64.btoa(data.emailAddress + ":" + data.password),
         //   });
-        // try {
-        //   const url = "https://jk249.azurewebsites.net/user";
-        //   const headers = new Headers({
-        //     Authorization:
-        //       "Basic " + Base64.btoa(data.emailAddress + ":" + data.password),
-        //   });
+        try {
+          const url = "https://jk249.azurewebsites.net/user";
+          const headers = {
+            Authorization:
+              "Basic " + Base64.btoa(data.emailAddress + ":" + data.password),
+          };
 
-        //   const response = await fetch(url, {
-        //     method: "GET",
-        //     headers,
-        //   });
+          const response = await fetch(url, {
+            method: "GET",
+            headers,
+          });
 
-        //   const credentials = await response.json();
-        dispatch({ type: "SIGN_IN", token: "signedin" });
-        // } catch (error) {
-        //   console.error(error);
-        // }
+          const credentials = await response.json();
+          dispatch({ type: "SIGN_IN", token: credentials.token });
+        } catch (error) {
+          console.error(error);
+        }
       },
       signOut: () => dispatch({ type: "SIGN_OUT", token: "signedout" }),
       signUp: async (data) => {
