@@ -10,12 +10,12 @@ import {
 import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { AuthContext } from "../contexts/AuthContext";
+import { useAuthContext } from "../contexts/AuthContext";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { signStyles, signinTheme } from "../styles/globalStyles";
 
 const SignUpScreen = ({ navigation }) => {
-  const { signOut } = useContext(AuthContext);
+  const { authActions } = useAuthContext();
   const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
     useRegistrationContext();
   const [username, setUsername] = React.useState("");
@@ -48,7 +48,7 @@ const SignUpScreen = ({ navigation }) => {
     setInterests("");
     setFoods("");
     setDestination("");
-    signOut();
+    authActions.signOut();
   };
 
   return (

@@ -10,15 +10,14 @@ import {
 import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { AuthContext } from "../contexts/AuthContext";
+import { useAuthContext } from "../contexts/AuthContext";
 import { signStyles, signinTheme } from "../styles/globalStyles";
 
 export default function SignIn() {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const { signIn } = useContext(AuthContext);
-  const { signUp } = useContext(AuthContext);
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
+  const { authActions } = useAuthContext();
 
   return (
     <PaperProvider theme={{ ...signinTheme }}>
@@ -81,7 +80,9 @@ export default function SignIn() {
                   <View style={signStyles.buttonWrapper}>
                     <Button
                       mode="elevated"
-                      onPress={() => signIn({ emailAddress, password })}
+                      onPress={() =>
+                        authActions.signIn({ emailAddress, password })
+                      }
                       textColor="white"
                       labelStyle={{ fontWeight: "bold" }}
                       style={signStyles.button}
@@ -96,7 +97,7 @@ export default function SignIn() {
                       <TouchableOpacity>
                         <Text
                           style={signStyles.signinTouchable}
-                          onPress={() => signUp()}
+                          onPress={() => authActions.signUp({})}
                         >
                           Sign Up
                         </Text>

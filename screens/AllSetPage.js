@@ -5,12 +5,12 @@ import React, { useContext } from "react";
 import { View, Animated } from "react-native";
 import { Button, PaperProvider, Text } from "react-native-paper";
 
-import { AuthContext } from "../contexts/AuthContext";
+import { useAuthContext } from "../contexts/AuthContext";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
 const AllSetScreen = ({ navigation }) => {
-  const { signIn } = useContext(AuthContext);
+  const { authActions } = useAuthContext();
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
   const {
     userData,
@@ -40,7 +40,10 @@ const AllSetScreen = ({ navigation }) => {
     setFoods("");
     setDestination("");
 
-    signIn({ emailAddress: "placeholder@calvin.edu", password: "password" });
+    authActions.signIn({
+      emailAddress: "placeholder@calvin.edu",
+      password: "password",
+    });
   };
 
   const storeData = async (keys, values) => {
