@@ -137,7 +137,6 @@ export default function App({ navigation }) {
 
           const credentials = await response.json();
           dispatch({ type: "SIGN_IN", token: credentials.token });
-          console.log(credentials);
         } catch (error) {
           console.error(error);
         }
