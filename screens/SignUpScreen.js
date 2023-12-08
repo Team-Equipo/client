@@ -16,24 +16,37 @@ import { signStyles, signinTheme } from "../styles/globalStyles";
 
 const SignUpScreen = ({ navigation }) => {
   const { authActions } = useAuthContext();
-  const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
-    useRegistrationContext();
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  // const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
+  //   useRegistrationContext();
+  const {
+    userData,
+    setFirstName,
+    setLastName,
+    setEmailAddress,
+    setPassword,
+    setInterests,
+    setFoods,
+    setDestination,
+  } = useRegistrationContext();
+  // const [emailAddress, setEmailAddress] = React.useState("");
+  // const [password, setPassword] = React.useState("");
   const [cfpassword, setCfpassword] = React.useState("");
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
   const [isCfpasswordHidden, setIsCfpasswordHidden] = React.useState(true);
 
   const handleSignUp = () => {
     // Check if passwords match
-    if (password !== cfpassword) {
+    if (userData.password !== cfpassword) {
       alert("Password does not match!");
       return;
     }
 
     // Check if the email is from @calvin.edu domain
     if (
-      !(username.endsWith("@calvin.edu") || username.endsWith("@gmail.com"))
+      !(
+        userData.emailAddress.endsWith("@calvin.edu") ||
+        userData.emailAddress.endsWith("@gmail.com")
+      )
     ) {
       alert("Enter valid email address.");
       return;
@@ -42,9 +55,12 @@ const SignUpScreen = ({ navigation }) => {
     navigation.navigate("UserInfo");
   };
 
+  // User cancels sign up -> reset all inputs
   const cancelSignUp = () => {
     setFirstName("");
     setLastName("");
+    setEmailAddress("");
+    setPassword("");
     setInterests("");
     setFoods("");
     setDestination("");
@@ -73,8 +89,8 @@ const SignUpScreen = ({ navigation }) => {
                     <TextInput
                       mode="outlined"
                       label="Email"
-                      value={username}
-                      onChangeText={setUsername}
+                      value={userData.emailAddress}
+                      onChangeText={setEmailAddress}
                       style={signStyles.textInput}
                       right={
                         <TextInput.Icon
@@ -93,7 +109,7 @@ const SignUpScreen = ({ navigation }) => {
                     <TextInput
                       mode="outlined"
                       label="Password"
-                      value={password}
+                      value={userData.password}
                       onChangeText={setPassword}
                       style={signStyles.textInput}
                       right={

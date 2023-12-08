@@ -13,7 +13,7 @@ import HideKeyboard from "../components/HideKeyboard";
 import { useAuthContext } from "../contexts/AuthContext";
 import { signStyles, signinTheme } from "../styles/globalStyles";
 
-export default function SignIn() {
+export default function SignIn({ navigation }) {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);

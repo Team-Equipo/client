@@ -17,7 +17,7 @@ const TripInfo = ({ navigation }) => {
   const { userData, setDestination } = useRegistrationContext();
 
   const handleUserSubmit = () => {
-    if (userData.destination != "") {
+    if (userData.destination !== "") {
       navigation.navigate("AllSet");
     }
   };
