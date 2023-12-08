@@ -84,8 +84,13 @@ const AuthProvider = ({ children }) => {
           });
 
           const credentials = await response.json();
-          console.log(credentials);
-          dispatch({ type: "SIGN_IN", token: credentials.token });
+          // console.log(credentials);
+          // dispatch({ type: "SIGN_IN", token: credentials.token });
+          if (response.ok) {
+            dispatch({ type: "SIGN_IN", token: credentials.token });
+          } else {
+            throw new Error("Sign-in failed");
+          }
         } catch (error) {
           console.error(error);
         }
@@ -93,6 +98,27 @@ const AuthProvider = ({ children }) => {
       signOut: () => dispatch({ type: "SIGN_OUT", token: "signedout" }),
       signUp: async (data) => {
         dispatch({ type: "SIGN_UP", token: "signup" });
+        try {
+          const url = "https://jk249.azurewebsites.net/user";
+          const headers = {
+            "Content-Type": "application/json",
+          };
+
+          const response = await fetch(url, {
+            method: "POST",
+            headers,
+          });
+
+          const credentials = await response.json();
+          console.log(credentials);
+          if (response.ok) {
+            dispatch({ type: "SIGN_IN", token: credentials.token });
+          } else {
+            throw new Error("Registration failed");
+          }
+        } catch (error) {
+          console.error(error);
+        }
       },
     }),
     [],
