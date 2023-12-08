@@ -1,9 +1,11 @@
-// UserContext.js
+// RegistrationContext.js
 import React, { createContext, useState, useContext } from "react";
 
 const initialState = {
   firstName: "",
   lastName: "",
+  emailAddress: "",
+  password: "",
   interests: "",
   foods: "",
   destination: "",
@@ -19,6 +21,14 @@ const RegistrationProvider = ({ children }) => {
 
   const setLastName = (lastName) => {
     setUserData((prevState) => ({ ...prevState, lastName }));
+  };
+
+  const setEmailAddress = (emailAddress) => {
+    setUserData((prevState) => ({ ...prevState, emailAddress }));
+  };
+
+  const setPassword = (password) => {
+    setUserData((prevState) => ({ ...prevState, password }));
   };
 
   const setInterests = (interests) => {
@@ -39,6 +49,8 @@ const RegistrationProvider = ({ children }) => {
         userData,
         setFirstName,
         setLastName,
+        setEmailAddress,
+        setPassword,
         setInterests,
         setFoods,
         setDestination,
