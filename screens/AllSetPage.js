@@ -1,7 +1,9 @@
+// AllSetPage.js
+// the page that is displayed after the user has completed the registration process
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
-import React, { useContext } from "react";
+import React from "react";
 import { View, Animated } from "react-native";
 import { Button, PaperProvider, Text } from "react-native-paper";
 
@@ -16,6 +18,8 @@ const AllSetScreen = ({ navigation }) => {
     userData,
     setFirstName,
     setLastName,
+    setEmailAddress,
+    setPassword,
     setInterests,
     setFoods,
     setDestination,
@@ -23,27 +27,50 @@ const AllSetScreen = ({ navigation }) => {
 
   const handleSignIn = () => {
     storeData(
-      ["FirstName", "LastName", "Interests", "Foods", "Destination"],
+      [
+        "firstName",
+        "lastName",
+        "emailAddress",
+        "interests",
+        "foods",
+        "destination",
+      ],
       [
         userData.firstName,
         userData.lastName,
+        userData.emailAddress,
         userData.interests,
         userData.foods,
         userData.destination,
       ],
     );
 
+    const data = {
+      firstname: userData.firstName,
+      lastname: userData.lastName,
+      emailaddress: userData.emailAddress,
+      password: userData.password,
+      // hobby: userData.interests,
+      // favoritefood: userData.foods,
+      // destination: userData.destination,
+    };
+
+    // Send data to backend
+    authActions.signingUp(data);
+
     // Reset locally stored inputs
     setFirstName("");
     setLastName("");
+    setEmailAddress("");
+    setPassword("");
     setInterests("");
     setFoods("");
     setDestination("");
 
-    authActions.signIn({
-      emailAddress: "placeholder@calvin.edu",
-      password: "password",
-    });
+    // authActions.signIn({
+    //   emailAddress: "placeholder@calvin.edu",
+    //   password: "password",
+    // });
   };
 
   const storeData = async (keys, values) => {
@@ -51,29 +78,32 @@ const AllSetScreen = ({ navigation }) => {
       throw new Error("Key and value lists must be the same length");
     }
     let userData;
+    // Get item from AsyncStorage
     try {
       userData = JSON.parse(await AsyncStorage.getItem("user-info"));
       if (userData == null) {
         userData = {};
       }
     } catch (e) {
-      console.log(e);
+      console.log("AsyncStorage: getItem error: ", e);
     }
     for (let i = 0; i < keys.length; i++) {
       userData[keys[i]] = values[i];
     }
-    console.log(userData);
+    console.log("Data being stored into local storage: ", userData);
+
+    // Set item in AsyncStorage
     try {
       await AsyncStorage.setItem("user-info", JSON.stringify(userData));
     } catch (e) {
-      console.log(e);
+      console.log("AsyncStorage: setItem error: ", e);
     }
-    try {
-      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
-      console.log(userData);
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    //   userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+    //   console.log(userData);
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   React.useEffect(() => {

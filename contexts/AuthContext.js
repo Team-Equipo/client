@@ -1,3 +1,4 @@
+// AuthContext.js
 import Base64 from "Base64";
 import React, {
   useContext,
@@ -70,6 +71,7 @@ const AuthProvider = ({ children }) => {
 
   const authActions = useMemo(
     () => ({
+      // Sign in (send/compare data to/with backend)
       signIn: async (data) => {
         try {
           const url = "https://jk249.azurewebsites.net/user";
@@ -84,40 +86,64 @@ const AuthProvider = ({ children }) => {
           });
 
           const credentials = await response.json();
-          // console.log(credentials);
-          // dispatch({ type: "SIGN_IN", token: credentials.token });
           if (response.ok) {
             dispatch({ type: "SIGN_IN", token: credentials.token });
           } else {
+            alert("Sign-in failed");
             throw new Error("Sign-in failed");
           }
         } catch (error) {
           console.error(error);
         }
       },
+      // Sign out (navigate to Signin page)
       signOut: () => dispatch({ type: "SIGN_OUT", token: "signedout" }),
-      signUp: async (data) => {
-        dispatch({ type: "SIGN_UP", token: "signup" });
+      // Navigate to Signup page
+      signUp: () => dispatch({ type: "SIGN_UP", token: "signup" }),
+      // Actual Signup (send data to backend)
+      signingUp: async (data) => {
         try {
           const url = "https://jk249.azurewebsites.net/user";
           const headers = {
             "Content-Type": "application/json",
           };
 
+          const requestBody = {
+            firstname: data.firstname,
+            lastname: data.lastname,
+            emailaddress: data.emailaddress,
+            password: data.password,
+            // hobby: userData.interests,
+            // favoritefood: userData.foods,
+            // destination: userData.destination
+          };
+
+          // submit user data to backend
           const response = await fetch(url, {
             method: "POST",
             headers,
+            body: JSON.stringify(requestBody),
           });
 
-          const credentials = await response.json();
-          console.log(credentials);
-          if (response.ok) {
-            dispatch({ type: "SIGN_IN", token: credentials.token });
+          // console log for debugging
+          console.log("Request body: ", requestBody);
+          console.log("Response status:", response.status);
+
+          if (!response.ok) {
+            alert("Sign-up failed");
+            throw new Error(
+              `HTTP error. Status: ${
+                response.status
+              }, Response: ${await response.text()}`,
+            );
           } else {
-            throw new Error("Registration failed");
+            // Sign-up successful, get token
+            const userToken = await response.text();
+            console.log("Response text:", userToken);
+            dispatch({ type: "SIGN_UP", token: userToken });
           }
         } catch (error) {
-          console.error(error);
+          console.error("Sign-up Error: ", error);
         }
       },
     }),
