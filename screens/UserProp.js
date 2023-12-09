@@ -20,6 +20,8 @@ const UserInfo = ({ navigation }) => {
   const handleUserSubmit = () => {
     if (userData.interests !== "") {
       navigation.navigate("UserPropFood");
+    } else {
+      alert("Please enter your interests/hobbies.");
     }
   };
 

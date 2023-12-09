@@ -20,6 +20,8 @@ const UserInfo = ({ navigation }) => {
   const handleUserSubmit = () => {
     if (userData.foods !== "") {
       navigation.navigate("TripInfo");
+    } else {
+      alert("Please enter your favorite foods.");
     }
   };
 

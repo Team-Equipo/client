@@ -58,6 +58,11 @@ const AllSetScreen = ({ navigation }) => {
     // Send data to backend
     authActions.signingUp(data);
 
+    // authActions.signIn({
+    //   emailAddress: "placeholder@calvin.edu",
+    //   password: "password",
+    // });
+
     // Reset locally stored inputs
     setFirstName("");
     setLastName("");
@@ -66,11 +71,6 @@ const AllSetScreen = ({ navigation }) => {
     setInterests("");
     setFoods("");
     setDestination("");
-
-    // authActions.signIn({
-    //   emailAddress: "placeholder@calvin.edu",
-    //   password: "password",
-    // });
   };
 
   const storeData = async (keys, values) => {

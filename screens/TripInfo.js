@@ -19,6 +19,8 @@ const TripInfo = ({ navigation }) => {
   const handleUserSubmit = () => {
     if (userData.destination !== "") {
       navigation.navigate("AllSet");
+    } else {
+      alert("Please enter your travel destination.");
     }
   };
 

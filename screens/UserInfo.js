@@ -20,6 +20,8 @@ const UserInfo = ({ navigation }) => {
   const handleUserSubmit = () => {
     if (userData.firstName !== "" && userData.lastName !== "") {
       navigation.navigate("UserProp");
+    } else {
+      alert("Please enter your first and last name.");
     }
   };
 
