@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   Image,
   View,

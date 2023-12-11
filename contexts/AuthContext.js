@@ -10,6 +10,7 @@ import React, {
 
 const AuthContext = createContext();
 
+// Set the initial state of the userToken
 const AuthProvider = ({ children }) => {
   const initialState = {
     isLoading: true,
@@ -17,6 +18,7 @@ const AuthProvider = ({ children }) => {
     userToken: null,
   };
 
+  // Manage state of userToken
   const [state, dispatch] = useReducer((prevState, action) => {
     switch (action.type) {
       case "RESTORE_TOKEN":
@@ -69,6 +71,7 @@ const AuthProvider = ({ children }) => {
     bootstrapAsync();
   }, []);
 
+  // Handle Authentication Actions
   const authActions = useMemo(
     () => ({
       // Sign in (send/compare data to/with backend)
@@ -157,6 +160,7 @@ const AuthProvider = ({ children }) => {
   );
 };
 
+// Create a hook to use the AuthContext
 const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {

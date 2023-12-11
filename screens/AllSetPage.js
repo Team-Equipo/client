@@ -25,6 +25,7 @@ const AllSetScreen = ({ navigation }) => {
     setDestination,
   } = useRegistrationContext();
 
+  // Handle sign in
   const handleSignIn = () => {
     storeData(
       [
@@ -73,6 +74,7 @@ const AllSetScreen = ({ navigation }) => {
     setDestination("");
   };
 
+  // Store data in local storage
   const storeData = async (keys, values) => {
     if (keys.length !== values.length) {
       throw new Error("Key and value lists must be the same length");
@@ -106,6 +108,7 @@ const AllSetScreen = ({ navigation }) => {
     // }
   };
 
+  // Text color animation
   React.useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -123,6 +126,7 @@ const AllSetScreen = ({ navigation }) => {
     ).start();
   }, []);
 
+  // Change text color
   const textColor = changeTxtColor.interpolate({
     inputRange: [0, 0.5, 1],
     // outputRange: ["#00A9FF", "#FF6666"],
