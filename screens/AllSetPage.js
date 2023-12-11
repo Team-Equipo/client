@@ -124,15 +124,17 @@ const AllSetScreen = ({ navigation }) => {
   }, []);
 
   const textColor = changeTxtColor.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["#00A9FF", "#FF6666"],
+    inputRange: [0, 0.5, 1],
+    // outputRange: ["#00A9FF", "#FF6666"],
+    outputRange: ["#1FA0FF", "#12DAFB", "#A7FDCC"],
   });
 
   return (
     <PaperProvider theme={settingsTheme}>
       <View style={allSetStyle.container}>
         <LinearGradient
-          colors={["#6DCCFC", "#B4BDFF", "#FFFFFF"]}
+          // colors={["#6DCCFC", "#B4BDFF", "#FFFFFF"]}
+          colors={["#FFFFFF", "#FFFFFF", "#FFFFFF"]}
           locations={[0.01, 0.02, 0.25]}
           style={{ height: "100%" }}
         >
@@ -154,7 +156,7 @@ const AllSetScreen = ({ navigation }) => {
               mode="elevated"
               textColor="white"
               labelStyle={{ fontWeight: "bold" }}
-              style={allSetStyle.button}
+              style={[allSetStyle.button, { backgroundColor: textColor }]}
               onPress={handleSignIn}
             >
               <Text style={allSetStyle.buttonText}>Onward!</Text>
