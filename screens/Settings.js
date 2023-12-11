@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import React, { useEffect } from "react";
 import { View, KeyboardAvoidingView, Platform } from "react-native";
 import {
   TextInput,
@@ -23,31 +23,86 @@ const SettingsPage = ({ navigation }) => {
     setFoods,
   } = useRegistrationContext();
 
-  const handleUserSubmit = async () => {
-    if (
-      userData.destination !== "" &&
-      userData.firstName !== "" &&
-      userData.lastName !== "" &&
-      userData.interests !== "" &&
-      userData.foods !== ""
-    ) {
-      const keys = [
-        "Destination",
-        "FirstName",
-        "LastName",
-        "Interests",
-        "Foods",
-      ];
-      const values = [
-        userData.destination,
-        userData.firstName,
-        userData.lastName,
-        userData.interests,
-        userData.foods,
-      ];
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+        if (userData == null) {
+          return;
+        }
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setInterests(userData.interests);
+        setFoods(userData.foods);
+        setDestination(userData.destination);
+      } catch (e) {
+        console.log("GetUserData Error: ", e);
+      }
+    };
+    getUserData();
+  }, []);
 
-      await storeData(keys, values);
-      navigation.goBack();
+  const handleUserSubmit = async () => {
+    try {
+      if (
+        userData.destination !== "" &&
+        userData.firstName !== "" &&
+        userData.lastName !== "" &&
+        userData.interests !== "" &&
+        userData.foods !== ""
+      ) {
+        // // Create user object
+        // const data = {
+        //   firstname: userData.firstName,
+        //   lastname: userData.lastName,
+        //   // emailaddress: userData.emailAddress,
+        //   // password: userData.password,
+        //   hobby: userData.interests,
+        //   favoritefood: userData.foods,
+        //   destination: userData.destination,
+        // };
+        // // Send data to backend
+        // const response = await fetch(
+        //   `https://jk249.azurewebsites.net/user/${userData.emailAddress}`,
+        //   {
+        //     method: "PUT",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(data),
+        //   },
+        // );
+        // if (!response.ok) {
+        //   alert("Update failed");
+        //   throw new Error(
+        //     `HTTP error. Status: ${
+        //       response.status
+        //     }, Response: ${await response.text()}`,
+        //   );
+        // }
+
+        // Save to local storage
+        const keys = [
+          "Destination",
+          "FirstName",
+          "LastName",
+          "Interests",
+          "Foods",
+        ];
+        const values = [
+          userData.destination,
+          userData.firstName,
+          userData.lastName,
+          userData.interests,
+          userData.foods,
+        ];
+        await storeData(keys, values);
+        navigation.goBack();
+      } else {
+        alert("Please fill out all fields");
+      }
+    } catch (e) {
+      console.log("Failed to update your information. Details: ", e);
     }
   };
 
