@@ -160,16 +160,16 @@ export const settingsStyle = StyleSheet.create({
     // paddingTop: "20%",
   },
   titleText4: {
-    fontFamily: "Poppins-ExtraBold",
+    fontFamily: "Poppins-Bold",
     fontSize: 13,
     paddingBottom: 2,
     // paddingTop: "20%",
   },
   titleText5: {
-    fontFamily: "Poppins-Regular",
+    fontFamily: "Poppins-Bold",
     fontSize: 21,
-    paddingTop: "5%",
-    paddingBottom: "12%",
+    paddingTop: "14%",
+    paddingBottom: "2%",
     alignSelf: "center",
   },
   titleText2: {
