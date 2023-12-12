@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Image,
   View,
@@ -10,14 +10,15 @@ import {
 import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { useAuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { signStyles, signinTheme } from "../styles/globalStyles";
 
-export default function SignIn({ navigation }) {
+export default function SignIn() {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
+  const { signIn } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
-  const { authActions } = useAuthContext();
 
   return (
     <PaperProvider theme={{ ...signinTheme }}>
@@ -80,9 +81,7 @@ export default function SignIn({ navigation }) {
                   <View style={signStyles.buttonWrapper}>
                     <Button
                       mode="elevated"
-                      onPress={() =>
-                        authActions.signIn({ emailAddress, password })
-                      }
+                      onPress={() => signIn({ emailAddress, password })}
                       textColor="white"
                       labelStyle={{ fontWeight: "bold" }}
                       style={signStyles.button}
@@ -97,7 +96,7 @@ export default function SignIn({ navigation }) {
                       <TouchableOpacity>
                         <Text
                           style={signStyles.signinTouchable}
-                          onPress={() => authActions.signUp({})}
+                          onPress={() => signUp()}
                         >
                           Sign Up
                         </Text>

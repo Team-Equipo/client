@@ -10,12 +10,12 @@ import {
 import { TextInput, Button, PaperProvider, Text } from "react-native-paper";
 
 import HideKeyboard from "../components/HideKeyboard";
-import { useAuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { signStyles, signinTheme } from "../styles/globalStyles";
 
 const SignUpScreen = ({ navigation }) => {
-  const { authActions } = useAuthContext();
+  const { signOut } = useContext(AuthContext);
   // const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
   //   useRegistrationContext();
   const {
@@ -28,8 +28,6 @@ const SignUpScreen = ({ navigation }) => {
     setFoods,
     setDestination,
   } = useRegistrationContext();
-  // const [emailAddress, setEmailAddress] = React.useState("");
-  // const [password, setPassword] = React.useState("");
   const [cfpassword, setCfpassword] = React.useState("");
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
   const [isCfpasswordHidden, setIsCfpasswordHidden] = React.useState(true);
@@ -64,7 +62,7 @@ const SignUpScreen = ({ navigation }) => {
     setInterests("");
     setFoods("");
     setDestination("");
-    authActions.signOut();
+    signOut();
   };
 
   return (

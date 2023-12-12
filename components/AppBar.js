@@ -3,12 +3,12 @@ import React, { useState, useContext } from "react";
 import { useWindowDimensions } from "react-native";
 import { Appbar, Menu, IconButton } from "react-native-paper";
 
-import { useAuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { headerTheme } from "../styles/globalStyles";
 
 export default function AppBar({ navigation, route, options, back }) {
   const windowDimensions = useWindowDimensions();
-  const { authActions } = useAuthContext();
+  const { signOut } = useContext(AuthContext);
   const title = getHeaderTitle(options, route.name);
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -22,7 +22,7 @@ export default function AppBar({ navigation, route, options, back }) {
         navigation.navigate("SettingsPage");
         break;
       case "signOut":
-        authActions.signOut();
+        signOut();
     }
   };
 
@@ -122,14 +122,6 @@ export default function AppBar({ navigation, route, options, back }) {
           />
         ) : null}
       </>
-
-      // <Appbar.Header
-      //   style={{ backgroundColor: "transparent", position: "absolute", top: 0, left: 0, right: 0, zIndex: 1 }}
-      // >
-      //   {back ? (
-      //     <Appbar.BackAction color="black" onPress={navigation.goBack} />
-      //   ) : null}
-      // </Appbar.Header>
     );
   }
 }

@@ -7,12 +7,12 @@ import React from "react";
 import { View, Animated } from "react-native";
 import { Button, PaperProvider, Text } from "react-native-paper";
 
-import { useAuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
 const AllSetScreen = ({ navigation }) => {
-  const { authActions } = useAuthContext();
+  const { signingUp } = React.useContext(AuthContext);
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
   const {
     userData,
@@ -57,7 +57,7 @@ const AllSetScreen = ({ navigation }) => {
     };
 
     // Send data to backend
-    authActions.signingUp(data);
+    signingUp(data);
 
     // authActions.signIn({
     //   emailAddress: "placeholder@calvin.edu",
@@ -115,12 +115,12 @@ const AllSetScreen = ({ navigation }) => {
         Animated.timing(changeTxtColor, {
           toValue: 1,
           duration: 4000,
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
         Animated.timing(changeTxtColor, {
           toValue: 0,
           duration: 4000,
-          useNativeDriver: false,
+          useNativeDriver: true,
         }),
       ]),
     ).start();
