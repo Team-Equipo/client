@@ -1,7 +1,7 @@
 // Phrases.js
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   SafeAreaView,
@@ -46,11 +46,13 @@ const Phrases = ({ navigation }) => {
   const [topicsExpanded, setTopicsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [generatedPhrases, setGeneratedPhrases] = useState([]);
+  const [searchedPhrases, setSearchedPhrases] = useState([]);
   const [searchedWord, setSearchedWord] = React.useState("");
   const [wordRefEndpoint, setWordRefEndpoint] = useState(
     "https://www.wordreference.com/es/en/translation.asp?spen=",
   );
   const [wordRefVisible, setWordRefVisible] = useState(false);
+  const [displayedPhrases, setDisplayedPhrases] = useState([]);
 
   const windowDimensions = Dimensions.get("window");
 
@@ -109,12 +111,19 @@ const Phrases = ({ navigation }) => {
     setTopicsExpanded(false);
     const topicLabel = item.length % 5 === 0 ? " " + item + " " : item;
     setSelectedTopic(topicLabel);
+
+    // Filter phrases based on the selectedTopic
+    const filteredPhrases = generatedPhrases.filter(
+      (phrase) => phrase.topic === topicLabel.trim(),
+    );
+    setDisplayedPhrases(filteredPhrases);
   };
 
   function handleTopicDeselect() {
     setTopicsExpanded(false);
     animateSearchBar();
-    setSelectedTopic("");
+    setSelectedTopic(null);
+    setDisplayedPhrases([]);
   }
 
   function toggleTopicsExpanded() {
@@ -142,6 +151,27 @@ const Phrases = ({ navigation }) => {
       console.log("Error", e);
     }
   };
+
+  const renderItem = useCallback(
+    ({ item }) => (
+      <PhraseCard
+        phrase={item}
+        isLoading={isLoading}
+        updateGeneratedPhrase={updateGeneratedPhrase}
+        savePhrase={savePhrase}
+        mode="browse"
+        onSelectEnglishWord={selectEnglishWord}
+        onSelectSpanishWord={selectSpanishWord}
+      />
+    ),
+    [
+      isLoading,
+      updateGeneratedPhrase,
+      savePhrase,
+      selectEnglishWord,
+      selectSpanishWord,
+    ],
+  );
 
   /* Hardcode a list of topics. */
   const topics = [
@@ -209,6 +239,46 @@ const Phrases = ({ navigation }) => {
     fetchGeneratedPhrases();
   }, []);
 
+  const fetchSearchedPhrases = async (userId, topic) => {
+    try {
+      const apiUrl = `https://llama.kenarnold.org/topical_generation?user_id=${encodeURIComponent(
+        userId,
+      )}&topic=${encodeURIComponent(topic)}`;
+
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Assuming the response is in JSON format, handle the data as needed
+        console.log("Generated Phrases:", data);
+        setSearchedPhrases(data);
+      } else {
+        // If the request was not successful, handle the error
+        console.error(
+          "Failed to fetch phrases:",
+          response.status,
+          response.statusText,
+        );
+      }
+    } catch (error) {
+      // Handle any other errors that may occur during the fetch
+      console.error("Error during fetch:", error.message);
+    }
+  };
+
+  const searchTopic = async (text) => {
+    if (text !== "") {
+      console.log(text);
+      fetchSearchedPhrases(USER, text);
+      setDisplayedPhrases(searchedPhrases);
+    }
+  };
+
   return (
     <HideKeyboard>
       <PaperProvider theme={phraseTheme}>
@@ -238,12 +308,16 @@ const Phrases = ({ navigation }) => {
                 onFocus={() => setTopicsExpanded(true)}
                 onBlur={() => setTopicsExpanded(false)}
                 typedTopic={typedTopic}
-                onChangeText={(text) => setTypedTopic(text)}
+                onEndEditing={(event) => searchTopic(event.nativeEvent.text)}
                 onClear={() => setTypedTopic("")}
                 selectedTopic={selectedTopic}
                 handleTopicDeselect={handleTopicDeselect}
                 handleTopicSelect={handleTopicSelect}
-                topics={topics}
+                topics={
+                  generatedPhrases
+                    ? [...new Set(generatedPhrases.map((item) => item.topic))]
+                    : []
+                }
                 navigation={navigation}
               />
               {/* The list of PhraseCards */}
@@ -253,18 +327,8 @@ const Phrases = ({ navigation }) => {
                   alignItems: "center",
                   paddingBottom: 1,
                 }}
-                data={generatedPhrases}
-                renderItem={({ item }) => (
-                  <PhraseCard
-                    phrase={item}
-                    isLoading={isLoading}
-                    updateGeneratedPhrase={updateGeneratedPhrase}
-                    savePhrase={savePhrase}
-                    mode="browse"
-                    onSelectEnglishWord={selectEnglishWord}
-                    onSelectSpanishWord={selectSpanishWord}
-                  />
-                )}
+                data={displayedPhrases}
+                renderItem={renderItem}
               />
             </View>
           </SafeAreaView>

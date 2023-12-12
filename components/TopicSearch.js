@@ -1,6 +1,6 @@
 // TopicSearch.js
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import {
   View,
   Text,
@@ -18,9 +18,7 @@ const TopicSearch = ({
   onFocus,
   onBlur,
   onPress,
-  typedTopic,
-  onChangeText,
-  onClear,
+  onEndEditing,
   selectedTopic,
   handleTopicDeselect,
   handleTopicSelect,
@@ -29,6 +27,13 @@ const TopicSearch = ({
   navigation,
 }) => {
   const windowDimensions = Dimensions.get("window");
+  const textInputRef = useRef(null);
+
+  const clearTextInput = () => {
+    if (textInputRef.current) {
+      textInputRef.current.clear();
+    }
+  };
 
   return (
     <CollapsibleView
@@ -101,25 +106,28 @@ const TopicSearch = ({
                   </Text>
                 ) : (
                   <TextInput
+                    ref={textInputRef}
                     style={{
                       fontFamily: "Poppins-Regular",
                       fontSize: 15,
                       width: windowDimensions.width - 85,
                       marginRight: 10,
+                      zIndex: 0,
                     }}
                     placeholder="Search for a topic..."
                     placeholderTextColor="darkgray"
                     editable={textInputEnabled}
-                    value={typedTopic}
                     onFocus={onFocus}
                     onBlur={onBlur}
-                    onChangeText={onChangeText}
+                    onEndEditing={onEndEditing}
                   />
                 )}
                 <IconButton
                   icon="close"
-                  style={{ margin: 0 }}
-                  onPress={textInputEnabled ? onClear : handleTopicDeselect}
+                  style={{ margin: 0, zIndex: 10 }}
+                  onPress={
+                    textInputEnabled ? clearTextInput : handleTopicDeselect
+                  }
                 />
               </View>
             )}

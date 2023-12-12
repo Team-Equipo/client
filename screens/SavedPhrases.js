@@ -28,7 +28,7 @@ if (Platform.OS === "android") {
 }
 
 const SavedPhrases = ({ navigation }) => {
-  const [phraseData, setPhraseData] = useState({});
+  const [phraseData, setPhraseData] = useState([]);
   const [searchedWord, setSearchedWord] = React.useState("");
   const [wordRefEndpoint, setWordRefEndpoint] = useState(
     "https://www.wordreference.com/es/en/translation.asp?spen=",
@@ -117,14 +117,13 @@ const SavedPhrases = ({ navigation }) => {
 
   // How to render each phrase as a PhraseCard
   const renderItem = useCallback(
-    ({ item, drag }) => (
+    ({ item }) => (
       <PhraseCard
         phrase={item}
         deletePhrase={deletePhrase}
         mode="saved"
         onSelectEnglishWord={selectEnglishWord}
         onSelectSpanishWord={selectSpanishWord}
-        drag={drag}
       />
     ),
     [phraseData],
