@@ -22,6 +22,8 @@ import {
   phraseTheme,
 } from "../styles/globalStyles";
 
+const user = 1;
+
 // Enable LayoutAnimation for Android
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -86,14 +88,16 @@ const SavedPhrases = ({ navigation }) => {
   const deletePhrase = async (phrase) => {
     try {
       const currentPhrases =
-        JSON.parse(await AsyncStorage.getItem("saved-phrases")) || {};
+        JSON.parse(
+          await AsyncStorage.getItem("saved-phrases" + user.toString()),
+        ) || {};
 
       // Delete the phrase using its original text as the key
       delete currentPhrases[phrase.originaltext];
 
       setPhraseData(Object.values(currentPhrases));
       await AsyncStorage.setItem(
-        "saved-phrases",
+        "saved-phrases" + user.toString(),
         JSON.stringify(currentPhrases),
       );
 
@@ -108,7 +112,9 @@ const SavedPhrases = ({ navigation }) => {
   // storage
   const loadSavedPhrases = async () => {
     try {
-      const latestPhrases = await AsyncStorage.getItem("saved-phrases");
+      const latestPhrases = await AsyncStorage.getItem(
+        "saved-phrases" + user.toString(),
+      );
       setPhraseData(Object.values(JSON.parse(latestPhrases) || {}));
     } catch (e) {
       console.log("Error", e);

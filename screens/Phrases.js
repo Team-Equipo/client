@@ -7,13 +7,13 @@ import {
   SafeAreaView,
   FlatList,
   TouchableWithoutFeedback,
-  Text,
   UIManager,
   LayoutAnimation,
   Platform,
   Dimensions,
 } from "react-native";
 import {
+  Text,
   Modal,
   Portal,
   Chip,
@@ -33,7 +33,7 @@ import {
   translateStyles,
 } from "../styles/globalStyles";
 
-const USER = 1;
+const user = 1;
 
 // Enable LayoutAnimation for Android
 if (Platform.OS === "android") {
@@ -41,7 +41,6 @@ if (Platform.OS === "android") {
 }
 
 const Phrases = ({ navigation }) => {
-  const [typedTopic, setTypedTopic] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
   const [topicsExpanded, setTopicsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -134,13 +133,15 @@ const Phrases = ({ navigation }) => {
   const savePhrase = async (phrase) => {
     try {
       const currentPhrases =
-        JSON.parse(await AsyncStorage.getItem("saved-phrases")) || {};
+        JSON.parse(
+          await AsyncStorage.getItem("saved-phrases" + user.toString()),
+        ) || {};
 
       // Check for duplicates based on original text
       if (!currentPhrases[phrase.originaltext]) {
         currentPhrases[phrase.originaltext] = phrase;
         await AsyncStorage.setItem(
-          "saved-phrases",
+          "saved-phrases" + user.toString(),
           JSON.stringify(currentPhrases),
         );
 
@@ -186,10 +187,11 @@ const Phrases = ({ navigation }) => {
   const fetchGeneratedPhrases = async () => {
     try {
       const response = await fetch(
-        `https://jk249.azurewebsites.net/user/${USER}/phrase`,
+        `https://jk249.azurewebsites.net/user/${user}/phrase`,
       );
       const json = await response.json();
       setGeneratedPhrases(json);
+      console.log(json);
     } catch (error) {
       console.log(error);
     } finally {
@@ -239,43 +241,42 @@ const Phrases = ({ navigation }) => {
     fetchGeneratedPhrases();
   }, []);
 
-  const fetchSearchedPhrases = async (userId, topic) => {
+  const requestPhraseSearch = async (userID, topic) => {
+    const data = {
+      user_id: userID,
+      topic,
+    };
+
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
     try {
-      const apiUrl = `https://llama.kenarnold.org/topical_generation?user_id=${encodeURIComponent(
-        userId,
-      )}&topic=${encodeURIComponent(topic)}`;
-
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        // Assuming the response is in JSON format, handle the data as needed
-        console.log("Generated Phrases:", data);
-        setSearchedPhrases(data);
-      } else {
-        // If the request was not successful, handle the error
-        console.error(
-          "Failed to fetch phrases:",
-          response.status,
-          response.statusText,
-        );
-      }
+      const searchedPhrases = await fetch(
+        "https://llama.kenarnold.org/topical_generation",
+        options,
+      );
+      console.log("Phrases:", searchedPhrases);
+      return searchedPhrases.json();
     } catch (error) {
-      // Handle any other errors that may occur during the fetch
-      console.error("Error during fetch:", error.message);
+      console.log(error);
     }
   };
 
-  const searchTopic = async (text) => {
-    if (text !== "") {
-      console.log(text);
-      fetchSearchedPhrases(USER, text);
-      setDisplayedPhrases(searchedPhrases);
+  const searchTopic = async (topic) => {
+    if (topic !== "") {
+      console.log(topic);
+      animateSearchBar();
+      const topicLabel = topic.length % 5 === 0 ? " " + topic + " " : topic;
+      setSelectedTopic(topicLabel);
+      const searchResults = await requestPhraseSearch(user, topic);
+      console.log(searchResults);
+      setDisplayedPhrases(searchResults);
+      // requestSearchedPhrases(user, text);
     }
   };
 
@@ -307,9 +308,7 @@ const Phrases = ({ navigation }) => {
                 topicsExpanded={topicsExpanded}
                 onFocus={() => setTopicsExpanded(true)}
                 onBlur={() => setTopicsExpanded(false)}
-                typedTopic={typedTopic}
                 onEndEditing={(event) => searchTopic(event.nativeEvent.text)}
-                onClear={() => setTypedTopic("")}
                 selectedTopic={selectedTopic}
                 handleTopicDeselect={handleTopicDeselect}
                 handleTopicSelect={handleTopicSelect}
@@ -320,6 +319,27 @@ const Phrases = ({ navigation }) => {
                 }
                 navigation={navigation}
               />
+              {selectedTopic == null ? (
+                <View
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      fontSize: 18,
+                      textAlign: "center",
+                      color: "gray",
+                      width: "100%",
+                    }}
+                  >
+                    Search for a topic to get started!
+                  </Text>
+                </View>
+              ) : null}
               {/* The list of PhraseCards */}
               <FlatList
                 style={{ marginTop: 8 }}
