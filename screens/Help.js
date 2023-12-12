@@ -1,13 +1,23 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import Carousel from "react-native-snap-carousel"; // Import the Carousel component
 import { settingsStyle } from "../styles/globalStyles";
 import { FontAwesome } from "@expo/vector-icons";
+
 const HelpPage = ({ navigation }) => {
   const navigateToMainMenu = () => {
     alert("please add navigation");
     // navigation.navigate('MainMenu');
   };
+
+  const { height, width } = useWindowDimensions();
 
   const carouselItems = [
     {
@@ -94,8 +104,8 @@ const HelpPage = ({ navigation }) => {
       <Carousel
         data={carouselItems}
         renderItem={renderItem}
-        sliderWidth={380}
-        itemWidth={380}
+        sliderWidth={width}
+        itemWidth={width}
       />
     </View>
   );
