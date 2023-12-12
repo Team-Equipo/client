@@ -36,7 +36,7 @@ export default function AppBar({ navigation, route, options, back }) {
         }}
       >
         <Appbar.Action
-          icon="chat-alert"
+          icon="help-circle-outline"
           color="white"
           size={35}
           style={{ margin: 0 }}
