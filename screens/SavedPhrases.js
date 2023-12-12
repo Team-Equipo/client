@@ -1,22 +1,21 @@
 // SavedPhrases.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   SafeAreaView,
-  UIManager,
-  Platform,
-  LayoutAnimation,
   FlatList,
+  Platform,
+  UIManager,
+  LayoutAnimation,
 } from "react-native";
-import DraggableFlatList from "react-native-draggable-flatlist";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { withTheme, Modal, Portal, PaperProvider } from "react-native-paper";
 
 import PhraseCard from "../components/PhraseCard";
 import TopicSearch from "../components/TopicSearch";
 import WordSearchWebView from "../components/WordSearchWebView";
-import { usePhraseStorageTracker } from "../contexts/PhraseStorageTracker";
 import {
   savedPhrases,
   translateStyles,
@@ -29,8 +28,7 @@ if (Platform.OS === "android") {
 }
 
 const SavedPhrases = ({ navigation }) => {
-  const { storageChange, setStorageChange } = usePhraseStorageTracker();
-  const [phraseData, setPhraseData] = useState([]);
+  const [phraseData, setPhraseData] = useState({});
   const [searchedWord, setSearchedWord] = React.useState("");
   const [wordRefEndpoint, setWordRefEndpoint] = useState(
     "https://www.wordreference.com/es/en/translation.asp?spen=",
@@ -70,9 +68,12 @@ const SavedPhrases = ({ navigation }) => {
     setWordRefVisible(true);
   };
 
-  useEffect(() => {
-    loadSavedPhrases();
-  }, [storageChange]);
+  useFocusEffect(
+    React.useCallback(() => {
+      // Load saved phrases when the screen comes into focus
+      loadSavedPhrases();
+    }, []),
+  );
 
   useEffect(() => {
     const filteredPhrases = selectedTopic
@@ -82,39 +83,21 @@ const SavedPhrases = ({ navigation }) => {
     setDisplayedPhrases(filteredPhrases);
   }, [phraseData, selectedTopic]);
 
-  // Delete given phrase object from storage
-  // Reload list of phrases to use every time the async-stored list of phrases
-  // is changed
   const deletePhrase = async (phrase) => {
-    let updatedPhrases;
     try {
-      // Retrieve currently stored phrases as object for processing
-      let currentPhrases = JSON.parse(
-        await AsyncStorage.getItem("saved-phrases"),
-      );
-      // Initialize stored phrases as empty object if none exist
-      if (currentPhrases == null) {
-        currentPhrases = [];
-      }
-      // Conditional to check for identical phrase taken from:
-      // https://stackoverflow.com/a/8217584
-      // Filter currentPhrases to only contain phrases that return true for
-      // the given function, which checks that the text of the passed
-      // currentPhrase does not match the text of the phrase to be deleted.
-      updatedPhrases = currentPhrases.filter(
-        (currentPhrase) => currentPhrase.originaltext !== phrase.originaltext,
-      );
-      setPhraseData(updatedPhrases);
-    } catch (e) {
-      console.log("Error", e);
-    }
-    try {
-      // Put updatedPhrases back into JSON for async storage
+      const currentPhrases =
+        JSON.parse(await AsyncStorage.getItem("saved-phrases")) || {};
+
+      // Delete the phrase using its original text as the key
+      delete currentPhrases[phrase.originaltext];
+
+      setPhraseData(Object.values(currentPhrases));
       await AsyncStorage.setItem(
         "saved-phrases",
-        JSON.stringify(updatedPhrases),
+        JSON.stringify(currentPhrases),
       );
-      // Signal that a storage change occurred by a simple bit flip
+
+      // Signal that storage change has occurred by asimple bit flip
       // setStorageChange((prevStorageChange) => !prevStorageChange);
     } catch (e) {
       console.log("Error", e);
@@ -126,8 +109,7 @@ const SavedPhrases = ({ navigation }) => {
   const loadSavedPhrases = async () => {
     try {
       const latestPhrases = await AsyncStorage.getItem("saved-phrases");
-      setPhraseData(JSON.parse(latestPhrases));
-      // console.log("Re-rendered saved PhraseCards");
+      setPhraseData(Object.values(JSON.parse(latestPhrases) || {}));
     } catch (e) {
       console.log("Error", e);
     }
@@ -145,7 +127,7 @@ const SavedPhrases = ({ navigation }) => {
         drag={drag}
       />
     ),
-    [],
+    [phraseData],
   );
 
   function animateSearchBar() {
