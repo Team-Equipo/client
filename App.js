@@ -1,25 +1,4 @@
-// import React, { useEffect, useContext } from "react";
-// import { LogBox, View, Text } from "react-native";
-// import { PaperProvider } from "react-native-paper";
-
-// import AuthSwitcher from "./components/AuthSwitcher";
-// import { AuthProvider, useAuthContext } from "./contexts/AuthContext";
-// import { RegistrationProvider } from "./contexts/RegistrationContext";
-
-// LogBox.ignoreAllLogs();
-
-// export default function App({ navigation }) {
-//   return (
-//     <AuthProvider>
-//       <RegistrationProvider>
-//         <PaperProvider>
-//           <AuthSwitcher />
-//         </PaperProvider>
-//       </RegistrationProvider>
-//     </AuthProvider>
-//   );
-// }
-
+// App.js
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -111,7 +90,7 @@ export default function App({ navigation }) {
         // userToken = await SecureStore.getItemAsync('userToken');
       } catch (e) {
         // Restoring token failed
-        console.log(e);
+        console.log("Restore User Token", e);
       }
 
       // After restoring token, we may need to validate it in production apps
@@ -165,54 +144,8 @@ export default function App({ navigation }) {
       },
       // Sign out (navigate to Signin page)
       signOut: () => dispatch({ type: "SIGN_OUT", token: "signedout" }),
-      // Navigate to Signup page
+      // User Signup
       signUp: () => dispatch({ type: "SIGN_UP", token: "signup" }),
-      // Actual Signup (send data to backend)
-      signingUp: async (data) => {
-        try {
-          const url = "https://jk249.azurewebsites.net/user";
-          const headers = {
-            "Content-Type": "application/json",
-          };
-
-          const requestBody = {
-            firstname: data.firstname,
-            lastname: data.lastname,
-            emailaddress: data.emailaddress,
-            password: data.password,
-            // hobby: userData.interests,
-            // favoritefood: userData.foods,
-            // destination: userData.destination
-          };
-
-          // submit user data to backend
-          const response = await fetch(url, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(requestBody),
-          });
-
-          // console log for debugging
-          console.log("Request body: ", requestBody);
-          console.log("Response status:", response.status);
-
-          if (!response.ok) {
-            alert("Sign-up failed");
-            throw new Error(
-              `HTTP error. Status: ${
-                response.status
-              }, Response: ${await response.text()}`,
-            );
-          } else {
-            // Sign-up successful, get token
-            const userToken = await response.text();
-            console.log("Response text:", userToken);
-            dispatch({ type: "SIGN_UP", token: userToken });
-          }
-        } catch (error) {
-          console.error("Sign-up Error: ", error);
-        }
-      },
     }),
     [],
   );

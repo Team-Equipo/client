@@ -12,7 +12,7 @@ import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
 const AllSetScreen = ({ navigation }) => {
-  const { signingUp } = React.useContext(AuthContext);
+  const { signIn } = React.useContext(AuthContext);
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
   const {
     userData,
@@ -26,43 +26,65 @@ const AllSetScreen = ({ navigation }) => {
   } = useRegistrationContext();
 
   // Handle sign in
-  const handleSignIn = () => {
-    storeData(
-      [
-        "firstName",
-        "lastName",
-        "emailAddress",
-        "interests",
-        "foods",
-        "destination",
-      ],
-      [
-        userData.firstName,
-        userData.lastName,
-        userData.emailAddress,
-        userData.interests,
-        userData.foods,
-        userData.destination,
-      ],
-    );
+  const handleSignIn = async () => {
+    // storeData(
+    //   [
+    //     "firstName",
+    //     "lastName",
+    //     "emailAddress",
+    //     "interests",
+    //     "foods",
+    //     "destination",
+    //   ],
+    //   [
+    //     userData.firstName,
+    //     userData.lastName,
+    //     userData.emailAddress,
+    //     userData.interests,
+    //     userData.foods,
+    //     userData.destination,
+    //   ],
+    // );
 
-    const data = {
-      firstname: userData.firstName,
-      lastname: userData.lastName,
-      emailaddress: userData.emailAddress,
-      password: userData.password,
-      // hobby: userData.interests,
-      // favoritefood: userData.foods,
-      // destination: userData.destination,
-    };
+    try {
+      const requestBody = {
+        firstname: userData.firstName,
+        lastname: userData.lastName,
+        emailaddress: userData.emailAddress,
+        password: userData.password,
+        hobby: userData.interests,
+        favoritefood: userData.foods,
+        destination: userData.destination,
+      };
 
-    // Send data to backend
-    signingUp(data);
+      const url = "https://jk249.azurewebsites.net/user";
+      const headers = {
+        "Content-Type": "application/json",
+      };
 
-    // authActions.signIn({
-    //   emailAddress: "placeholder@calvin.edu",
-    //   password: "password",
-    // });
+      // Console log for debugging
+      // console.log("Request body: ", requestBody);
+
+      // submit user data to backend
+      const response = await fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(requestBody),
+      });
+
+      console.log("Response: ", response);
+
+      // if (!response.ok) {
+      //   alert("Sign-up failed");
+      //   throw new Error(
+      //     `HTTP error. Status: ${
+      //       response.status
+      //     }, Response: ${await response.text()}`,
+      //   );
+      // }
+    } catch (error) {
+      console.error("Sign-up Error: ", error);
+    }
 
     // Reset locally stored inputs
     setFirstName("");
@@ -72,41 +94,42 @@ const AllSetScreen = ({ navigation }) => {
     setInterests("");
     setFoods("");
     setDestination("");
+
+    // Sign in user at the end
+    signIn({
+      emailAddress: userData.emailAddress,
+      password: userData.password,
+    });
+    // signIn({ emailAddress: "placeholder@calvin.edu", password: "password" });
   };
 
-  // Store data in local storage
-  const storeData = async (keys, values) => {
-    if (keys.length !== values.length) {
-      throw new Error("Key and value lists must be the same length");
-    }
-    let userData;
-    // Get item from AsyncStorage
-    try {
-      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
-      if (userData == null) {
-        userData = {};
-      }
-    } catch (e) {
-      console.log("AsyncStorage: getItem error: ", e);
-    }
-    for (let i = 0; i < keys.length; i++) {
-      userData[keys[i]] = values[i];
-    }
-    console.log("Data being stored into local storage: ", userData);
+  // // Store data in local storage
+  // const storeData = async (keys, values) => {
+  //   if (keys.length !== values.length) {
+  //     throw new Error("Key and value lists must be the same length");
+  //   }
+  //   let userData;
+  //   // Get item from AsyncStorage
+  //   try {
+  //     userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+  //     if (userData == null) {
+  //       userData = {};
+  //     }
+  //   } catch (e) {
+  //     console.log("AsyncStorage: getItem error: ", e);
+  //   }
+  //   for (let i = 0; i < keys.length; i++) {
+  //     userData[keys[i]] = values[i];
+  //   }
+  //   console.log("Data being stored into local storage: ", userData);
 
-    // Set item in AsyncStorage
-    try {
-      await AsyncStorage.setItem("user-info", JSON.stringify(userData));
-    } catch (e) {
-      console.log("AsyncStorage: setItem error: ", e);
-    }
-    // try {
-    //   userData = JSON.parse(await AsyncStorage.getItem("user-info"));
-    //   console.log(userData);
-    // } catch (e) {
-    //   console.log(e);
-    // }
-  };
+  //   // Set item in AsyncStorage
+  //   try {
+  //     await AsyncStorage.setItem("user-info", JSON.stringify(userData));
+  //   } catch (e) {
+  //     console.log("AsyncStorage: setItem error: ", e);
+  //   }
+  // };
 
   // Text color animation
   React.useEffect(() => {
