@@ -9,6 +9,7 @@ import {
   TouchableRipple,
 } from "react-native-paper";
 
+import LabeledIconButton from "../components/LabeledIconButton.js";
 import SelectableWordList from "../components/SelectableWordList.js";
 
 export default function PhraseCard({
@@ -102,24 +103,31 @@ export default function PhraseCard({
                     width: "100%",
                   }}
                 >
-                  <IconButton icon="translate" mode="default" />
-                  <IconButton
+                  <LabeledIconButton
+                    icon="translate"
+                    label={inUserLang ? "Spanish" : "English"}
+                    mode="default"
+                  />
+                  <LabeledIconButton
                     icon="volume-high"
+                    label="Speak"
                     mode="default"
                     disabled={isSpeaking}
                     onPress={speakPhrase}
                   />
                   {mode !== "saved" ? (
                     <>
-                      <IconButton
+                      <LabeledIconButton
                         icon="download"
+                        label="Save"
                         mode="default"
                         onPress={() => {
                           savePhrase(phrase);
                         }}
                       />
-                      <IconButton
+                      <LabeledIconButton
                         icon="shuffle-variant"
+                        label="Regen."
                         mode="default"
                         onPress={() => {
                           updateGeneratedPhrase(phrase.userid, phrase.id);
@@ -128,8 +136,9 @@ export default function PhraseCard({
                     </>
                   ) : (
                     <>
-                      <IconButton
+                      <LabeledIconButton
                         icon="delete"
+                        label="Delete"
                         mode="default"
                         onPress={() => {
                           deletePhrase(phrase);
