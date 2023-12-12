@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   label: {
     marginTop: -15,
     zIndex: -1,
+    fontSize: 9,
   },
 });
 
