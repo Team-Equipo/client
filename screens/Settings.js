@@ -52,6 +52,9 @@ const SettingsPage = ({ navigation }) => {
   };
 
   const storeData = async (keys, values) => {
+    if (keys.length !== values.length) {
+      throw new Error("Key and value lists must be the same length");
+    }
     let userData;
     try {
       userData = JSON.parse(await AsyncStorage.getItem("user-info"));

@@ -1,6 +1,4 @@
 // TripInfo.js
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Font from "expo-font";
 import React from "react";
 import { View, KeyboardAvoidingView, Image, Platform } from "react-native";
 import {
@@ -20,35 +18,7 @@ const TripInfo = ({ navigation }) => {
 
   const handleUserSubmit = () => {
     if (userData.destination != "") {
-      storeData(["Destination"], [userData.destination]);
       navigation.navigate("AllSet");
-    }
-  };
-
-  const storeData = async (keys, values) => {
-    let userData;
-    try {
-      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
-      if (userData == null) {
-        userData = {};
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    for (let i = 0; i < keys.length; i++) {
-      userData[keys[i]] = values[i];
-    }
-    // console.log("User data with insertion:", userData);
-    try {
-      await AsyncStorage.setItem("user-info", JSON.stringify(userData));
-    } catch (e) {
-      console.log(e);
-    }
-    try {
-      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
-      console.log(userData);
-    } catch (e) {
-      console.log(e);
     }
   };
 

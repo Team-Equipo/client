@@ -178,7 +178,7 @@ export const settingsStyle = StyleSheet.create({
   squareImage: {
     display: "flex",
     width: "60%",
-    height: "undefined",
+    height: undefined,
     aspectRatio: "1",
     marginTop: "2%",
     marginBottom: "8%",
