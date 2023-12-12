@@ -159,6 +159,19 @@ export const settingsStyle = StyleSheet.create({
     paddingVertical: 10,
     // paddingTop: "20%",
   },
+  titleText4: {
+    fontFamily: "Poppins-Bold",
+    fontSize: 13,
+    paddingBottom: 2,
+    // paddingTop: "20%",
+  },
+  titleText5: {
+    fontFamily: "Poppins-Bold",
+    fontSize: 21,
+    paddingTop: "14%",
+    paddingBottom: "2%",
+    alignSelf: "center",
+  },
   titleText2: {
     fontFamily: "Poppins-ExtraBold",
     fontSize: 23,
@@ -175,13 +188,18 @@ export const settingsStyle = StyleSheet.create({
     // paddingTop: "20%",
     color: "#2E4F4F",
   },
+  normalText: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 12,
+    paddingBottom: 10,
+  },
+  // paddingTop: "20%",
   squareImage: {
     display: "flex",
-    width: "60%",
+    width: "80%",
     height: undefined,
-    aspectRatio: "1",
+    aspectRatio: "0.87",
     marginTop: "2%",
-    marginBottom: "8%",
     alignSelf: "center",
   },
   textInput: {

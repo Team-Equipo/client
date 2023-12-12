@@ -21,6 +21,7 @@ import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
 import UserProp from "./screens/UserProp";
 import UserPropFood from "./screens/UserPropFood";
+import HelpPage from "./screens/Help";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreAllLogs();
@@ -273,6 +274,16 @@ export default function App({ navigation }) {
                       options={{
                         title: "Your Settings",
                         // When logging out, a pop animation feels intuitive
+                        animationTypeForReplace: state.isSignout
+                          ? "pop"
+                          : "push",
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Help"
+                      component={HelpPage}
+                      options={{
+                        titles: "Help Page",
                         animationTypeForReplace: state.isSignout
                           ? "pop"
                           : "push",

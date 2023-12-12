@@ -36,11 +36,11 @@ export default function AppBar({ navigation, route, options, back }) {
         }}
       >
         <Appbar.Action
-          icon="chat-alert"
-          color="firebrick"
+          icon="help-circle-outline"
+          color="white"
           size={35}
           style={{ margin: 0 }}
-          onPress={() => navigation.navigate("EmergencyPhrases")}
+          onPress={() => navigation.navigate("Help")}
         />
         <Appbar.Content
           title="Lingucidity"
