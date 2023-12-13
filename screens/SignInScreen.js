@@ -13,6 +13,11 @@ import HideKeyboard from "../components/HideKeyboard";
 import { AuthContext } from "../contexts/AuthContext";
 import { signStyles, signinTheme } from "../styles/globalStyles";
 
+/**
+ * Renders a sign-in screen component.
+ *
+ * @returns {JSX.Element} The sign-in screen component.
+ */
 export default function SignIn() {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
