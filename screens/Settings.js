@@ -1,3 +1,6 @@
+/*
+This imports all libraries needed for the settings page
+*/
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { View, KeyboardAvoidingView, Platform } from "react-native";
@@ -13,6 +16,11 @@ import HideKeyboard from "../components/HideKeyboard";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
+/**
+ * Renders the settings page for editing user profile information.
+ * @param {object} navigation - The navigation object used for navigating between screens.
+ * @returns {JSX.Element} The rendered settings page component.
+ */
 const SettingsPage = ({ navigation }) => {
   const {
     userData,
@@ -23,6 +31,9 @@ const SettingsPage = ({ navigation }) => {
     setFoods,
   } = useRegistrationContext();
 
+  /*
+  This is the function that will be called when the user presses the submit button
+  */
   const handleUserSubmit = async () => {
     if (
       userData.destination !== "" &&
@@ -50,7 +61,9 @@ const SettingsPage = ({ navigation }) => {
       navigation.goBack();
     }
   };
-
+  /*
+This is the function that will be called when the user presses the submit button
+*/
   const storeData = async (keys, values) => {
     if (keys.length !== values.length) {
       throw new Error("Key and value lists must be the same length");
@@ -80,7 +93,9 @@ const SettingsPage = ({ navigation }) => {
       console.log(e);
     }
   };
-
+  /*
+This is the actual return function where it gathers all the information above
+*/
   return (
     <PaperProvider theme={settingsTheme}>
       <View style={settingsStyle.page}>

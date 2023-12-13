@@ -26,7 +26,9 @@ const AllSetScreen = ({ navigation }) => {
     setFoods,
     setDestination,
   } = useRegistrationContext();
-
+  /*
+This is the function that  will store the data of the user and then sign in
+*/
   const handleSignIn = () => {
     storeData(
       ["FirstName", "LastName", "Interests", "Foods", "Destination"],
@@ -48,7 +50,9 @@ const AllSetScreen = ({ navigation }) => {
 
     signIn({ emailAddress: "placeholder@calvin.edu", password: "password" });
   };
-
+  /*
+This is the function where it will submit the data to the async storage
+*/
   const storeData = async (keys, values) => {
     if (keys.length !== values.length) {
       throw new Error("Key and value lists must be the same length");
@@ -78,7 +82,9 @@ const AllSetScreen = ({ navigation }) => {
       console.log(e);
     }
   };
-
+  /*
+This is the function that will be called when the user presses the submit button
+*/
   React.useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -100,7 +106,9 @@ const AllSetScreen = ({ navigation }) => {
     inputRange: [0, 1],
     outputRange: ["#00A9FF", "#FF6666"],
   });
-
+  /*
+This is the actual return function where it gathers all the information above
+*/
   return (
     <PaperProvider theme={settingsTheme}>
       <View style={allSetStyle.container}>

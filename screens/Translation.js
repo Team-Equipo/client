@@ -29,6 +29,11 @@ import {
   translateStyles,
 } from "../styles/globalStyles";
 
+/**
+ * Represents the Translation screen component.
+ * @param {object} navigation - The navigation object for navigating between screens.
+ * @returns {JSX.Element} The Translation screen component.
+ */
 const Translation = ({ navigation }) => {
   // States for I/O, dictionary loading and displaying dictionary entry,
   // displaying audio input info

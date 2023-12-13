@@ -3,6 +3,14 @@ import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { IconButton } from "react-native-paper";
 
+/**
+ * Array of emergency phrases categorized by topic.
+ * @type {Array<Object>}
+ */
+
+/*
+ * This is the array of emergency phrases that will be displayed on the screen
+ */
 const emergencyPhrases = [
   {
     id: "1",
@@ -53,7 +61,9 @@ const emergencyPhrases = [
     ],
   },
 ];
-
+/*
+ * This is the function that will render the items on the screen
+ */
 const InformationScreen = () => {
   const renderItem = ({ item }) => {
     return (
@@ -76,7 +86,9 @@ const InformationScreen = () => {
       </View>
     );
   };
-
+  /*
+   * This is the function that will speak the phrase in spanish
+   */
   const speakPhrase = (phrase) => {
     try {
       speak(phrase.spanish, { language: "es" });
@@ -95,7 +107,9 @@ const InformationScreen = () => {
     </View>
   );
 };
-
+/*
+ * This is the custom styles page
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

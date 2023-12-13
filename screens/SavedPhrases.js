@@ -14,6 +14,12 @@ import {
   phraseTheme,
 } from "../styles/globalStyles";
 
+/**
+ * Component for displaying and managing saved phrases.
+ *
+ * @param {object} navigation - The navigation object.
+ * @returns {JSX.Element} The SavedPhrases component.
+ */
 const SavedPhrases = ({ navigation }) => {
   const [phraseData, setPhraseData] = useState({});
   const [searchedWord, setSearchedWord] = React.useState("");

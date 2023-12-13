@@ -151,7 +151,7 @@ const Phrases = ({ navigation }) => {
     { text: "Goodbyes", id: 5 },
     { text: "Pleasantries", id: 6 },
   ];
-
+  // this function attempts to fetch data from a specific API endpoint related to user-generated phrases. If successful, it updates the state variable generatedPhrases with the retrieved data. If unsuccessful, it logs an error to the console. Finally, it sets the isLoading state variable to false.
   const fetchGeneratedPhrases = async () => {
     try {
       const response = await fetch(
@@ -165,7 +165,7 @@ const Phrases = ({ navigation }) => {
       setIsLoading(false);
     }
   };
-
+  //fetches a specific phrase for a given userID and phraseID
   const fetchPhrase = async (userID, phraseID, index) => {
     try {
       const response = await fetch(
@@ -179,7 +179,7 @@ const Phrases = ({ navigation }) => {
       console.log(error);
     }
   };
-
+  //manages the state of generated phrases, marking a specific phrase as loading before potentially initiating an update request to the server.
   const updateGeneratedPhrase = async (userID, phraseID) => {
     const updatedPhrases = [...generatedPhrases];
     const index = updatedPhrases.findIndex((phrase) => phrase.id === phraseID);

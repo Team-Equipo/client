@@ -9,6 +9,14 @@ export default function SplashScreen() {
   );
 }
 
+/**
+ * Styles for the SplashScreen component.
+ *
+ * @typedef {Object} Styles
+ * @property {Object} container - The style for the container.
+ * @property {Object} image - The style for the image.
+ * @property {Object} text - The style for the text.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

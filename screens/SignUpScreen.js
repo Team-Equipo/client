@@ -14,6 +14,12 @@ import { AuthContext } from "../contexts/AuthContext";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { signStyles, signinTheme } from "../styles/globalStyles";
 
+/**
+ * Represents the sign-up screen component.
+ *
+ * @param {object} navigation - The navigation object.
+ * @returns {JSX.Element} The sign-up screen component.
+ */
 const SignUpScreen = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
   const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
@@ -41,7 +47,7 @@ const SignUpScreen = ({ navigation }) => {
 
     navigation.navigate("UserInfo");
   };
-
+  //Function to cancel sign up where it will reset the data and sign out
   const cancelSignUp = () => {
     setFirstName("");
     setLastName("");

@@ -10,6 +10,19 @@ import Translation from "./Translation";
 
 const Tab = createBottomTabNavigator();
 
+/**
+ * Represents the Home screen component.
+ *
+ * @param {object} navigation - The navigation object.
+ * @param {object} route - The route object.
+ * @param {object} options - The options object.
+ * @param {function} back - The back function.
+ * @returns {JSX.Element} The rendered Home screen component.
+ */
+
+/*
+This is the function that will render the bottom navigation bar
+ */
 const HomeScreen = ({ navigation, route, options, back }) => {
   return (
     <Tab.Navigator

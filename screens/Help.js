@@ -11,14 +11,21 @@ import Carousel from "react-native-snap-carousel"; // Import the Carousel compon
 import { settingsStyle } from "../styles/globalStyles";
 import { FontAwesome } from "@expo/vector-icons";
 
+/**
+ * Renders the Help page component.
+ *
+ * @param {object} navigation - The navigation object used for navigating between screens.
+ * @returns {JSX.Element} The rendered Help page component.
+ */
+
 const HelpPage = ({ navigation }) => {
-  const navigateToMainMenu = () => {
-    alert("please add navigation");
-    // navigation.navigate('MainMenu');
-  };
-
+  /*
+This will set whole page as height and width of the screen
+*/
   const { height, width } = useWindowDimensions();
-
+  /*
+This is the content of the Carousel that will be passed down to renderItem
+*/
   const carouselItems = [
     {
       image: require("../assets/images/help1.png"),
@@ -71,7 +78,9 @@ const HelpPage = ({ navigation }) => {
       description5: "Tap on the icon to remove a downloaded phrase",
     },
   ];
-
+  /*
+This will render slide content based on the carouselItems array
+*/
   const renderItem = ({ item }) => (
     <View style={styles.slide}>
       {/* Modify the button to go to main menu */}
@@ -98,7 +107,9 @@ const HelpPage = ({ navigation }) => {
       </View>
     </View>
   );
-
+  /*
+This is the actual return function where it gathers all the information above
+*/
   return (
     <View style={styles.container}>
       <Carousel
@@ -110,7 +121,7 @@ const HelpPage = ({ navigation }) => {
     </View>
   );
 };
-
+/*This the custom styles page*/
 const styles = StyleSheet.create({
   container: {
     flex: 1,

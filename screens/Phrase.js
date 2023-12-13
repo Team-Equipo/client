@@ -8,6 +8,11 @@ import { translateStyles } from "../styles/globalStyles";
 
 const USER = 1;
 
+/**
+ * Renders the Phrase component.
+ *
+ * @returns {JSX.Element} The rendered Phrase component.
+ */
 export default function Phrase() {
   const [isLoading, setIsLoading] = useState(true);
   const [generatedPhrases, setGeneratedPhrases] = useState([]);
@@ -23,7 +28,7 @@ export default function Phrase() {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefVisible(true);
   };
-
+  //fetches data related to generated phrases for a specific user from an API endpoint
   const fetchGeneratedPhrases = async () => {
     try {
       const response = await fetch(
@@ -37,7 +42,7 @@ export default function Phrase() {
       setIsLoading(false);
     }
   };
-
+  // making an asynchronous request to a databse to retrieve data related to a particular phrase associated with a user
   const fetchPhrase = async (userID, phraseID, index) => {
     try {
       const response = await fetch(
@@ -51,7 +56,7 @@ export default function Phrase() {
       console.log(error);
     }
   };
-
+  //updates a phrase in the database
   const updateGeneratedPhrase = async (userID, phraseID) => {
     const updatedPhrases = [...generatedPhrases];
     const index = updatedPhrases.findIndex(
