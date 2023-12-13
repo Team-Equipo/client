@@ -27,25 +27,6 @@ const AllSetScreen = ({ navigation }) => {
 
   // Handle sign in
   const handleSignIn = async () => {
-    // storeData(
-    //   [
-    //     "firstName",
-    //     "lastName",
-    //     "emailAddress",
-    //     "interests",
-    //     "foods",
-    //     "destination",
-    //   ],
-    //   [
-    //     userData.firstName,
-    //     userData.lastName,
-    //     userData.emailAddress,
-    //     userData.interests,
-    //     userData.foods,
-    //     userData.destination,
-    //   ],
-    // );
-
     try {
       const requestBody = {
         firstname: userData.firstName,
@@ -62,10 +43,7 @@ const AllSetScreen = ({ navigation }) => {
         "Content-Type": "application/json",
       };
 
-      // Console log for debugging
-      // console.log("Request body: ", requestBody);
-
-      // submit user data to backend
+      // submit user data to the endpoint
       const response = await fetch(url, {
         method: "POST",
         headers,
@@ -74,14 +52,16 @@ const AllSetScreen = ({ navigation }) => {
 
       console.log("Response: ", response);
 
-      // if (!response.ok) {
-      //   alert("Sign-up failed");
-      //   throw new Error(
-      //     `HTTP error. Status: ${
-      //       response.status
-      //     }, Response: ${await response.text()}`,
-      //   );
-      // }
+      if (!response.ok) {
+        alert("Sign-up failed");
+        throw new Error(
+          `HTTP error. Status: ${
+            response.status
+          }, Response: ${await response.text()}`,
+        );
+      }
+      const responseData = await response.json();
+      console.log("Response Data: ", responseData);
     } catch (error) {
       console.error("Sign-up Error: ", error);
     }
@@ -100,36 +80,7 @@ const AllSetScreen = ({ navigation }) => {
       emailAddress: userData.emailAddress,
       password: userData.password,
     });
-    // signIn({ emailAddress: "placeholder@calvin.edu", password: "password" });
   };
-
-  // // Store data in local storage
-  // const storeData = async (keys, values) => {
-  //   if (keys.length !== values.length) {
-  //     throw new Error("Key and value lists must be the same length");
-  //   }
-  //   let userData;
-  //   // Get item from AsyncStorage
-  //   try {
-  //     userData = JSON.parse(await AsyncStorage.getItem("user-info"));
-  //     if (userData == null) {
-  //       userData = {};
-  //     }
-  //   } catch (e) {
-  //     console.log("AsyncStorage: getItem error: ", e);
-  //   }
-  //   for (let i = 0; i < keys.length; i++) {
-  //     userData[keys[i]] = values[i];
-  //   }
-  //   console.log("Data being stored into local storage: ", userData);
-
-  //   // Set item in AsyncStorage
-  //   try {
-  //     await AsyncStorage.setItem("user-info", JSON.stringify(userData));
-  //   } catch (e) {
-  //     console.log("AsyncStorage: setItem error: ", e);
-  //   }
-  // };
 
   // Text color animation
   React.useEffect(() => {
