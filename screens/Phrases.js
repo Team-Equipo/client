@@ -39,6 +39,12 @@ if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+/**
+ * Represents the Phrases screen component.
+ *
+ * @param {object} navigation - The navigation object for navigating between screens.
+ * @returns {JSX.Element} The Phrases screen component.
+ */
 const Phrases = ({ navigation }) => {
   const [searchedTopic, setSearchedTopic] = useState("");
   const [topicsExpanded, setTopicsExpanded] = useState(false);
@@ -51,24 +57,6 @@ const Phrases = ({ navigation }) => {
   const [wordRefVisible, setWordRefVisible] = useState(false);
 
   const windowDimensions = Dimensions.get("window");
-
-  // const samplePhrases = [
-  //   {
-  //     generated_phrases_id: 1,
-  //     userid: 123,
-  //     text_translated:
-  //       "Hello, how are you? long text long text long text long text",
-  //     text_original: "Hola, ¿cómo estás?",
-  //     isloading: false,
-  //   },
-  //   {
-  //     generated_phrases_id: 2,
-  //     userid: 456,
-  //     text_translated: "Good morning!",
-  //     text_original: "¡Buenos días!",
-  //     isloading: false,
-  //   },
-  // ];
 
   // Function to filter punctuation out of selected English word, pull up
   // dictionary modal for selected word

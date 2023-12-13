@@ -4,12 +4,11 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
 import Carousel from "react-native-snap-carousel"; // Import the Carousel component
+
 import { settingsStyle } from "../styles/globalStyles";
-import { FontAwesome } from "@expo/vector-icons";
 
 /**
  * Renders the Help page component.

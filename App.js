@@ -12,6 +12,7 @@ import { AuthContext } from "./contexts/AuthContext";
 import { RegistrationProvider } from "./contexts/RegistrationContext";
 import AllSetScreen from "./screens/AllSetPage";
 import EmergencyPhrases from "./screens/EmergencyPhrases";
+import HelpPage from "./screens/Help";
 import HomeScreen from "./screens/HomeScreen";
 import SettingsPage from "./screens/Settings";
 import SignInScreen from "./screens/SignInScreen";
@@ -21,11 +22,16 @@ import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
 import UserProp from "./screens/UserProp";
 import UserPropFood from "./screens/UserPropFood";
-import HelpPage from "./screens/Help";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreAllLogs();
 
+/**
+ * The main component of the application.
+ *
+ * @param {object} navigation - The navigation object used for navigating between screens.
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function App({ navigation }) {
   const [showSplash, setShowSplash] = React.useState(true);
 

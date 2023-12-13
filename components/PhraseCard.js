@@ -1,17 +1,27 @@
+// PhraseCard.js
 import { speak, isSpeakingAsync } from "expo-speech";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Dimensions, StyleSheet, View, SafeAreaView } from "react-native";
-import {
-  IconButton,
-  Card,
-  Text,
-  ActivityIndicator,
-  TouchableRipple,
-} from "react-native-paper";
+import { Card, ActivityIndicator, TouchableRipple } from "react-native-paper";
 
 import LabeledIconButton from "../components/LabeledIconButton.js";
 import SelectableWordList from "../components/SelectableWordList.js";
 
+/**
+ * Renders a card component for displaying a phrase.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.phrase - The phrase object.
+ * @param {boolean} props.isLoading - Indicates if the phrase is currently loading.
+ * @param {Function} props.updateGeneratedPhrase - Function to update the generated phrase.
+ * @param {Function} props.savePhrase - Function to save the phrase.
+ * @param {Function} props.deletePhrase - Function to delete the phrase.
+ * @param {string} props.mode - The mode of the phrase card.
+ * @param {Function} props.onSelectEnglishWord - Function to select an English word.
+ * @param {Function} props.onSelectSpanishWord - Function to select a Spanish word.
+ * @param {Function} props.drag - Function to handle drag events.
+ * @returns {JSX.Element} The rendered PhraseCard component.
+ */
 export default function PhraseCard({
   phrase,
   isLoading,

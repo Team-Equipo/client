@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-import DropDownPicker from "react-native-dropdown-picker";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-} from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const Stack = createNativeStackNavigator();
 
+/**
+ * Renders a component for phraseology selection.
+ * @param {Object} DropDownPickerProps - Props for the DropDownPicker component.
+ * @returns {JSX.Element} The rendered Phraseology component.
+ */
 const Phraseology = ({ DropDownPickerProps }) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 

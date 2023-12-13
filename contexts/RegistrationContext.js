@@ -10,6 +10,14 @@ const initialState = {
 };
 
 const RegistrationContext = createContext();
+/**
+ * RegistrationProvider component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {ReactNode} props.children - The child components.
+ * @returns {JSX.Element} The rendered RegistrationProvider component.
+ */
 const RegistrationProvider = ({ children }) => {
   const [userData, setUserData] = useState(initialState);
 

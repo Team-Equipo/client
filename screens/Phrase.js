@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, Text } from "react-native";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Portal, Modal } from "react-native-paper";
 
-import WordSearchWebView from "../components/WordSearchWebView";
 import PhraseCard from "../components/PhraseCard";
+import WordSearchWebView from "../components/WordSearchWebView";
 import { translateStyles } from "../styles/globalStyles";
 
 const USER = 1;
