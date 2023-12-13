@@ -1,9 +1,9 @@
 // AllSetPage.js
 // the page that is displayed after the user has completed the registration process
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { View, Animated } from "react-native";
 import { Button, PaperProvider, Text } from "react-native-paper";
 
@@ -12,7 +12,7 @@ import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
 const AllSetScreen = ({ navigation }) => {
-  const { signIn } = React.useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
   const {
     userData,
@@ -25,9 +25,14 @@ const AllSetScreen = ({ navigation }) => {
     setDestination,
   } = useRegistrationContext();
 
-  // Handle sign in
-  const handleSignIn = async () => {
+  // Handle sign up
+  const handleSignUp = async () => {
     try {
+      const url = "https://jk249.azurewebsites.net/user";
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      // create user object using RegistrationContext data
       const requestBody = {
         firstname: userData.firstName,
         lastname: userData.lastName,
@@ -38,48 +43,38 @@ const AllSetScreen = ({ navigation }) => {
         destination: userData.destination,
       };
 
-      const url = "https://jk249.azurewebsites.net/user";
-      const headers = {
-        "Content-Type": "application/json",
-      };
+      console.log("Request Body: ", requestBody);
 
-      // submit user data to the endpoint
+      // submit user data to backend
       const response = await fetch(url, {
         method: "POST",
         headers,
         body: JSON.stringify(requestBody),
       });
-
-      console.log("Response: ", response);
-
+      const responseData = await response.text();
       if (!response.ok) {
-        alert("Sign-up failed");
         throw new Error(
-          `HTTP error. Status: ${
-            response.status
-          }, Response: ${await response.text()}`,
+          `HTTP error. Status: ${response.status}, Response: ${responseData}`,
         );
+      } else {
+        // Sign-up successful
+        // Sign in new user with email and password
+        signIn({
+          emailAddress: userData.emailAddress,
+          password: userData.password,
+        });
+        // Reset locally stored inputs
+        setFirstName("");
+        setLastName("");
+        setEmailAddress("");
+        setPassword("");
+        setInterests("");
+        setFoods("");
+        setDestination("");
       }
-      const responseData = await response.json();
-      console.log("Response Data: ", responseData);
     } catch (error) {
       console.error("Sign-up Error: ", error);
     }
-
-    // Reset locally stored inputs
-    setFirstName("");
-    setLastName("");
-    setEmailAddress("");
-    setPassword("");
-    setInterests("");
-    setFoods("");
-    setDestination("");
-
-    // Sign in user at the end
-    signIn({
-      emailAddress: userData.emailAddress,
-      password: userData.password,
-    });
   };
 
   // Text color animation
@@ -135,7 +130,8 @@ const AllSetScreen = ({ navigation }) => {
               textColor="white"
               labelStyle={{ fontWeight: "bold" }}
               style={[allSetStyle.button, { backgroundColor: textColor }]}
-              onPress={handleSignIn}
+              // onPress={handleSignIn}
+              onPress={handleSignUp}
             >
               <Text style={allSetStyle.buttonText}>Onward!</Text>
             </Button>
