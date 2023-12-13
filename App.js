@@ -127,14 +127,6 @@ export default function App({ navigation }) {
   const authContext = React.useMemo(
     () => ({
       signIn: async (data) => {
-        // try {
-        //   const url =
-        //     "https://d36f-2600-1700-a650-12a0-6d91-2b6-7de7-afaf.ngrok-free.app/user";
-        //   const headers = new Headers({
-        //     "ngrok-skip-browser-warning": "true",
-        //     Authorization:
-        //       "Basic " + Base64.btoa(data.emailAddress + ":" + data.password),
-        //   });
         try {
           const url = "https://jk249.azurewebsites.net/user";
           const headers = {
