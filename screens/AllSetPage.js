@@ -12,7 +12,7 @@ import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
 const AllSetScreen = ({ navigation }) => {
-  const { signIn } = useContext(AuthContext);
+  const { signOut, signIn } = useContext(AuthContext);
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
   const {
     userData,
@@ -43,8 +43,6 @@ const AllSetScreen = ({ navigation }) => {
         destination: userData.destination,
       };
 
-      console.log("Request Body: ", requestBody);
-
       // submit user data to backend
       const response = await fetch(url, {
         method: "POST",
@@ -52,17 +50,22 @@ const AllSetScreen = ({ navigation }) => {
         body: JSON.stringify(requestBody),
       });
       const responseData = await response.text();
+
+      // console.log("Request Body: ", requestBody);
+      // console.log("Response Data: ", responseData);
+
       if (!response.ok) {
         throw new Error(
           `HTTP error. Status: ${response.status}, Response: ${responseData}`,
         );
       } else {
-        // Sign-up successful
-        // Sign in new user with email and password
-        signIn({
-          emailAddress: userData.emailAddress,
-          password: userData.password,
-        });
+        // Sign-up successful, go back to sign-in page
+        alert("Sign-up successful!");
+        signOut();
+        // signIn({
+        //   emailaddress: userData.emailAddress,
+        //   password: userData.password,
+        // });
         // Reset locally stored inputs
         setFirstName("");
         setLastName("");

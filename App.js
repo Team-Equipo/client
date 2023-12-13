@@ -139,7 +139,7 @@ export default function App({ navigation }) {
           const credentials = await response.json();
           dispatch({ type: "SIGN_IN", token: credentials.token });
         } catch (error) {
-          console.error(error);
+          console.error("Sign-in Error, please try again", error);
         }
       },
       // Sign out (navigate to Signin page)
