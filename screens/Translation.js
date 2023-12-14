@@ -20,9 +20,9 @@ import {
   TouchableRipple,
 } from "react-native-paper";
 
-import WordSearchWebView from "../components/WordSearchWebView";
 import HideKeyboard from "../components/HideKeyboard";
 import SelectableWordList from "../components/SelectableWordList";
+import WordSearchWebView from "../components/WordSearchWebView";
 import {
   translationTheme,
   shadows,
