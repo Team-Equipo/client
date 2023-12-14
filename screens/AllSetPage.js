@@ -1,6 +1,5 @@
 // AllSetPage.js
-// the page that is displayed after the user has completed the registration process
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
 import React, { useContext } from "react";
@@ -11,6 +10,12 @@ import { AuthContext } from "../contexts/AuthContext";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
+/**
+ * Represents the All Set Page screen component.
+ *
+ * @param {object} navigation - The navigation object used for navigating between screens.
+ * @returns {JSX.Element} The All Set screen component.
+ */
 const AllSetScreen = ({ navigation }) => {
   const { signOut, signIn } = useContext(AuthContext);
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
@@ -80,6 +85,43 @@ const AllSetScreen = ({ navigation }) => {
     }
   };
 
+  /**
+   * Stores user data in AsyncStorage.
+   * @param {Array<string>} keys - The keys for the data to be stored.
+   * @param {Array<any>} values - The values to be stored.
+   * @throws {Error} If the length of keys and values arrays are not the same.
+   * @returns {Promise<void>} A promise that resolves when the data is stored successfully.
+   */
+  const storeData = async (keys, values) => {
+    if (keys.length !== values.length) {
+      throw new Error("Key and value lists must be the same length");
+    }
+    let userData;
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      if (userData == null) {
+        userData = {};
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    for (let i = 0; i < keys.length; i++) {
+      userData[keys[i]] = values[i];
+    }
+    console.log(userData);
+    try {
+      await AsyncStorage.setItem("user-info", JSON.stringify(userData));
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      userData = JSON.parse(await AsyncStorage.getItem("user-info"));
+      console.log(userData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   // Text color animation
   React.useEffect(() => {
     Animated.loop(
@@ -98,13 +140,14 @@ const AllSetScreen = ({ navigation }) => {
     ).start();
   }, []);
 
-  // Change text color
+  // Set the text color
   const textColor = changeTxtColor.interpolate({
     inputRange: [0, 0.5, 1],
     // outputRange: ["#00A9FF", "#FF6666"],
     outputRange: ["#1FA0FF", "#12DAFB", "#A7FDCC"],
   });
 
+  // This is the actual return function where it gathers all the information above
   return (
     <PaperProvider theme={settingsTheme}>
       <View style={allSetStyle.container}>

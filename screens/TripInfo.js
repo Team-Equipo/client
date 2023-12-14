@@ -13,9 +13,14 @@ import HideKeyboard from "../components/HideKeyboard";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
+/**
+ * Represents the TripInfo component.
+ * @param {object} navigation - The navigation object.
+ * @returns {JSX.Element} The rendered TripInfo component.
+ */
 const TripInfo = ({ navigation }) => {
   const { userData, setDestination } = useRegistrationContext();
-
+  //This is the function that will be called when the user presses the submit button
   const handleUserSubmit = () => {
     if (userData.destination !== "") {
       navigation.navigate("AllSet");

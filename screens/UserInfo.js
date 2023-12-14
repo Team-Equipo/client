@@ -13,6 +13,11 @@ import HideKeyboard from "../components/HideKeyboard";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
+/**
+ * Renders the user information screen.
+ * @param {object} navigation - The navigation object used for screen navigation.
+ * @returns {JSX.Element} The rendered user information screen.
+ */
 const UserInfo = ({ navigation }) => {
   const { userData, setFirstName, setLastName } = useRegistrationContext();
 

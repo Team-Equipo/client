@@ -4,6 +4,13 @@ import { View, useWindowDimensions } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { WebView } from "react-native-webview";
 
+/**
+ * Represents a component for displaying a word search web view.
+ * @param {Object} props - The component props.
+ * @param {string} props.endpoint - The endpoint for the web view.
+ * @param {string} props.searchedWord - The word to be searched in the web view.
+ * @returns {JSX.Element} The WordSearchWebView component.
+ */
 const WordSearchWebView = ({ endpoint, searchedWord }) => {
   const [siteLoading, setSiteLoading] = useState(false);
 

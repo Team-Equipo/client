@@ -40,6 +40,12 @@ if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
+/**
+ * Represents the Phrases screen component.
+ *
+ * @param {object} navigation - The navigation object for navigating between screens.
+ * @returns {JSX.Element} The Phrases screen component.
+ */
 const Phrases = ({ navigation }) => {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [topicsExpanded, setTopicsExpanded] = useState(false);
@@ -55,26 +61,13 @@ const Phrases = ({ navigation }) => {
 
   const windowDimensions = Dimensions.get("window");
 
-  // const samplePhrases = [
-  //   {
-  //     generated_phrases_id: 1,
-  //     userid: 123,
-  //     text_translated:
-  //       "Hello, how are you? long text long text long text long text",
-  //     text_original: "Hola, ¿cómo estás?",
-  //     isloading: false,
-  //   },
-  //   {
-  //     generated_phrases_id: 2,
-  //     userid: 456,
-  //     text_translated: "Good morning!",
-  //     text_original: "¡Buenos días!",
-  //     isloading: false,
-  //   },
-  // ];
-
-  // Function to filter punctuation out of selected English word, pull up
-  // dictionary modal for selected word
+  /**
+   * Function to filter punctuation out of selected English word, pull up
+   * dictionary modal for selected word
+   *
+   * @param {string} word - The word to be selected.
+   * @param {string} inputLang - The input language.
+   */
   const selectEnglishWord = (word, inputLang) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefEndpoint(
@@ -83,8 +76,14 @@ const Phrases = ({ navigation }) => {
     setWordRefVisible(true);
   };
 
-  // Function to filter punctuation out of selected Spanish word, pull up
-  // dictionary modal for selected word
+  /**
+   * Function to filter punctuation out of selected Spanish word, pull up
+   * dictionary modal for selected word
+   *
+   * @param {string} word - The word to be selected.
+   * @param {string} inputLang - The input language.
+   * @returns {void}
+   */
   const selectSpanishWord = (word, inputLang) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefEndpoint(
@@ -125,11 +124,19 @@ const Phrases = ({ navigation }) => {
     setDisplayedPhrases([]);
   }
 
+  // Update the state
   function toggleTopicsExpanded() {
-    // Update the state
     setTopicsExpanded(!topicsExpanded);
   }
 
+  /**
+   * Saves a phrase to AsyncStorage.
+   * @param {Object} phrase - The phrase object to be saved.
+   * @param {string} phrase.originaltext - The original text of the phrase.
+   * @param {string} phrase.translation - The translation of the phrase.
+   * @param {string} phrase.language - The language of the phrase.
+   * @returns {Promise<void>} - A promise that resolves when the phrase is saved successfully.
+   */
   const savePhrase = async (phrase) => {
     try {
       const currentPhrases =
@@ -183,7 +190,9 @@ const Phrases = ({ navigation }) => {
     "Goodbyes",
     "Pleasantries",
   ];
-
+  // this function attempts to fetch data from a specific API endpoint related to user-generated phrases.
+  // If successful, it updates the state variable generatedPhrases with the retrieved data.
+  // If unsuccessful, it logs an error to the console. Finally, it sets the isLoading state variable to false.
   const fetchGeneratedPhrases = async () => {
     try {
       const response = await fetch(
@@ -199,6 +208,14 @@ const Phrases = ({ navigation }) => {
     }
   };
 
+  /**
+   * Fetches a specific phrase for a given userID and phraseID
+   *
+   * @param {string} userID - The ID of the user.
+   * @param {string} phraseID - The ID of the phrase.
+   * @param {number} index - The index of the phrase in the generated phrases list.
+   * @returns {Promise<void>} - A promise that resolves when the fetch is complete.
+   */
   const fetchPhrase = async (userID, phraseID, index) => {
     try {
       const response = await fetch(
@@ -213,6 +230,14 @@ const Phrases = ({ navigation }) => {
     }
   };
 
+  /**
+   * manages the state of generated phrases, marking a specific phrase as loading
+   * before potentially initiating an update request to the server.
+   *
+   * @param {string} userID - The ID of the user.
+   * @param {string} phraseID - The ID of the phrase.
+   * @returns {Promise<void>} - A promise that resolves when the update is complete.
+   */
   const updateGeneratedPhrase = async (userID, phraseID) => {
     const updatedPhrases = [...generatedPhrases];
     const index = updatedPhrases.findIndex((phrase) => phrase.id === phraseID);

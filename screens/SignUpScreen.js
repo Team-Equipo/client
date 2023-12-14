@@ -1,3 +1,4 @@
+// SignUpScreen.js
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext } from "react";
 import {
@@ -14,6 +15,12 @@ import { AuthContext } from "../contexts/AuthContext";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { signStyles, signinTheme } from "../styles/globalStyles";
 
+/**
+ * Represents the sign-up screen component.
+ *
+ * @param {object} navigation - The navigation object.
+ * @returns {JSX.Element} The sign-up screen component.
+ */
 const SignUpScreen = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
   // const { setFirstName, setLastName, setInterests, setFoods, setDestination } =
@@ -32,7 +39,7 @@ const SignUpScreen = ({ navigation }) => {
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
   const [isCfpasswordHidden, setIsCfpasswordHidden] = React.useState(true);
 
-  // Handle sign up
+  // Function to handle sign up where it will check if the passwords match and if the email is valid
   const handleSignUp = () => {
     // Check if passwords match
     if (userData.password !== cfpassword) {
@@ -53,7 +60,7 @@ const SignUpScreen = ({ navigation }) => {
     navigation.navigate("UserInfo");
   };
 
-  // User cancels sign up -> reset all inputs
+  //Function to cancel sign up where it will reset the data and sign out
   const cancelSignUp = () => {
     setFirstName("");
     setLastName("");

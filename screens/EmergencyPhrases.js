@@ -1,8 +1,13 @@
+// EmergencyPhrases.js
 import { speak } from "expo-speech";
 import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { IconButton } from "react-native-paper";
 
+/**
+ * This is the array of emergency phrases that will be displayed on the screen
+ * @type {Array<Object>}
+ */
 const emergencyPhrases = [
   {
     id: "1",
@@ -54,6 +59,9 @@ const emergencyPhrases = [
   },
 ];
 
+/*
+ * This is the function that will render the items on the screen
+ */
 const InformationScreen = () => {
   const renderItem = ({ item }) => {
     return (
@@ -77,6 +85,9 @@ const InformationScreen = () => {
     );
   };
 
+  /*
+   * This is the function that will speak the phrase in spanish
+   */
   const speakPhrase = (phrase) => {
     try {
       speak(phrase.spanish, { language: "es" });
@@ -96,6 +107,7 @@ const InformationScreen = () => {
   );
 };
 
+// Custom StyleSheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,

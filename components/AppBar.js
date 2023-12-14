@@ -1,3 +1,4 @@
+// AppBar.js
 import { getHeaderTitle } from "@react-navigation/elements";
 import React, { useState, useContext } from "react";
 import { useWindowDimensions } from "react-native";
@@ -6,6 +7,15 @@ import { Appbar, Menu, IconButton } from "react-native-paper";
 import { AuthContext } from "../contexts/AuthContext";
 import { headerTheme } from "../styles/globalStyles";
 
+/**
+ * Renders the AppBar component.
+ *
+ * @param {object} navigation - The navigation object.
+ * @param {object} route - The route object.
+ * @param {object} options - The options object.
+ * @param {boolean} back - Indicates whether to show the back button.
+ * @returns {JSX.Element} The rendered AppBar component.
+ */
 export default function AppBar({ navigation, route, options, back }) {
   const windowDimensions = useWindowDimensions();
   const { signOut } = useContext(AuthContext);
@@ -15,6 +25,11 @@ export default function AppBar({ navigation, route, options, back }) {
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
 
+  /**
+   * Handles the menu press event.
+   * @param {string} action - The action to be performed.
+   * @returns {void}
+   */
   const handleMenuPress = (action) => {
     closeMenu();
     switch (action) {
