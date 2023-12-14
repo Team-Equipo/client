@@ -137,14 +137,6 @@ export default function AppBar({ navigation, route, options, back }) {
           />
         ) : null}
       </>
-
-      // <Appbar.Header
-      //   style={{ backgroundColor: "transparent", position: "absolute", top: 0, left: 0, right: 0, zIndex: 1 }}
-      // >
-      //   {back ? (
-      //     <Appbar.BackAction color="black" onPress={navigation.goBack} />
-      //   ) : null}
-      // </Appbar.Header>
     );
   }
 }
