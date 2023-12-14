@@ -1,3 +1,4 @@
+// AllSetPage.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
@@ -9,6 +10,12 @@ import { AuthContext } from "../contexts/AuthContext";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
+/**
+ * Represents the All Set Page screen component.
+ *
+ * @param {object} navigation - The navigation object used for navigating between screens.
+ * @returns {JSX.Element} The All Set screen component.
+ */
 const AllSetScreen = ({ navigation }) => {
   const { signIn } = useContext(AuthContext);
   const changeTxtColor = React.useRef(new Animated.Value(0)).current;
@@ -21,6 +28,9 @@ const AllSetScreen = ({ navigation }) => {
     setDestination,
   } = useRegistrationContext();
 
+  /**
+   * Handles the sign-in process.
+   */
   const handleSignIn = () => {
     storeData(
       ["FirstName", "LastName", "Interests", "Foods", "Destination"],
@@ -43,6 +53,13 @@ const AllSetScreen = ({ navigation }) => {
     signIn({ emailAddress: "placeholder@calvin.edu", password: "password" });
   };
 
+  /**
+   * Stores user data in AsyncStorage.
+   * @param {Array<string>} keys - The keys for the data to be stored.
+   * @param {Array<any>} values - The values to be stored.
+   * @throws {Error} If the length of keys and values arrays are not the same.
+   * @returns {Promise<void>} A promise that resolves when the data is stored successfully.
+   */
   const storeData = async (keys, values) => {
     if (keys.length !== values.length) {
       throw new Error("Key and value lists must be the same length");
@@ -73,6 +90,7 @@ const AllSetScreen = ({ navigation }) => {
     }
   };
 
+  // Animate the text color
   React.useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -90,11 +108,13 @@ const AllSetScreen = ({ navigation }) => {
     ).start();
   }, []);
 
+  // Set the text color
   const textColor = changeTxtColor.interpolate({
     inputRange: [0, 1],
     outputRange: ["#00A9FF", "#FF6666"],
   });
 
+  // This is the actual return function where it gathers all the information above
   return (
     <PaperProvider theme={settingsTheme}>
       <View style={allSetStyle.container}>

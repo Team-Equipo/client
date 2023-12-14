@@ -1,3 +1,9 @@
+// App.js
+/* eslint-disable no-console */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable func-names */
+/* eslint-disable no-undef */
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -12,6 +18,7 @@ import { AuthContext } from "./contexts/AuthContext";
 import { RegistrationProvider } from "./contexts/RegistrationContext";
 import AllSetScreen from "./screens/AllSetPage";
 import EmergencyPhrases from "./screens/EmergencyPhrases";
+import HelpPage from "./screens/Help";
 import HomeScreen from "./screens/HomeScreen";
 import SettingsPage from "./screens/Settings";
 import SignInScreen from "./screens/SignInScreen";
@@ -21,11 +28,16 @@ import TripInfo from "./screens/TripInfo";
 import UserInfo from "./screens/UserInfo";
 import UserProp from "./screens/UserProp";
 import UserPropFood from "./screens/UserPropFood";
-import HelpPage from "./screens/Help";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreAllLogs();
 
+/**
+ * The main component of the application.
+ *
+ * @param {object} navigation - The navigation object used for navigating between screens.
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function App({ navigation }) {
   const [showSplash, setShowSplash] = React.useState(true);
 
@@ -116,14 +128,6 @@ export default function App({ navigation }) {
   const authContext = React.useMemo(
     () => ({
       signIn: async (data) => {
-        // try {
-        //   const url =
-        //     "https://d36f-2600-1700-a650-12a0-6d91-2b6-7de7-afaf.ngrok-free.app/user";
-        //   const headers = new Headers({
-        //     "ngrok-skip-browser-warning": "true",
-        //     Authorization:
-        //       "Basic " + Base64.btoa(data.emailAddress + ":" + data.password),
-        //   });
         try {
           const url = "https://jk249.azurewebsites.net/user";
           const headers = {

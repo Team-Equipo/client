@@ -1,3 +1,4 @@
+// Settings.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { View, KeyboardAvoidingView, Platform } from "react-native";
@@ -13,6 +14,11 @@ import HideKeyboard from "../components/HideKeyboard";
 import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { settingsStyle, settingsTheme } from "../styles/globalStyles";
 
+/**
+ * Renders the settings page for editing user profile information.
+ * @param {object} navigation - The navigation object used for navigating between screens.
+ * @returns {JSX.Element} The rendered settings page component.
+ */
 const SettingsPage = ({ navigation }) => {
   const {
     userData,
@@ -23,6 +29,7 @@ const SettingsPage = ({ navigation }) => {
     setFoods,
   } = useRegistrationContext();
 
+  // This is the function that will be called when the user presses the submit button
   const handleUserSubmit = async () => {
     if (
       userData.destination !== "" &&
@@ -51,6 +58,13 @@ const SettingsPage = ({ navigation }) => {
     }
   };
 
+  /**
+   * Stores the provided keys and values in the user's data.
+   * If the key and value lists are not the same length, an error is thrown.
+   * @param {Array<string>} keys - The list of keys to store.
+   * @param {Array<any>} values - The list of values to store.
+   * @returns {Promise<void>} - A promise that resolves when the data is stored successfully.
+   */
   const storeData = async (keys, values) => {
     if (keys.length !== values.length) {
       throw new Error("Key and value lists must be the same length");
@@ -80,7 +94,7 @@ const SettingsPage = ({ navigation }) => {
       console.log(e);
     }
   };
-
+  // This is the actual return function where it gathers all the information above
   return (
     <PaperProvider theme={settingsTheme}>
       <View style={settingsStyle.page}>

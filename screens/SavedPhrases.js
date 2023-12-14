@@ -41,6 +41,7 @@ const SavedPhrases = ({ navigation }) => {
   const [topicsExpanded, setTopicsExpanded] = useState(false);
   const [displayedPhrases, setDisplayedPhrases] = useState([]);
 
+  // Temporary hard-coded topics
   const topics = [
     { text: "Ordering food", id: 1 },
     { text: "Directions", id: 2 },
@@ -50,8 +51,14 @@ const SavedPhrases = ({ navigation }) => {
     { text: "Pleasantries", id: 6 },
   ];
 
-  // Function to filter punctuation out of selected English word, pull up
-  // dictionary modal for selected word
+  /**
+   * Function to filter punctuation out of selected English word, pull up
+   * dictionary modal for selected word
+   *
+   * @param {string} word - The selected word.
+   * @param {string} inputLang - The input language.
+   * @returns {void}
+   */
   const selectEnglishWord = (word, inputLang) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefEndpoint(
@@ -60,8 +67,13 @@ const SavedPhrases = ({ navigation }) => {
     setWordRefVisible(true);
   };
 
-  // Function to filter punctuation out of selected Spanish word, pull up
-  // dictionary modal for selected word
+  /**
+   * Function to filter punctuation out of selected Spanish word, pull up
+   * dictionary modal for selected word
+   *
+   * @param {string} word - The word to be selected.
+   * @param {string} inputLang - The input language.
+   */
   const selectSpanishWord = (word, inputLang) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefEndpoint(
@@ -70,13 +82,14 @@ const SavedPhrases = ({ navigation }) => {
     setWordRefVisible(true);
   };
 
+  // Load saved phrases when the screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
-      // Load saved phrases when the screen comes into focus
       loadSavedPhrases();
     }, []),
   );
 
+  // Filtered phrases based on the selected topic.
   useEffect(() => {
     const filteredPhrases = selectedTopic
       ? phraseData.filter((item) => item.topic.trim() === selectedTopic.trim())
@@ -85,6 +98,11 @@ const SavedPhrases = ({ navigation }) => {
     setDisplayedPhrases(filteredPhrases);
   }, [phraseData, selectedTopic]);
 
+  /**
+   * Deletes a phrase from the saved phrases.
+   * @param {Object} phrase - The phrase to be deleted.
+   * @returns {Promise<void>} - A promise that resolves when the phrase is deleted.
+   */
   const deletePhrase = async (phrase) => {
     try {
       const currentPhrases =
@@ -108,8 +126,7 @@ const SavedPhrases = ({ navigation }) => {
     }
   };
 
-  // Update phraseData (rendered as PhraseCards) to the latest phrases in
-  // storage
+  // Update phraseData (rendered as PhraseCards) to the latest phrases in storage
   const loadSavedPhrases = async () => {
     try {
       const latestPhrases = await AsyncStorage.getItem(
@@ -135,6 +152,7 @@ const SavedPhrases = ({ navigation }) => {
     [phraseData],
   );
 
+  // Animate the TopicSearch component
   function animateSearchBar() {
     // Define the animation configuration
     const config = LayoutAnimation.create(
@@ -147,6 +165,7 @@ const SavedPhrases = ({ navigation }) => {
     LayoutAnimation.configureNext(config);
   }
 
+  // Handle the selection of a topic
   const handleTopicSelect = (item) => {
     animateSearchBar();
     setTopicsExpanded(false);
@@ -160,6 +179,7 @@ const SavedPhrases = ({ navigation }) => {
     setDisplayedPhrases(filteredPhrases);
   };
 
+  // Handle the deselection of a topic
   function handleTopicDeselect() {
     setTopicsExpanded(false);
     animateSearchBar();
@@ -167,6 +187,7 @@ const SavedPhrases = ({ navigation }) => {
     setDisplayedPhrases(phraseData);
   }
 
+  // Toggle the expansion of the TopicSearch component
   function toggleTopicsExpanded() {
     setTopicsExpanded((prevTopicsExpanded) => !prevTopicsExpanded);
   }

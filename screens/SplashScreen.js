@@ -1,5 +1,7 @@
+// SplashScreen.js
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
+
 import logo from "../assets/splashlogo.png";
 export default function SplashScreen() {
   return (
@@ -9,6 +11,14 @@ export default function SplashScreen() {
   );
 }
 
+/**
+ * Styles for the SplashScreen component.
+ *
+ * @typedef {Object} Styles
+ * @property {Object} container - The style for the container.
+ * @property {Object} image - The style for the image.
+ * @property {Object} text - The style for the text.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

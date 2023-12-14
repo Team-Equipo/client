@@ -1,5 +1,6 @@
+// PhraseCard.js
 import { speak, isSpeakingAsync } from "expo-speech";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -7,7 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { IconButton, Card, Text, ActivityIndicator } from "react-native-paper";
+import { Card, ActivityIndicator } from "react-native-paper";
 
 import LabeledIconButton from "../components/LabeledIconButton.js";
 import SelectableWordList from "../components/SelectableWordList.js";
@@ -29,6 +30,13 @@ export default function PhraseCard({
     setInUserLang(!inUserLang);
   };
 
+  /**
+   * Speaks the phrase based on the selected language.
+   * @async
+   * @function speakPhrase
+   * @returns {Promise<void>} A promise that resolves when the phrase is spoken.
+   * @throws {Error} If there is an error while speaking the phrase.
+   */
   const speakPhrase = async () => {
     try {
       setIsSpeaking(true);
