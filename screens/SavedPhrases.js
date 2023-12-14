@@ -29,19 +29,6 @@ if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const user = 1;
-
-// Enable LayoutAnimation for Android
-if (Platform.OS === "android") {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
-
-/**
- * Component for displaying and managing saved phrases.
- *
- * @param {object} navigation - The navigation object.
- * @returns {JSX.Element} The SavedPhrases component.
- */
 const SavedPhrases = ({ navigation }) => {
   const [phraseData, setPhraseData] = useState([]);
   const [searchedWord, setSearchedWord] = React.useState("");
@@ -54,6 +41,7 @@ const SavedPhrases = ({ navigation }) => {
   const [topicsExpanded, setTopicsExpanded] = useState(false);
   const [displayedPhrases, setDisplayedPhrases] = useState([]);
 
+  // Temporary hard-coded topics
   const topics = [
     { text: "Ordering food", id: 1 },
     { text: "Directions", id: 2 },
@@ -85,7 +73,6 @@ const SavedPhrases = ({ navigation }) => {
    *
    * @param {string} word - The word to be selected.
    * @param {string} inputLang - The input language.
-   * @returns {void}
    */
   const selectSpanishWord = (word, inputLang) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
@@ -95,13 +82,14 @@ const SavedPhrases = ({ navigation }) => {
     setWordRefVisible(true);
   };
 
+  // Load saved phrases when the screen comes into focus
   useFocusEffect(
     React.useCallback(() => {
-      // Load saved phrases when the screen comes into focus
       loadSavedPhrases();
     }, []),
   );
 
+  // Filtered phrases based on the selected topic.
   useEffect(() => {
     const filteredPhrases = selectedTopic
       ? phraseData.filter((item) => item.topic.trim() === selectedTopic.trim())
@@ -138,8 +126,7 @@ const SavedPhrases = ({ navigation }) => {
     }
   };
 
-  // Update phraseData (rendered as PhraseCards) to the latest phrases in
-  // storage
+  // Update phraseData (rendered as PhraseCards) to the latest phrases in storage
   const loadSavedPhrases = async () => {
     try {
       const latestPhrases = await AsyncStorage.getItem(
@@ -165,6 +152,7 @@ const SavedPhrases = ({ navigation }) => {
     [phraseData],
   );
 
+  // Animate the TopicSearch component
   function animateSearchBar() {
     // Define the animation configuration
     const config = LayoutAnimation.create(
@@ -177,6 +165,7 @@ const SavedPhrases = ({ navigation }) => {
     LayoutAnimation.configureNext(config);
   }
 
+  // Handle the selection of a topic
   const handleTopicSelect = (item) => {
     animateSearchBar();
     setTopicsExpanded(false);
@@ -190,6 +179,7 @@ const SavedPhrases = ({ navigation }) => {
     setDisplayedPhrases(filteredPhrases);
   };
 
+  // Handle the deselection of a topic
   function handleTopicDeselect() {
     setTopicsExpanded(false);
     animateSearchBar();
@@ -197,6 +187,7 @@ const SavedPhrases = ({ navigation }) => {
     setDisplayedPhrases(phraseData);
   }
 
+  // Toggle the expansion of the TopicSearch component
   function toggleTopicsExpanded() {
     setTopicsExpanded((prevTopicsExpanded) => !prevTopicsExpanded);
   }
