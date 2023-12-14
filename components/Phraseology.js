@@ -1,3 +1,4 @@
+// Phraseology.js
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
@@ -24,6 +25,11 @@ const Phraseology = ({ DropDownPickerProps }) => {
     { label: "Translate", value: "translate" },
   ]);
 
+  /**
+   * Handles the selection of a value.
+   * @param {string} value - The selected value.
+   * @returns {void}
+   */
   const handleSelection = (value) => {
     setMode(value);
     navigation.navigate(value);

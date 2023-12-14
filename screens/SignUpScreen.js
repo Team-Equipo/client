@@ -1,3 +1,4 @@
+// SignUpScreen.js
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useContext } from "react";
 import {
@@ -48,6 +49,7 @@ const SignUpScreen = ({ navigation }) => {
 
     navigation.navigate("UserInfo");
   };
+
   //Function to cancel sign up where it will reset the data and sign out
   const cancelSignUp = () => {
     setFirstName("");

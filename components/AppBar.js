@@ -25,6 +25,11 @@ export default function AppBar({ navigation, route, options, back }) {
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
 
+  /**
+   * Handles the menu press event.
+   * @param {string} action - The action to be performed.
+   * @returns {void}
+   */
   const handleMenuPress = (action) => {
     closeMenu();
     switch (action) {

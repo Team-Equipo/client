@@ -1,3 +1,4 @@
+// Help.js
 import React from "react";
 import {
   View,
@@ -16,10 +17,9 @@ import { settingsStyle } from "../styles/globalStyles";
  * @param {object} navigation - The navigation object used for navigating between screens.
  * @returns {JSX.Element} The rendered Help page component.
  */
-
 const HelpPage = ({ navigation }) => {
   // This will set whole page as height and width of the screen
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   // This is the content of the Carousel that will be passed down to renderItem
   const carouselItems = [
     {

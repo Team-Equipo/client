@@ -1,12 +1,7 @@
 // Translation.js
 import * as Speech from "expo-speech";
 import React, { useState } from "react";
-import {
-  // Text,
-  TextInput,
-  View,
-  SafeAreaView,
-} from "react-native";
+import { TextInput, View, SafeAreaView } from "react-native";
 import {
   Text,
   IconButton,
@@ -52,8 +47,14 @@ const Translation = ({ navigation }) => {
   // To encode/decode ISO language codes used by Microsoft Translate
   const ISO6391 = require("iso-639-1");
 
-  // Function to send text and target language to Microsoft Translator API,
-  // return received translation or error if something went wrong
+  /**
+   * Function to send text and target language to Microsoft Translator API,
+   * return received translation or error if something went wrong
+   * @param {string} text - The text to be translated.
+   * @param {string} inputLanguage - The language code of the input text.
+   * @param {string} targetLanguage - The language code of the desired translation.
+   * @returns {Promise<string>} - A promise that resolves to the translated text.
+   */
   const translateText = async (text, inputLanguage, targetLanguage) => {
     // apiKey stored in environmental variable to avoid exposure in Github
     const apiKey = process.env.EXPO_PUBLIC_TRANSLATION_KEY;
@@ -79,10 +80,8 @@ const Translation = ({ navigation }) => {
         );
       }
 
+      // Ensure data, data.translations, and data.translations.text contain something
       const data = await response.json();
-
-      // Ensure data, data.translations, and data.translations.text contain
-      // something
       if (!data || !data[0]?.translations || !data[0].translations[0]?.text) {
         throw new Error("Unexpected response format from translation API");
       }
@@ -96,9 +95,13 @@ const Translation = ({ navigation }) => {
     }
   };
 
-  // Function to request translation in target language, then output (sets
-  // empty string output if input is empty or does nothing if request is
-  // unchanged from the last)
+  /**
+   * Function to request translation in target language, then output (sets
+   * empty string output if input is empty or does nothing if request is
+   * unchanged from the last)
+   * @param {string} text - The text to be translated.
+   * @returns {Promise<void>} - A promise that resolves when the translation is complete.
+   */
   const doTranslation = async (text) => {
     if (translationInput !== lastTranslationInput) {
       if (text !== "") {
@@ -136,8 +139,13 @@ const Translation = ({ navigation }) => {
     }
   };
 
-  // Function to filter punctuation out of selected word, pull up dictionary
-  // modal for selected word
+  /**
+   * Function to filter punctuation out of selected word, pull up dictionary
+   * modal for selected word
+   *
+   * @param {string} word - The word to be selected.
+   * @returns {void}
+   */
   const selectWord = (word) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefVisible(true);

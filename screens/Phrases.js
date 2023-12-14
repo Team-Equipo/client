@@ -58,8 +58,13 @@ const Phrases = ({ navigation }) => {
 
   const windowDimensions = Dimensions.get("window");
 
-  // Function to filter punctuation out of selected English word, pull up
-  // dictionary modal for selected word
+  /**
+   * Function to filter punctuation out of selected English word, pull up
+   * dictionary modal for selected word
+   *
+   * @param {string} word - The word to be selected.
+   * @param {string} inputLang - The input language.
+   */
   const selectEnglishWord = (word, inputLang) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefEndpoint(
@@ -68,8 +73,14 @@ const Phrases = ({ navigation }) => {
     setWordRefVisible(true);
   };
 
-  // Function to filter punctuation out of selected Spanish word, pull up
-  // dictionary modal for selected word
+  /**
+   * Function to filter punctuation out of selected Spanish word, pull up
+   * dictionary modal for selected word
+   *
+   * @param {string} word - The word to be selected.
+   * @param {string} inputLang - The input language.
+   * @returns {void}
+   */
   const selectSpanishWord = (word, inputLang) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefEndpoint(
@@ -104,11 +115,19 @@ const Phrases = ({ navigation }) => {
     setSearchedTopic("");
   }
 
+  // Update the state
   function toggleTopicsExpanded() {
-    // Update the state
     setTopicsExpanded(!topicsExpanded);
   }
 
+  /**
+   * Saves a phrase to AsyncStorage.
+   * @param {Object} phrase - The phrase object to be saved.
+   * @param {string} phrase.originaltext - The original text of the phrase.
+   * @param {string} phrase.translation - The translation of the phrase.
+   * @param {string} phrase.language - The language of the phrase.
+   * @returns {Promise<void>} - A promise that resolves when the phrase is saved successfully.
+   */
   const savePhrase = async (phrase) => {
     try {
       const currentPhrases =
@@ -139,7 +158,9 @@ const Phrases = ({ navigation }) => {
     { text: "Goodbyes", id: 5 },
     { text: "Pleasantries", id: 6 },
   ];
-  // this function attempts to fetch data from a specific API endpoint related to user-generated phrases. If successful, it updates the state variable generatedPhrases with the retrieved data. If unsuccessful, it logs an error to the console. Finally, it sets the isLoading state variable to false.
+  // this function attempts to fetch data from a specific API endpoint related to user-generated phrases.
+  // If successful, it updates the state variable generatedPhrases with the retrieved data.
+  // If unsuccessful, it logs an error to the console. Finally, it sets the isLoading state variable to false.
   const fetchGeneratedPhrases = async () => {
     try {
       const response = await fetch(
@@ -153,7 +174,15 @@ const Phrases = ({ navigation }) => {
       setIsLoading(false);
     }
   };
-  //fetches a specific phrase for a given userID and phraseID
+
+  /**
+   * Fetches a specific phrase for a given userID and phraseID
+   *
+   * @param {string} userID - The ID of the user.
+   * @param {string} phraseID - The ID of the phrase.
+   * @param {number} index - The index of the phrase in the generated phrases list.
+   * @returns {Promise<void>} - A promise that resolves when the fetch is complete.
+   */
   const fetchPhrase = async (userID, phraseID, index) => {
     try {
       const response = await fetch(
@@ -167,7 +196,15 @@ const Phrases = ({ navigation }) => {
       console.log(error);
     }
   };
-  //manages the state of generated phrases, marking a specific phrase as loading before potentially initiating an update request to the server.
+
+  /**
+   * manages the state of generated phrases, marking a specific phrase as loading
+   * before potentially initiating an update request to the server.
+   *
+   * @param {string} userID - The ID of the user.
+   * @param {string} phraseID - The ID of the phrase.
+   * @returns {Promise<void>} - A promise that resolves when the update is complete.
+   */
   const updateGeneratedPhrase = async (userID, phraseID) => {
     const updatedPhrases = [...generatedPhrases];
     const index = updatedPhrases.findIndex((phrase) => phrase.id === phraseID);

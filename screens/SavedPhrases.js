@@ -28,8 +28,14 @@ const SavedPhrases = ({ navigation }) => {
   );
   const [wordRefVisible, setWordRefVisible] = useState(false);
 
-  // Function to filter punctuation out of selected English word, pull up
-  // dictionary modal for selected word
+  /**
+   * Function to filter punctuation out of selected English word, pull up
+   * dictionary modal for selected word
+   *
+   * @param {string} word - The selected word.
+   * @param {string} inputLang - The input language.
+   * @returns {void}
+   */
   const selectEnglishWord = (word, inputLang) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefEndpoint(
@@ -38,8 +44,14 @@ const SavedPhrases = ({ navigation }) => {
     setWordRefVisible(true);
   };
 
-  // Function to filter punctuation out of selected Spanish word, pull up
-  // dictionary modal for selected word
+  /**
+   * Function to filter punctuation out of selected Spanish word, pull up
+   * dictionary modal for selected word
+   *
+   * @param {string} word - The word to be selected.
+   * @param {string} inputLang - The input language.
+   * @returns {void}
+   */
   const selectSpanishWord = (word, inputLang) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefEndpoint(
@@ -55,6 +67,11 @@ const SavedPhrases = ({ navigation }) => {
     }, []),
   );
 
+  /**
+   * Deletes a phrase from the saved phrases.
+   * @param {Object} phrase - The phrase to be deleted.
+   * @returns {Promise<void>} - A promise that resolves when the phrase is deleted.
+   */
   const deletePhrase = async (phrase) => {
     try {
       const currentPhrases =
@@ -87,7 +104,11 @@ const SavedPhrases = ({ navigation }) => {
     }
   };
 
-  // Update render data order and async-stored order
+  /**
+   * Update render data order and async-stored order
+   * @param {Array} data - The updated phrase data after the drag end event.
+   * @returns {Promise<void>} - A promise that resolves when the state and async storage are updated.
+   */
   const onDragEnd = async (data) => {
     try {
       // Update the state to re-render the component

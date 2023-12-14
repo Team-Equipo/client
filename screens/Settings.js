@@ -1,6 +1,4 @@
-/*
-This imports all libraries needed for the settings page
-*/
+// Settings.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { View, KeyboardAvoidingView, Platform } from "react-native";

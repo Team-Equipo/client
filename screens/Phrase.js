@@ -1,3 +1,4 @@
+// Phrase.js
 import { useState, useEffect } from "react";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Portal, Modal } from "react-native-paper";
@@ -22,13 +23,19 @@ export default function Phrase() {
   );
   const [wordRefVisible, setWordRefVisible] = useState(false);
 
-  // Function to filter punctuation out of selected word, pull up dictionary
-  // modal for selected word
+  /**
+   * Function to filter punctuation out of selected word, pull up dictionary
+   * modal for selected word
+   *
+   * @param {string} word - The word to be selected.
+   * @returns {void}
+   */
   const selectWord = (word) => {
     setSearchedWord(word.replace(/[¡!"#$%&'()*+,-./:;<=>¿?@[\]^_`{|}~]/g, ""));
     setWordRefVisible(true);
   };
-  //fetches data related to generated phrases for a specific user from an API endpoint
+
+  // Fetches data related to generated phrases for a specific user from an API endpoint
   const fetchGeneratedPhrases = async () => {
     try {
       const response = await fetch(
@@ -42,7 +49,16 @@ export default function Phrase() {
       setIsLoading(false);
     }
   };
-  // making an asynchronous request to a databse to retrieve data related to a particular phrase associated with a user
+
+  /**
+   * Making an asynchronous request to a databse to retrieve data
+   * related to a particular phrase associated with a user
+   *
+   * @param {string} userID - The ID of the user.
+   * @param {string} phraseID - The ID of the phrase.
+   * @param {number} index - The index of the phrase in the generated phrases list.
+   * @returns {Promise<void>} - A promise that resolves when the fetch is complete.
+   */
   const fetchPhrase = async (userID, phraseID, index) => {
     try {
       const response = await fetch(
@@ -56,7 +72,13 @@ export default function Phrase() {
       console.log(error);
     }
   };
-  //updates a phrase in the database
+
+  /**
+   * Updates a phrase in the database
+   * @param {string} userID - The ID of the user.
+   * @param {string} phraseID - The ID of the phrase.
+   * @returns {Promise<void>} - A Promise that resolves when the update is complete.
+   */
   const updateGeneratedPhrase = async (userID, phraseID) => {
     const updatedPhrases = [...generatedPhrases];
     const index = updatedPhrases.findIndex(

@@ -1,3 +1,4 @@
+// AllSetPage.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
@@ -10,7 +11,7 @@ import { useRegistrationContext } from "../contexts/RegistrationContext";
 import { allSetStyle, settingsTheme } from "../styles/globalStyles";
 
 /**
- * Represents the All Set screen component.
+ * Represents the All Set Page screen component.
  *
  * @param {object} navigation - The navigation object used for navigating between screens.
  * @returns {JSX.Element} The All Set screen component.
@@ -53,7 +54,7 @@ const AllSetScreen = ({ navigation }) => {
   };
 
   /**
-   * Stores data in AsyncStorage.
+   * Stores user data in AsyncStorage.
    * @param {Array<string>} keys - The keys for the data to be stored.
    * @param {Array<any>} values - The values to be stored.
    * @throws {Error} If the length of keys and values arrays are not the same.
@@ -112,9 +113,8 @@ const AllSetScreen = ({ navigation }) => {
     inputRange: [0, 1],
     outputRange: ["#00A9FF", "#FF6666"],
   });
-  /*
-This is the actual return function where it gathers all the information above
-*/
+
+  // This is the actual return function where it gathers all the information above
   return (
     <PaperProvider theme={settingsTheme}>
       <View style={allSetStyle.container}>

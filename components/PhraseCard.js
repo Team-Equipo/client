@@ -36,10 +36,12 @@ export default function PhraseCard({
   const [inUserLang, setInUserLang] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
+  // Toggle the phrase between English and Spanish
   const togglePhrase = () => {
     setInUserLang(!inUserLang);
   };
 
+  // Speak the phrase
   const speakPhrase = async () => {
     try {
       setIsSpeaking(true);

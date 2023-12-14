@@ -1,6 +1,7 @@
-// UserContext.js
+// RegistrationContext.js
 import React, { createContext, useState, useContext } from "react";
 
+// Initial state for the user data
 const initialState = {
   firstName: "",
   lastName: "",
@@ -57,6 +58,7 @@ const RegistrationProvider = ({ children }) => {
   );
 };
 
+// Custom hook to use the RegistrationContext
 const useRegistrationContext = () => {
   const context = useContext(RegistrationContext);
   if (!context) {
