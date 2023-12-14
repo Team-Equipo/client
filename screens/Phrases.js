@@ -187,8 +187,8 @@ const Phrases = ({ navigation }) => {
     setGeneratedPhrases(updatedPhrases);
 
     const data = {
-      userid: userID,
-      id: phraseID,
+      user_id: userID,
+      phrase_id: phraseID,
     };
 
     const options = {
