@@ -1,8 +1,15 @@
 // PhraseCard.js
 import { speak, isSpeakingAsync } from "expo-speech";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dimensions, StyleSheet, View, SafeAreaView } from "react-native";
-import { Card, ActivityIndicator, TouchableRipple } from "react-native-paper";
+import {
+  Dimensions,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import { IconButton, Card, Text, ActivityIndicator } from "react-native-paper";
 
 import LabeledIconButton from "../components/LabeledIconButton.js";
 import SelectableWordList from "../components/SelectableWordList.js";
@@ -31,7 +38,6 @@ export default function PhraseCard({
   mode,
   onSelectEnglishWord,
   onSelectSpanishWord,
-  drag,
 }) {
   const [inUserLang, setInUserLang] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -86,12 +92,10 @@ export default function PhraseCard({
         </Card>
       ) : (
         <Card style={styles.card}>
-          <TouchableRipple
+          <TouchableOpacity
             borderless
             style={{ borderRadius: 10 }}
             onPress={() => togglePhrase()}
-            onLongPress={drag}
-            delayLongPress={100}
           >
             <>
               <Card.Content style={styles.cardContent}>
@@ -161,7 +165,7 @@ export default function PhraseCard({
                 </View>
               </Card.Actions>
             </>
-          </TouchableRipple>
+          </TouchableOpacity>
         </Card>
       )}
     </SafeAreaView>
@@ -172,7 +176,7 @@ const styles = StyleSheet.create({
   card: {
     width: Dimensions.get("window").width - 20,
     backgroundColor: "white",
-    marginTop: 8,
+    marginBottom: 8,
   },
   cardCover: {
     height: 30,

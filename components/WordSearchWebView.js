@@ -33,7 +33,7 @@ const WordSearchWebView = ({ endpoint, searchedWord }) => {
       <WebView
         originWhitelist={["*"]}
         source={{ uri: endpoint + searchedWord }}
-        style={{ borderRadius: 15, marginTop: -175 }}
+        style={{ borderRadius: 15 }}
         containerStyle={{ borderRadius: 15 }}
         onLoadStart={() => setSiteLoading(true)}
         onLoadProgress={() => setSiteLoading(false)}

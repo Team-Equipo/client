@@ -1,19 +1,19 @@
 // Phrases.js
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   SafeAreaView,
   FlatList,
   TouchableWithoutFeedback,
-  Text,
   UIManager,
   LayoutAnimation,
   Platform,
   Dimensions,
 } from "react-native";
 import {
+  Text,
   Modal,
   Portal,
   Chip,
@@ -24,6 +24,7 @@ import {
 
 import HideKeyboard from "../components/HideKeyboard";
 import PhraseCard from "../components/PhraseCard";
+import TopicSearch from "../components/TopicSearch";
 import WordSearchWebView from "../components/WordSearchWebView";
 import {
   phraseStyles,
@@ -32,7 +33,7 @@ import {
   translateStyles,
 } from "../styles/globalStyles";
 
-const USER = 1;
+const user = 1;
 
 // Enable LayoutAnimation for Android
 if (Platform.OS === "android") {
@@ -46,15 +47,17 @@ if (Platform.OS === "android") {
  * @returns {JSX.Element} The Phrases screen component.
  */
 const Phrases = ({ navigation }) => {
-  const [searchedTopic, setSearchedTopic] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState("");
   const [topicsExpanded, setTopicsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [generatedPhrases, setGeneratedPhrases] = useState([]);
+  const [searchedPhrases, setSearchedPhrases] = useState([]);
   const [searchedWord, setSearchedWord] = React.useState("");
   const [wordRefEndpoint, setWordRefEndpoint] = useState(
     "https://www.wordreference.com/es/en/translation.asp?spen=",
   );
   const [wordRefVisible, setWordRefVisible] = useState(false);
+  const [displayedPhrases, setDisplayedPhrases] = useState([]);
 
   const windowDimensions = Dimensions.get("window");
 
@@ -101,18 +104,24 @@ const Phrases = ({ navigation }) => {
     LayoutAnimation.configureNext(config);
   }
 
-  function handleTopicSelect(item) {
+  const handleTopicSelect = (item) => {
     animateSearchBar();
     setTopicsExpanded(false);
-    const topicLabel =
-      item.text.length === 10 ? " " + item.text + " " : item.text;
-    setSearchedTopic(topicLabel);
-  }
+    const topicLabel = item.length % 5 === 0 ? " " + item + " " : item;
+    setSelectedTopic(topicLabel);
+
+    // Filter phrases based on the selectedTopic
+    const filteredPhrases = generatedPhrases.filter(
+      (phrase) => phrase.topic === topicLabel.trim(),
+    );
+    setDisplayedPhrases(filteredPhrases);
+  };
 
   function handleTopicDeselect() {
     setTopicsExpanded(false);
     animateSearchBar();
-    setSearchedTopic("");
+    setSelectedTopic(null);
+    setDisplayedPhrases([]);
   }
 
   // Update the state
@@ -131,13 +140,15 @@ const Phrases = ({ navigation }) => {
   const savePhrase = async (phrase) => {
     try {
       const currentPhrases =
-        JSON.parse(await AsyncStorage.getItem("saved-phrases")) || {};
+        JSON.parse(
+          await AsyncStorage.getItem("saved-phrases" + user.toString()),
+        ) || {};
 
       // Check for duplicates based on original text
       if (!currentPhrases[phrase.originaltext]) {
         currentPhrases[phrase.originaltext] = phrase;
         await AsyncStorage.setItem(
-          "saved-phrases",
+          "saved-phrases" + user.toString(),
           JSON.stringify(currentPhrases),
         );
 
@@ -149,14 +160,35 @@ const Phrases = ({ navigation }) => {
     }
   };
 
+  const renderItem = useCallback(
+    ({ item }) => (
+      <PhraseCard
+        phrase={item}
+        isLoading={isLoading}
+        updateGeneratedPhrase={updateGeneratedPhrase}
+        savePhrase={savePhrase}
+        mode="browse"
+        onSelectEnglishWord={selectEnglishWord}
+        onSelectSpanishWord={selectSpanishWord}
+      />
+    ),
+    [
+      isLoading,
+      updateGeneratedPhrase,
+      savePhrase,
+      selectEnglishWord,
+      selectSpanishWord,
+    ],
+  );
+
   /* Hardcode a list of topics. */
   const topics = [
-    { text: "Ordering food", id: 1 },
-    { text: "Directions", id: 2 },
-    { text: "Shopping", id: 3 },
-    { text: "Greetings", id: 4 },
-    { text: "Goodbyes", id: 5 },
-    { text: "Pleasantries", id: 6 },
+    "Ordering food",
+    "Directions",
+    "Shopping",
+    "Greetings",
+    "Goodbyes",
+    "Pleasantries",
   ];
   // this function attempts to fetch data from a specific API endpoint related to user-generated phrases.
   // If successful, it updates the state variable generatedPhrases with the retrieved data.
@@ -164,10 +196,11 @@ const Phrases = ({ navigation }) => {
   const fetchGeneratedPhrases = async () => {
     try {
       const response = await fetch(
-        `https://jk249.azurewebsites.net/user/${USER}/phrase`,
+        `https://jk249.azurewebsites.net/user/${user}/phrase`,
       );
       const json = await response.json();
       setGeneratedPhrases(json);
+      console.log(json);
     } catch (error) {
       console.log(error);
     } finally {
@@ -233,6 +266,45 @@ const Phrases = ({ navigation }) => {
     fetchGeneratedPhrases();
   }, []);
 
+  const requestPhraseSearch = async (userID, topic) => {
+    const data = {
+      user_id: userID,
+      topic,
+    };
+
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    try {
+      const searchedPhrases = await fetch(
+        "https://llama.kenarnold.org/topical_generation",
+        options,
+      );
+      console.log("Phrases:", searchedPhrases);
+      return searchedPhrases.json();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const searchTopic = async (topic) => {
+    if (topic !== "") {
+      console.log(topic);
+      animateSearchBar();
+      const topicLabel = topic.length % 5 === 0 ? " " + topic + " " : topic;
+      setSelectedTopic(topicLabel);
+      const searchResults = await requestPhraseSearch(user, topic);
+      console.log(searchResults);
+      setDisplayedPhrases(searchResults);
+      // requestSearchedPhrases(user, text);
+    }
+  };
+
   return (
     <HideKeyboard>
       <PaperProvider theme={phraseTheme}>
@@ -257,155 +329,51 @@ const Phrases = ({ navigation }) => {
               }}
             >
               {/* Topic select dropdown */}
-              <CollapsibleView
-                expanded={topicsExpanded}
-                style={{
-                  padding: 0,
-                  zIndex: 1,
-                  borderColor: "transparent",
-                  marginBottom: -3,
-                }}
-                title={
-                  <TouchableWithoutFeedback onPress={toggleTopicsExpanded}>
-                    <View
-                      style={{
-                        ...(topicsExpanded ? shadows.shadow4 : {}),
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        backgroundColor: "white",
-                        borderRadius: 30,
-                        borderColor: "lightgrey",
-                        borderWidth: 1,
-                      }}
-                    >
-                      {searchedTopic !== "" ? (
-                        <View
-                          style={{
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            marginLeft: 5,
-                          }}
-                        >
-                          <Chip
-                            style={phraseStyles.topicBox}
-                            mode="elevated"
-                            textStyle={{
-                              fontSize: 15,
-                              color: "white",
-                            }}
-                          >
-                            {searchedTopic}
-                          </Chip>
-                        </View>
-                      ) : (
-                        // Display a placeholder text when searchedTopic is empty
-                        <View
-                          style={{
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            // width: "85%",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              marginLeft: 15,
-                              color: "darkgray",
-                              fontFamily: "Poppins-Regular",
-                              fontSize: 15,
-                              width: windowDimensions.width - 76,
-                            }}
-                          >
-                            Select a topic...
-                          </Text>
-                        </View>
-                      )}
-
-                      <IconButton
-                        icon="close"
-                        style={{ margin: 0 }}
-                        onPress={handleTopicDeselect}
-                      />
-                    </View>
-                  </TouchableWithoutFeedback>
+              <TopicSearch
+                topicsExpanded={topicsExpanded}
+                onFocus={() => setTopicsExpanded(true)}
+                onBlur={() => setTopicsExpanded(false)}
+                onEndEditing={(event) => searchTopic(event.nativeEvent.text)}
+                selectedTopic={selectedTopic}
+                handleTopicDeselect={handleTopicDeselect}
+                handleTopicSelect={handleTopicSelect}
+                topics={
+                  generatedPhrases
+                    ? [...new Set(generatedPhrases.map((item) => item.topic))]
+                    : []
                 }
-                titleStyle={{
-                  alignItems: "flex-start",
-                }}
-                noArrow
-                activeOpacityFeedback={1}
-                collapsibleContainerStyle={{
-                  ...shadows.shadow4,
-                  width: "100%",
-                  marginTop: 4,
-                  borderRadius: 15,
-                  backgroundColor: "white",
-                  position: "absolute",
-                  top: "100%",
-                }}
-              >
-                <TouchableWithoutFeedback
+                navigation={navigation}
+              />
+              {selectedTopic == null ? (
+                <View
                   style={{
-                    paddingTop: 5,
-                    flexDirection: "column",
+                    width: "100%",
+                    height: "100%",
                     justifyContent: "center",
-                    zIndex: 10,
                   }}
                 >
-                  <FlatList
+                  <Text
                     style={{
-                      padding: 3,
-                      borderColor: "lightgrey",
-                      borderWidth: 1,
-                      borderRadius: 15,
+                      fontFamily: "Poppins-Regular",
+                      fontSize: 18,
+                      textAlign: "center",
+                      color: "gray",
+                      width: "100%",
                     }}
-                    numColumns={100}
-                    columnWrapperStyle={{
-                      flexWrap: "wrap",
-                      justifyContent: "center",
-                      flexDirection: "row",
-                    }}
-                    data={topics}
-                    renderItem={({ item }) => (
-                      <Chip
-                        style={phraseStyles.topicBox}
-                        onPress={() => handleTopicSelect(item)}
-                        mode="elevated"
-                        ellipsizeMode="clip"
-                        // contentStyle={{
-                        //   marginBottom: -7,
-                        //   marginTop: -7,
-                        //   marginLeft: -3,
-                        //   marginRight: -3,
-                        // }}
-                        textStyle={{
-                          fontSize: 15,
-                          color: "white",
-                        }}
-                      >
-                        {item.text.length === 10
-                          ? " " + item.text + " "
-                          : item.text}
-                      </Chip>
-                    )}
-                  />
-                </TouchableWithoutFeedback>
-              </CollapsibleView>
+                  >
+                    Search for a topic to get started!
+                  </Text>
+                </View>
+              ) : null}
               {/* The list of PhraseCards */}
               <FlatList
-                contentContainerStyle={{ alignItems: "center" }}
-                // data={samplePhrases}
-                data={generatedPhrases}
-                renderItem={({ item }) => (
-                  <PhraseCard
-                    phrase={item}
-                    isLoading={isLoading}
-                    updateGeneratedPhrase={updateGeneratedPhrase}
-                    savePhrase={savePhrase}
-                    mode="browse"
-                    onSelectEnglishWord={selectEnglishWord}
-                    onSelectSpanishWord={selectSpanishWord}
-                  />
-                )}
+                style={{ marginTop: 8 }}
+                contentContainerStyle={{
+                  alignItems: "center",
+                  paddingBottom: 1,
+                }}
+                data={displayedPhrases}
+                renderItem={renderItem}
               />
             </View>
           </SafeAreaView>
