@@ -20,9 +20,7 @@ const Tab = createBottomTabNavigator();
  * @returns {JSX.Element} The rendered Home screen component.
  */
 
-/*
-This is the function that will render the bottom navigation bar
- */
+// This is the function that will render the bottom navigation bar
 const HomeScreen = ({ navigation, route, options, back }) => {
   return (
     <Tab.Navigator

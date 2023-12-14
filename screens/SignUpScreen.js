@@ -30,6 +30,7 @@ const SignUpScreen = ({ navigation }) => {
   const [isPasswordHidden, setIsPasswordHidden] = React.useState(true);
   const [isCfpasswordHidden, setIsCfpasswordHidden] = React.useState(true);
 
+  // Function to handle sign up where it will check if the passwords match and if the email is valid
   const handleSignUp = () => {
     // Check if passwords match
     if (password !== cfpassword) {

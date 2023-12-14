@@ -26,9 +26,10 @@ const AllSetScreen = ({ navigation }) => {
     setFoods,
     setDestination,
   } = useRegistrationContext();
-  /*
-This is the function that  will store the data of the user and then sign in
-*/
+
+  /**
+   * Handles the sign-in process.
+   */
   const handleSignIn = () => {
     storeData(
       ["FirstName", "LastName", "Interests", "Foods", "Destination"],
@@ -50,9 +51,14 @@ This is the function that  will store the data of the user and then sign in
 
     signIn({ emailAddress: "placeholder@calvin.edu", password: "password" });
   };
-  /*
-This is the function where it will submit the data to the async storage
-*/
+
+  /**
+   * Stores data in AsyncStorage.
+   * @param {Array<string>} keys - The keys for the data to be stored.
+   * @param {Array<any>} values - The values to be stored.
+   * @throws {Error} If the length of keys and values arrays are not the same.
+   * @returns {Promise<void>} A promise that resolves when the data is stored successfully.
+   */
   const storeData = async (keys, values) => {
     if (keys.length !== values.length) {
       throw new Error("Key and value lists must be the same length");
@@ -82,9 +88,8 @@ This is the function where it will submit the data to the async storage
       console.log(e);
     }
   };
-  /*
-This is the function that will be called when the user presses the submit button
-*/
+
+  // Animate the text color
   React.useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -102,6 +107,7 @@ This is the function that will be called when the user presses the submit button
     ).start();
   }, []);
 
+  // Set the text color
   const textColor = changeTxtColor.interpolate({
     inputRange: [0, 1],
     outputRange: ["#00A9FF", "#FF6666"],

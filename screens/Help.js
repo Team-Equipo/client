@@ -18,13 +18,9 @@ import { settingsStyle } from "../styles/globalStyles";
  */
 
 const HelpPage = ({ navigation }) => {
-  /*
-This will set whole page as height and width of the screen
-*/
+  // This will set whole page as height and width of the screen
   const { height, width } = useWindowDimensions();
-  /*
-This is the content of the Carousel that will be passed down to renderItem
-*/
+  // This is the content of the Carousel that will be passed down to renderItem
   const carouselItems = [
     {
       image: require("../assets/images/help1.png"),
@@ -77,9 +73,7 @@ This is the content of the Carousel that will be passed down to renderItem
       description5: "Tap on the icon to remove a downloaded phrase",
     },
   ];
-  /*
-This will render slide content based on the carouselItems array
-*/
+  // This will render slide content based on the carouselItems array
   const renderItem = ({ item }) => (
     <View style={styles.slide}>
       {/* Modify the button to go to main menu */}
@@ -106,9 +100,7 @@ This will render slide content based on the carouselItems array
       </View>
     </View>
   );
-  /*
-This is the actual return function where it gathers all the information above
-*/
+  // This is the actual return function where it gathers all the information above
   return (
     <View style={styles.container}>
       <Carousel
@@ -120,7 +112,7 @@ This is the actual return function where it gathers all the information above
     </View>
   );
 };
-/*This the custom styles page*/
+// This the custom styles page
 const styles = StyleSheet.create({
   container: {
     flex: 1,
