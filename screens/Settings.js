@@ -1,3 +1,4 @@
+// Settings.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect } from "react";
 import { View, KeyboardAvoidingView, Platform } from "react-native";
@@ -23,6 +24,10 @@ const SettingsPage = ({ navigation }) => {
     setFoods,
   } = useRegistrationContext();
 
+  /**
+   * Retrieves user data from AsyncStorage and sets the corresponding state variables.
+   * @returns {Promise<void>} A promise that resolves when the user data is retrieved and the state variables are set.
+   */
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -42,6 +47,10 @@ const SettingsPage = ({ navigation }) => {
     getUserData();
   }, []);
 
+  /**
+   * Handles the submission of user data.
+   * @returns {Promise<void>} A promise that resolves when the submission is complete.
+   */
   const handleUserSubmit = async () => {
     try {
       if (
@@ -106,6 +115,13 @@ const SettingsPage = ({ navigation }) => {
     }
   };
 
+  /**
+   * Stores data in AsyncStorage.
+   * @param {Array<string>} keys - The keys to store the data under.
+   * @param {Array<any>} values - The values to store.
+   * @throws {Error} If the length of keys and values arrays are not the same.
+   * @returns {Promise<void>} A promise that resolves when the data is stored successfully.
+   */
   const storeData = async (keys, values) => {
     if (keys.length !== values.length) {
       throw new Error("Key and value lists must be the same length");
