@@ -1,4 +1,10 @@
-// App.js
+/**
+ * This is the starting point for the Lingucidity app, and it is connected to many components 
+ * and screens, which are found in directories with the same name.
+ * 
+ * All React-based contexts are stored in the context directory (this includes authentication tokens).
+ */
+
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-filename-extension */
